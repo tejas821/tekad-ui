@@ -95,19 +95,53 @@ Never invent a permanent public API merely to keep moving.
 
 ## 8. Current phase
 
-**Phase 0 and Phase 0.5 (research) complete. No code written.**
+**Phases 0, 0.5, 0.75, 0.9 and 1 are complete. Code has started.**
 
-`IMPLEMENTATION_HANDOFF.md` at the repository root is the authoritative input
-for implementation - read it instead of the research corpus. All ADRs are
-Accepted except ADR-004's entry-point *granularity*, which is provisional
-pending verification of angular/angular#40407.
+`IMPLEMENTATION_HANDOFF.md` is the authoritative implementation input — read it
+instead of the research corpus. **All 18 ADRs are Accepted; none is provisional.**
 
-Two prototypes gate implementation, and neither may be skipped:
+### The four evidence gates are closed
 
-- **P0** - CSS `overlay` property gap in Firefox/Safari. GO/NO-GO for the
-  overlay design (ADR-010).
-- **P1** - `@angular/aria` `ngGridCell` under `@for` rendering
-  (angular/components#32603). Gates the table architecture (ADR-014).
+| Gate | Result | Artifact |
+|---|---|---|
+| **P0** overlay exit lifecycle | CONDITIONAL GO | `docs/research/prototypes/p0-overlay/` |
+| **P1** `ngGridCell` under `@for` | GO | `docs/research/prototypes/p1-aria-grid/` |
+| **Spike A** auto-import vs secondary entry points | Q1 resolved, Q2 unverified | `docs/research/prototypes/spike-a-autoimport/` |
+| **Spike B** Nx/Angular build routing | GO | `docs/research/prototypes/spike-b-nx-angular-build/` |
 
-**Publish gate:** nothing is published until ADR-016's namespace and trademark
-gates pass.
+Cite the artifact, not this file, when an ADR needs evidence.
+
+### What Phase 1 built, and the habit it establishes
+
+The workspace scaffold: Nx 23.1 + pnpm 11, the legacy TypeScript setup, Angular
+pinned to 22.1.4, and five CI gates. See
+`docs/architecture/07-workspace-foundation.md`.
+
+**Three of those five gates were wrong or vacuous on their first
+implementation**, and only a self-test revealed it. `@nx/enforce-module-boundaries`
+cannot see an import of a package that is not installed; the licence check
+flagged a package whose LICENSE merely *mentions* the GPL; the webpack-builder
+check went red on a clean lockfile.
+
+So: **a guard ships with a test that proves it fails when it should.** This is
+not a style preference. It is the difference between an enforced invariant and
+a comment. `pnpm run verify:gates` runs them.
+
+### Next: Phase 2 — package & entry-point architecture
+
+Realise ADR-004 with two trivial packages before any real component exists:
+`exports` maps, `sideEffects`, package validation, and the tree-shaking probe
+app. Spike B measured that entry-point tree-shaking *can* work; that is not the
+same as it holding for TEKAD's real package graph, where DI tokens, module-level
+side effects and `providedIn: 'root'` services are what actually defeat it.
+
+Three items Spike B added to Phase 2:
+- a TEKAD secondary-entry-point generator — the stock one emits a flat,
+  one-level entry point containing an **NgModule**;
+- a lint rule forbidding relative imports across an entry-point boundary —
+  ng-packagr catches them, but with an unreadable internal crash;
+- re-measure the `@angular-devkit/build-angular` install path under pnpm; Spike
+  B ran on npm.
+
+**Publish gate:** nothing is published, and `LICENSE` is not committed, until
+ADR-016's namespace and trademark gates pass.

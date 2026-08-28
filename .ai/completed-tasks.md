@@ -73,3 +73,25 @@ CI config, or `LICENSE`.
 
 Not done, intentionally: any source code, workspace scaffold, `package.json`,
 CI config, or `LICENSE`. Phase 1 starts now.
+
+## Phase 1 — Workspace foundation (2026-08-28)
+
+- [x] `git init`, initial commit `f1965c5` — 121 files, the first history this
+      repository has had.
+- [x] Nx 23.1.1 + pnpm 11.24.0 workspace, built from an empty base rather than
+      a preset, on the legacy TypeScript setup Angular actually supports.
+- [x] Angular pinned to 22.1.4 explicitly, so the code stays on the version the
+      P0 and P1 gates were measured against.
+- [x] ESLint 10 + typescript-eslint 8 + angular-eslint 22, prettier, strict
+      TypeScript with `noUncheckedIndexedAccess` and `exactOptionalPropertyTypes`.
+- [x] Dependency-boundary rules wired **before** any package exists, with
+      fixtures that exercise the layer graph in both directions.
+- [x] Five CI gates, each with a self-test. Three of the five were wrong or
+      vacuous on first implementation; the self-tests are why that is known.
+- [x] Two-scope licence and vulnerability audits, with written, expiring
+      exceptions for build tooling and no exception path for shipped code.
+- [x] `docs/architecture/07-workspace-foundation.md` records every deviation
+      from the default scaffold and why it was measured, not assumed.
+
+Not done, intentionally: `LICENSE` (blocked by ADR-015 until ADR-016's gates
+pass), any package, any component. Phase 2 next.
