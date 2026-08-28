@@ -1,0 +1,627 @@
+{
+  "generatedAt": "2026-08-28T19:53:06.862Z",
+  "purpose": "P1 — @angular/aria ngGridCell registration under real Angular rendering paths",
+  "gates": "ADR-014 (table architecture)",
+  "engineScope": {
+    "chromium": "executed",
+    "firefox": "NOT EXECUTED — UNVERIFIED",
+    "safari": "NOT EXECUTED — UNVERIFIED",
+    "note": "DI registration is an Angular framework concern rather than an engine concern, but that is an INFERENCE and is not reported as observed cross-engine behaviour."
+  },
+  "results": {
+    "static": {
+      "scenario": "static",
+      "expectation": "expected to work",
+      "verdict": "PASS",
+      "diRegistration": {
+        "gridRendered": true,
+        "rowsRegistered": 2,
+        "cellsRegistered": 4,
+        "expectedRows": 2,
+        "expectedCells": 4,
+        "ng0201Errors": [],
+        "otherAngularErrors": []
+      },
+      "ariaWiring": {
+        "gridRole": "grid",
+        "allCellsHaveRoleAndIndices": true,
+        "sampleCells": [
+          {
+            "role": "gridcell",
+            "id": "ng-grid-cell-a53193-12",
+            "ariaRowIndex": "0",
+            "ariaColIndex": "0",
+            "tabindex": "0",
+            "dataActive": "true",
+            "text": "a0"
+          },
+          {
+            "role": "gridcell",
+            "id": "ng-grid-cell-a53193-13",
+            "ariaRowIndex": "0",
+            "ariaColIndex": "1",
+            "tabindex": "-1",
+            "dataActive": "false",
+            "text": "a1"
+          },
+          {
+            "role": "gridcell",
+            "id": "ng-grid-cell-a53193-14",
+            "ariaRowIndex": "1",
+            "ariaColIndex": "0",
+            "tabindex": "-1",
+            "dataActive": "false",
+            "text": "b0"
+          }
+        ],
+        "sampleRows": [
+          {
+            "role": "row",
+            "ariaRowIndex": "0"
+          },
+          {
+            "role": "row",
+            "ariaRowIndex": "1"
+          }
+        ]
+      },
+      "keyboard": {
+        "attempted": true,
+        "startActive": "a0",
+        "afterArrowRight": "a1",
+        "afterArrowDown": "b1",
+        "movedRight": true,
+        "movedDown": true
+      },
+      "dynamicRows": {
+        "attempted": false,
+        "notApplicable": true,
+        "reason": "the static control renders hand-written rows, not data"
+      }
+    },
+    "for": {
+      "scenario": "for",
+      "expectation": "expected to work",
+      "verdict": "PASS",
+      "diRegistration": {
+        "gridRendered": true,
+        "rowsRegistered": 3,
+        "cellsRegistered": 12,
+        "expectedRows": 3,
+        "expectedCells": 12,
+        "ng0201Errors": [],
+        "otherAngularErrors": []
+      },
+      "ariaWiring": {
+        "gridRole": "grid",
+        "allCellsHaveRoleAndIndices": true,
+        "sampleCells": [
+          {
+            "role": "gridcell",
+            "id": "ng-grid-cell-a23978-0",
+            "ariaRowIndex": "0",
+            "ariaColIndex": "0",
+            "tabindex": "0",
+            "dataActive": "true",
+            "text": "r1c0"
+          },
+          {
+            "role": "gridcell",
+            "id": "ng-grid-cell-a23978-1",
+            "ariaRowIndex": "0",
+            "ariaColIndex": "1",
+            "tabindex": "-1",
+            "dataActive": "false",
+            "text": "r1c1"
+          },
+          {
+            "role": "gridcell",
+            "id": "ng-grid-cell-a23978-2",
+            "ariaRowIndex": "0",
+            "ariaColIndex": "2",
+            "tabindex": "-1",
+            "dataActive": "false",
+            "text": "r1c2"
+          }
+        ],
+        "sampleRows": [
+          {
+            "role": "row",
+            "ariaRowIndex": "0"
+          },
+          {
+            "role": "row",
+            "ariaRowIndex": "1"
+          },
+          {
+            "role": "row",
+            "ariaRowIndex": "2"
+          }
+        ]
+      },
+      "keyboard": {
+        "attempted": true,
+        "startActive": "r1c0",
+        "afterArrowRight": "r1c1",
+        "afterArrowDown": "r2c1",
+        "movedRight": true,
+        "movedDown": true
+      },
+      "dynamicRows": {
+        "attempted": true,
+        "afterAppendRowCount": 4,
+        "afterAppendCellCount": 16,
+        "afterInsertTopRowCount": 5,
+        "afterRemoveRowCount": 4,
+        "afterRemoveCellCount": 16,
+        "appendedCorrectly": true,
+        "insertedCorrectly": true,
+        "removedCorrectly": true,
+        "indicesReindexedAfterMutation": true,
+        "noErrorsDuringMutation": true
+      }
+    },
+    "templateOutlet": {
+      "scenario": "templateOutlet",
+      "expectation": "expected to work",
+      "verdict": "FAIL",
+      "diRegistration": {
+        "gridRendered": true,
+        "rowsRegistered": 0,
+        "cellsRegistered": 0,
+        "expectedRows": 3,
+        "expectedCells": 12,
+        "ng0201Errors": [
+          "NG0201: No provider found for `InjectionToken GRID`. Source: Standalone[_App]. Find more at https://v22.angular.dev/errors/NG0201",
+          "SYNC THROW during scenario switch: NG0201: No provider found for `InjectionToken GRID`. Source: Standalone[_App]. Find more at https://v22.angular.dev/errors/NG0201",
+          "[P1] NG0201: No provider found for `InjectionToken GRID`. Source: Standalone[_App]. Find more at https://v22.angular.dev/errors/NG0201"
+        ],
+        "otherAngularErrors": []
+      },
+      "ariaWiring": {
+        "gridRole": "grid",
+        "allCellsHaveRoleAndIndices": false,
+        "sampleCells": [],
+        "sampleRows": []
+      },
+      "keyboard": {
+        "attempted": false
+      },
+      "dynamicRows": {
+        "attempted": false,
+        "notApplicable": false
+      }
+    },
+    "contentProjection": {
+      "scenario": "contentProjection",
+      "expectation": "expected to work",
+      "verdict": "FAIL",
+      "diRegistration": {
+        "gridRendered": true,
+        "rowsRegistered": 3,
+        "cellsRegistered": 0,
+        "expectedRows": 3,
+        "expectedCells": 12,
+        "ng0201Errors": [
+          "NG0201: No provider found for `InjectionToken GRID_ROW`. Source: Standalone[_App]. Find more at https://v22.angular.dev/errors/NG0201",
+          "SYNC THROW during scenario switch: NG0201: No provider found for `InjectionToken GRID_ROW`. Source: Standalone[_App]. Find more at https://v22.angular.dev/errors/NG0201",
+          "[P1] NG0201: No provider found for `InjectionToken GRID_ROW`. Source: Standalone[_App]. Find more at https://v22.angular.dev/errors/NG0201"
+        ],
+        "otherAngularErrors": []
+      },
+      "ariaWiring": {
+        "gridRole": "grid",
+        "allCellsHaveRoleAndIndices": false,
+        "sampleCells": [],
+        "sampleRows": [
+          {
+            "role": "row",
+            "ariaRowIndex": null
+          },
+          {
+            "role": "row",
+            "ariaRowIndex": null
+          },
+          {
+            "role": "row",
+            "ariaRowIndex": null
+          }
+        ]
+      },
+      "keyboard": {
+        "attempted": false
+      },
+      "dynamicRows": {
+        "attempted": false,
+        "notApplicable": false
+      }
+    },
+    "viewContainer": {
+      "scenario": "viewContainer",
+      "expectation": "expected to work",
+      "verdict": "FAIL",
+      "diRegistration": {
+        "gridRendered": true,
+        "rowsRegistered": 0,
+        "cellsRegistered": 0,
+        "expectedRows": 3,
+        "expectedCells": 12,
+        "ng0201Errors": [
+          "NG0201: No provider found for `InjectionToken GRID`. Source: Standalone[_App]. Find more at https://v22.angular.dev/errors/NG0201",
+          "[P1] NG0201: No provider found for `InjectionToken GRID`. Source: Standalone[_App]. Find more at https://v22.angular.dev/errors/NG0201"
+        ],
+        "otherAngularErrors": []
+      },
+      "ariaWiring": {
+        "gridRole": "grid",
+        "allCellsHaveRoleAndIndices": false,
+        "sampleCells": [],
+        "sampleRows": []
+      },
+      "keyboard": {
+        "attempted": false
+      },
+      "dynamicRows": {
+        "attempted": false,
+        "notApplicable": false
+      }
+    },
+    "templateOutletInside": {
+      "scenario": "templateOutletInside",
+      "expectation": "expected to work",
+      "verdict": "PASS",
+      "diRegistration": {
+        "gridRendered": true,
+        "rowsRegistered": 3,
+        "cellsRegistered": 12,
+        "expectedRows": 3,
+        "expectedCells": 12,
+        "ng0201Errors": [],
+        "otherAngularErrors": []
+      },
+      "ariaWiring": {
+        "gridRole": "grid",
+        "allCellsHaveRoleAndIndices": true,
+        "sampleCells": [
+          {
+            "role": "gridcell",
+            "id": "ng-grid-cell-a44888-12",
+            "ariaRowIndex": "0",
+            "ariaColIndex": "0",
+            "tabindex": "0",
+            "dataActive": "true",
+            "text": "r1c0"
+          },
+          {
+            "role": "gridcell",
+            "id": "ng-grid-cell-a44888-13",
+            "ariaRowIndex": "0",
+            "ariaColIndex": "1",
+            "tabindex": "-1",
+            "dataActive": "false",
+            "text": "r1c1"
+          },
+          {
+            "role": "gridcell",
+            "id": "ng-grid-cell-a44888-14",
+            "ariaRowIndex": "0",
+            "ariaColIndex": "2",
+            "tabindex": "-1",
+            "dataActive": "false",
+            "text": "r1c2"
+          }
+        ],
+        "sampleRows": [
+          {
+            "role": "row",
+            "ariaRowIndex": "0"
+          },
+          {
+            "role": "row",
+            "ariaRowIndex": "1"
+          },
+          {
+            "role": "row",
+            "ariaRowIndex": "2"
+          }
+        ]
+      },
+      "keyboard": {
+        "attempted": true,
+        "startActive": "r1c0",
+        "afterArrowRight": "r1c1",
+        "afterArrowDown": "r2c1",
+        "movedRight": true,
+        "movedDown": true
+      },
+      "dynamicRows": {
+        "attempted": true,
+        "afterAppendRowCount": 4,
+        "afterAppendCellCount": 16,
+        "afterInsertTopRowCount": 5,
+        "afterRemoveRowCount": 4,
+        "afterRemoveCellCount": 16,
+        "appendedCorrectly": true,
+        "insertedCorrectly": true,
+        "removedCorrectly": true,
+        "indicesReindexedAfterMutation": true,
+        "noErrorsDuringMutation": true
+      }
+    },
+    "consumerTemplate": {
+      "scenario": "consumerTemplate",
+      "expectation": "expected to work",
+      "verdict": "FAIL",
+      "diRegistration": {
+        "gridRendered": true,
+        "rowsRegistered": 3,
+        "cellsRegistered": 0,
+        "expectedRows": 3,
+        "expectedCells": 12,
+        "ng0201Errors": [
+          "NG0201: No provider found for `InjectionToken GRID_ROW`. Source: Standalone[_App]. Find more at https://v22.angular.dev/errors/NG0201",
+          "SYNC THROW during scenario switch: NG0201: No provider found for `InjectionToken GRID_ROW`. Source: Standalone[_App]. Find more at https://v22.angular.dev/errors/NG0201",
+          "[P1] NG0201: No provider found for `InjectionToken GRID_ROW`. Source: Standalone[_App]. Find more at https://v22.angular.dev/errors/NG0201"
+        ],
+        "otherAngularErrors": []
+      },
+      "ariaWiring": {
+        "gridRole": "grid",
+        "allCellsHaveRoleAndIndices": false,
+        "sampleCells": [],
+        "sampleRows": [
+          {
+            "role": "row",
+            "ariaRowIndex": null
+          },
+          {
+            "role": "row",
+            "ariaRowIndex": null
+          },
+          {
+            "role": "row",
+            "ariaRowIndex": null
+          }
+        ]
+      },
+      "keyboard": {
+        "attempted": false
+      },
+      "dynamicRows": {
+        "attempted": false,
+        "notApplicable": false
+      }
+    },
+    "consumerTemplateWithInjector": {
+      "scenario": "consumerTemplateWithInjector",
+      "expectation": "expected to work",
+      "verdict": "PASS",
+      "diRegistration": {
+        "gridRendered": true,
+        "rowsRegistered": 3,
+        "cellsRegistered": 12,
+        "expectedRows": 3,
+        "expectedCells": 12,
+        "ng0201Errors": [],
+        "otherAngularErrors": []
+      },
+      "ariaWiring": {
+        "gridRole": "grid",
+        "allCellsHaveRoleAndIndices": true,
+        "sampleCells": [
+          {
+            "role": "gridcell",
+            "id": "ng-grid-cell-a7047-12",
+            "ariaRowIndex": "0",
+            "ariaColIndex": "0",
+            "tabindex": "0",
+            "dataActive": "true",
+            "text": "r1c0"
+          },
+          {
+            "role": "gridcell",
+            "id": "ng-grid-cell-a7047-13",
+            "ariaRowIndex": "0",
+            "ariaColIndex": "1",
+            "tabindex": "-1",
+            "dataActive": "false",
+            "text": "r1c1"
+          },
+          {
+            "role": "gridcell",
+            "id": "ng-grid-cell-a7047-14",
+            "ariaRowIndex": "0",
+            "ariaColIndex": "2",
+            "tabindex": "-1",
+            "dataActive": "false",
+            "text": "r1c2"
+          }
+        ],
+        "sampleRows": [
+          {
+            "role": "row",
+            "ariaRowIndex": "0"
+          },
+          {
+            "role": "row",
+            "ariaRowIndex": "1"
+          },
+          {
+            "role": "row",
+            "ariaRowIndex": "2"
+          }
+        ]
+      },
+      "keyboard": {
+        "attempted": true,
+        "startActive": "r1c0",
+        "afterArrowRight": "r1c1",
+        "afterArrowDown": "r2c1",
+        "movedRight": true,
+        "movedDown": true
+      },
+      "dynamicRows": {
+        "attempted": true,
+        "afterAppendRowCount": 4,
+        "afterAppendCellCount": 16,
+        "afterInsertTopRowCount": 5,
+        "afterRemoveRowCount": 4,
+        "afterRemoveCellCount": 16,
+        "appendedCorrectly": true,
+        "insertedCorrectly": true,
+        "removedCorrectly": true,
+        "indicesReindexedAfterMutation": true,
+        "noErrorsDuringMutation": true
+      }
+    },
+    "widget": {
+      "scenario": "widget",
+      "expectation": "expected to work",
+      "verdict": "PASS",
+      "diRegistration": {
+        "gridRendered": true,
+        "rowsRegistered": 3,
+        "cellsRegistered": 12,
+        "expectedRows": 3,
+        "expectedCells": 12,
+        "ng0201Errors": [],
+        "otherAngularErrors": []
+      },
+      "ariaWiring": {
+        "gridRole": "grid",
+        "allCellsHaveRoleAndIndices": true,
+        "sampleCells": [
+          {
+            "role": "gridcell",
+            "id": "ng-grid-cell-a91228-12",
+            "ariaRowIndex": "0",
+            "ariaColIndex": "0",
+            "tabindex": "-1",
+            "dataActive": "true",
+            "text": "r1c0"
+          },
+          {
+            "role": "gridcell",
+            "id": "ng-grid-cell-a91228-13",
+            "ariaRowIndex": "0",
+            "ariaColIndex": "1",
+            "tabindex": "-1",
+            "dataActive": "false",
+            "text": "r1c1"
+          },
+          {
+            "role": "gridcell",
+            "id": "ng-grid-cell-a91228-14",
+            "ariaRowIndex": "0",
+            "ariaColIndex": "2",
+            "tabindex": "-1",
+            "dataActive": "false",
+            "text": "r1c2"
+          }
+        ],
+        "sampleRows": [
+          {
+            "role": "row",
+            "ariaRowIndex": "0"
+          },
+          {
+            "role": "row",
+            "ariaRowIndex": "1"
+          },
+          {
+            "role": "row",
+            "ariaRowIndex": "2"
+          }
+        ]
+      },
+      "keyboard": {
+        "attempted": true,
+        "startActive": "r1c0",
+        "afterArrowRight": "r1c1",
+        "afterArrowDown": "r2c1",
+        "movedRight": true,
+        "movedDown": true
+      },
+      "dynamicRows": {
+        "attempted": true,
+        "afterAppendRowCount": 4,
+        "afterAppendCellCount": 16,
+        "afterInsertTopRowCount": 5,
+        "afterRemoveRowCount": 4,
+        "afterRemoveCellCount": 16,
+        "appendedCorrectly": true,
+        "insertedCorrectly": true,
+        "removedCorrectly": true,
+        "indicesReindexedAfterMutation": true,
+        "noErrorsDuringMutation": true
+      }
+    },
+    "cdkTable": {
+      "scenario": "cdkTable",
+      "expectation": "EXPECTED TO FAIL (control)",
+      "verdict": "PASS",
+      "diRegistration": {
+        "gridRendered": true,
+        "rowsRegistered": 2,
+        "cellsRegistered": 4,
+        "expectedRows": 3,
+        "expectedCells": 12,
+        "ng0201Errors": [
+          "NG0201: No provider found for `InjectionToken GRID_ROW`. Source: Standalone[_App]. Find more at https://v22.angular.dev/errors/NG0201",
+          "[P1] NG0201: No provider found for `InjectionToken GRID_ROW`. Source: Standalone[_App]. Find more at https://v22.angular.dev/errors/NG0201"
+        ],
+        "otherAngularErrors": []
+      },
+      "ariaWiring": {
+        "gridRole": "table",
+        "allCellsHaveRoleAndIndices": false,
+        "sampleCells": [
+          {
+            "role": "columnheader",
+            "id": null,
+            "ariaRowIndex": null,
+            "ariaColIndex": null,
+            "tabindex": null,
+            "dataActive": null,
+            "text": "c0"
+          },
+          {
+            "role": "columnheader",
+            "id": null,
+            "ariaRowIndex": null,
+            "ariaColIndex": null,
+            "tabindex": null,
+            "dataActive": null,
+            "text": "c1"
+          },
+          {
+            "role": "columnheader",
+            "id": null,
+            "ariaRowIndex": null,
+            "ariaColIndex": null,
+            "tabindex": null,
+            "dataActive": null,
+            "text": "c2"
+          }
+        ],
+        "sampleRows": [
+          {
+            "role": "row",
+            "ariaRowIndex": null
+          },
+          {
+            "role": "row",
+            "ariaRowIndex": null
+          }
+        ]
+      },
+      "keyboard": {
+        "attempted": false
+      },
+      "dynamicRows": {
+        "attempted": false,
+        "notApplicable": false
+      }
+    }
+  }
+}

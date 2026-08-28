@@ -1,0 +1,127 @@
+{
+  "generatedAt": "2026-08-28",
+  "question": "Does @nx/angular@23.1.1 route through the deprecated @angular-devkit/build-angular on Angular 22, or through @angular/build?",
+  "gates": "ADR-012 (open item) — additionally measures two ADR-004 assumptions",
+  "method": "A real Nx 23.1.1 workspace was created, a publishable Angular library and an application were generated, @angular-devkit/build-angular was physically removed from node_modules, and both builds were run. Source reading was used only to locate what to test; every verdict below comes from an executed build.",
+  "packageManagerScope": "npm. ADR-012 mandates pnpm. Executor routing is package-manager-independent; the transitive-install observation in Q2 is npm-specific and MUST be re-measured under pnpm during Phase 1.",
+  "versionsExercised": {
+    "node": "26.8.1",
+    "nx": "23.1.1",
+    "@nx/angular": "23.1.1",
+    "@angular/core": "22.0.6",
+    "@angular/build": "22.0.6",
+    "@angular/cli": "22.0.6",
+    "ng-packagr": "22.0.2",
+    "typescript": "6.0.3"
+  },
+
+  "Q1_executorRouting": {
+    "question": "Do the executors TEKAD would use call @angular-devkit/build-angular?",
+    "applicationExecutor": {
+      "executor": "@angular/build:application",
+      "observed": "@nx/angular:application asserts @angular/build is installed and imports buildApplication from it",
+      "generatedAppTargets": {
+        "build": "@angular/build:application",
+        "serve": "@angular/build:dev-server",
+        "extract-i18n": "@angular/build:extract-i18n"
+      }
+    },
+    "libraryExecutor": {
+      "executor": "@nx/angular:package",
+      "observed": "calls ngPackagr() from ng-packagr directly, with an Nx stylesheet-processor provider; the only @angular-devkit/build-angular reference on this path is a type-only import in schema.d.ts"
+    },
+    "decisiveTest": {
+      "action": "moved node_modules/@angular-devkit/build-angular out of the tree, then ran both builds",
+      "libraryBuild": "SUCCESS",
+      "applicationBuild": "SUCCESS"
+    },
+    "verdict": "@nx/angular 23.1.1 does NOT route through @angular-devkit/build-angular for the application or library build paths on Angular 22. OBSERVED."
+  },
+
+  "Q2_isItStillInstalled": {
+    "question": "Even if unused, does it end up in the dependency tree?",
+    "observed": {
+      "angularMonorepoPresetDeclaresIt": "yes — @angular-devkit/build-angular@22.0.6 appears in `dependencies` of the scaffolded package.json",
+      "npmDeprecationWarningEmitted": "npm warn deprecated @angular-devkit/build-angular@22.0.6: Angular's Webpack support is deprecated. Use the esbuild and Vite-based \"@angular/build\" package instead.",
+      "afterRemovingTheDirectDependency": "still resolvable in node_modules under npm; it is an OPTIONAL peer of both @nx/angular and @analogjs/vite-plugin-angular (the vitest-analog runner the preset chose)",
+      "afterRemovingItFromDisk": "both builds still succeed"
+    },
+    "verdict": "It is DECLARED by the preset template and pulled as an optional peer under npm, but it is NOT on any build path TEKAD uses. Declaration is a hygiene problem, not a correctness one."
+  },
+
+  "Q3_tsSolutionSetup": {
+    "question": "Does Nx 23's default TypeScript setup work with @nx/angular generators?",
+    "observed": {
+      "nx23DefaultWorkspace": "tsconfig.base.json with composite:true + emitDeclarationOnly + customConditions, root tsconfig.json with `references: []`, package.json `workspaces: [\"packages/*\"]`",
+      "generatorResult": "REFUSED — \"The \\\"@nx/angular:library\\\" generator doesn't support the existing TypeScript setup. The Angular framework doesn't support a TypeScript setup with project references. See https://github.com/angular/angular/issues/37276\"",
+      "escapeHatch": "NX_IGNORE_UNSUPPORTED_TS_SETUP=true — explicitly documented by Nx as \"at your own risk\"",
+      "angularTemplateSetup": "the angular-monorepo template instead emits a legacy tsconfig.base.json with `paths`, no composite, no npm workspaces"
+    },
+    "verdict": "TEKAD must scaffold with the legacy path-mapping TypeScript setup, not Nx 23's default TS-solution setup. OBSERVED. This is a Phase 1 constraint that was not previously recorded."
+  },
+
+  "Q4_presetFidelity": {
+    "question": "Is `create-nx-workspace --preset=angular-monorepo` usable as TEKAD's scaffold?",
+    "observed": "the preset now resolves to a fixed GitHub template (nrwl/angular-template) and IGNORED --appName, --ssr and --routing; it scaffolded a fixed shop/api e-commerce demo with SSR, Express, Playwright, Docker and vitest-analog",
+    "verdict": "NOT usable as TEKAD's scaffold. Phase 1 must build the workspace from an empty base and add Angular projects with generators, not from this preset."
+  },
+
+  "Q5_angularVersionPin": {
+    "question": "Which Angular version does @nx/angular 23.1.1 scaffold?",
+    "observed": "backwardCompatibleVersions[22].angularVersion = '~22.0.4'; the workspace installed @angular/core 22.0.6",
+    "implication": "The generator will not reach Angular 22.1.x, which is the version the P0/P1 research targeted. Phase 1 must pin Angular explicitly after scaffolding rather than accepting the generator's range.",
+    "verdict": "OBSERVED — a version-pin step is required in Phase 1."
+  },
+
+  "Q6_twoLevelEntryPoints": {
+    "question": "Does @nx/angular:package support ADR-004's two-level, category-prefixed entry points?",
+    "observed": {
+      "generatorOutput": "@nx/angular:library-secondary-entry-point creates a FLAT one-level entry point and scaffolds an NgModule, which does not match TEKAD's standalone-only, two-level topology",
+      "handAuthoredTwoLevel": "libs/probelib/components/input/ with its own ng-package.json was auto-discovered and built without any registration",
+      "emittedExportsMap": {
+        "./package.json": { "default": "./package.json" },
+        ".": { "types": "./types/tekad-probe-probelib.d.ts", "default": "./fesm2022/tekad-probe-probelib.mjs" },
+        "./button": { "types": "./types/tekad-probe-probelib-button.d.ts", "default": "./fesm2022/tekad-probe-probelib-button.mjs" },
+        "./components/input": { "types": "./types/tekad-probe-probelib-components-input.d.ts", "default": "./fesm2022/tekad-probe-probelib-components-input.mjs" }
+      },
+      "sideEffects": false,
+      "wildcardSubpath": "none emitted — ./src/* is unimportable by default"
+    },
+    "verdict": "SUPPORTED. OBSERVED. The emitted exports map is exactly the shape Spike A proved tsserver resolves for auto-import, so Spike A and Spike B chain into an end-to-end result."
+  },
+
+  "Q7_crossEntryPointImports": {
+    "question": "What happens when one entry point imports another?",
+    "relativeImportAcrossBoundary": {
+      "result": "BUILD FAILS",
+      "message": "Cannot destructure property 'pos' of 'file.referencedFiles[index]' as it is undefined.",
+      "note": "The failure is correct but the diagnostic is an internal crash, not a readable 'not part of any entry point' error. This is a contributor-DX hazard and argues for a lint rule that catches it before ng-packagr does."
+    },
+    "packageNameImportAcrossBoundary": {
+      "result": "BUILD SUCCEEDS",
+      "sharedCodeDuplicatedIntoEachFESM": false,
+      "observedEmission": "import { sharedHelper } from '@tekad-probe/probelib' is left UNRESOLVED in each secondary FESM; the shared code exists once, in the primary FESM"
+    },
+    "verdict": "ng-packagr emits no shared CHUNK files, but it also does not duplicate: it defers deduplication to the consumer's bundler by emitting bare package-name imports. The practical outcome is no duplication. OBSERVED."
+  },
+
+  "Q8_treeShaking": {
+    "question": "Does importing one secondary entry point drag the whole primary entry point into a consumer bundle?",
+    "method": "The BUILT package was installed into node_modules (not consumed from source); an app imported only @tekad-probe/probelib/components/input; a distinctive ballast symbol exported from the primary entry point and used by nothing was searched for in the production browser bundle.",
+    "componentReachedBundle": true,
+    "sharedHelperActuallyUsedReachedBundle": true,
+    "unusedPrimaryEntryPointBallastInBundle": false,
+    "positiveControl": {
+      "action": "the app was rebuilt with an explicit import of the ballast symbol",
+      "ballastInBundle": true,
+      "probeValid": true
+    },
+    "verdict": "Unused primary-entry-point code IS tree-shaken out of a consumer bundle that imports only a secondary entry point. OBSERVED, with a passing positive control."
+  },
+
+  "outstanding": [
+    "Re-measure Q2 under pnpm — a non-flat node_modules changes how an optional peer resolves.",
+    "Q8 measured ONE ballast symbol in ONE app. ADR-004's standing requirement for a CI tree-shaking probe app is NOT discharged by this spike; it is now known to be achievable, not known to hold for the real package graph.",
+    "The @nx/angular:library-secondary-entry-point generator emits an NgModule and a flat path. TEKAD needs its own generator or a documented manual convention."
+  ]
+}

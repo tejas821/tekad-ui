@@ -1,0 +1,800 @@
+{
+  "generatedAt": "2026-08-27T18:00:51.634Z",
+  "purpose": "P0 hardening pass — candidate DeferredOverlay primitive",
+  "engineScope": {
+    "chromium": "executed",
+    "webkitgtk": "executed - WebKit evidence only, does NOT certify Safari",
+    "firefox": "NOT EXECUTED - UNVERIFIED, no Gecko runtime obtainable; no Gecko behaviour inferred from WebKit"
+  },
+  "screenReaderBehaviour": "UNVERIFIED - no assistive technology tested at any point",
+  "popoverModeContract": {
+    "manual": "TEKAD owns dismissal -> deferred visual exit lifecycle guaranteed",
+    "auto": "browser owns light-dismiss -> TEKAD reconciles already-closed state -> deferred exit animation NOT promised"
+  },
+  "chromium": {
+    "engine": "Chromium (Playwright build 1194, headless)",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.0.0 Safari/537.36",
+    "cases": {
+      "case1_reopen_during_exit": {
+        "title": "Re-open during exit",
+        "verdict": "PASS",
+        "stateDuringExit": "closing",
+        "stateAfterReopen": "open",
+        "stateLater": "open",
+        "actualCloses": 0,
+        "stillOpenBeyondOriginalExitDuration": true,
+        "subsequentCloseWorked": true,
+        "exactlyOneRealCloseOccurred": true,
+        "listenerTimerBalanced": true,
+        "pendingWorkCancelledPreemptively": true,
+        "staleTokenGuardProven": true,
+        "staleGuardDetail": {
+          "before": {
+            "state": "open",
+            "actualCloses": 1
+          },
+          "after": {
+            "state": "open",
+            "actualCloses": 1,
+            "staleSuppressed": 1
+          },
+          "guardHeld": true
+        },
+        "classification": {
+          "implementationInvariantProven": [
+            "reopen cancels the in-flight close: overlay still open and painting on top beyond the original exit duration",
+            "subsequent close completes normally: no stale timer/listener/state left behind",
+            "exactly one real close occurred across the whole sequence",
+            "stale-token guard rejects a hand-fired stale completion"
+          ],
+          "browserBehaviourObserved": [],
+          "assumptions": [],
+          "unverified": [
+            "Firefox/Gecko"
+          ]
+        },
+        "pendingTimer": false,
+        "pendingListener": false,
+        "log": [
+          "open:opened",
+          "closing:close-intent:a11y-released",
+          "open:opened"
+        ]
+      },
+      "case2_rapid_cycling": {
+        "title": "Rapid open→close cycling (7 cycles)",
+        "verdict": "PASS",
+        "finalState": "closed",
+        "visuallyGone": true,
+        "stuckClosingClass": false,
+        "listenerBalance": 0,
+        "timerBalance": 0,
+        "stats": {
+          "opens": 7,
+          "closeIntents": 7,
+          "actualCloses": 4,
+          "listenersAdded": 7,
+          "listenersRemoved": 7,
+          "timersScheduled": 7,
+          "timersCleared": 7,
+          "staleSuppressed": 0,
+          "decoyIgnored": 1,
+          "cancelHandled": 3,
+          "browserDismissals": 0,
+          "endEventsHandled": 4,
+          "reentrantResetsBlocked": 0,
+          "toggleEventsSeen": 8
+        },
+        "log": [
+          "closed:closed",
+          "open:opened",
+          "closing:close-intent:a11y-released",
+          "open:opened",
+          "closing:close-intent:a11y-released",
+          "closed:closed",
+          "open:opened",
+          "closing:close-intent:a11y-released",
+          "open:opened",
+          "closing:close-intent:a11y-released",
+          "closed:closed",
+          "open:opened",
+          "closing:close-intent:a11y-released",
+          "closed:closed"
+        ]
+      },
+      "case3_interrupted_transition": {
+        "title": "Interrupted / cancelled transition",
+        "verdict": "PASS",
+        "transitioncancelSupported": true,
+        "cancelEventsHandled": 1,
+        "finalState": "closed",
+        "cleanedUp": true,
+        "note": "engine exposes transitioncancel",
+        "log": [
+          "open:opened",
+          "closing:close-intent:a11y-released",
+          "open:opened",
+          "closing:close-intent:a11y-released",
+          "closed:closed"
+        ]
+      },
+      "case4_zero_duration": {
+        "title": "Zero transition duration",
+        "verdict": "PASS",
+        "measuredExitDurationMs": 0,
+        "finalState": "closed",
+        "visuallyGone": true,
+        "closedWithoutWaitingForEvent": true,
+        "log": [
+          "open:opened",
+          "closing:close-intent:a11y-released",
+          "closing:zero-duration:immediate",
+          "closed:closed"
+        ]
+      },
+      "case5_duration_mismatch": {
+        "title": "Consumer CSS duration override (no hard-coded duration)",
+        "verdict": "PASS",
+        "durationReadFromComputedStyleMs": 60,
+        "closedWithinConsumerDuration": true,
+        "finalState": "closed",
+        "log": [
+          "open:opened",
+          "closing:close-intent:a11y-released",
+          "closed:closed"
+        ]
+      },
+      "case6_destroy_during_closing": {
+        "title": "Destroy during closing",
+        "verdict": "PASS",
+        "destroyed": true,
+        "pendingTimer": false,
+        "pendingListener": false,
+        "actualClosesAfterDestroy": 0,
+        "staleSuppressed": 0,
+        "log": [
+          "open:opened",
+          "closing:close-intent:a11y-released",
+          "closing:destroyed"
+        ]
+      },
+      "case7_multiple_transition_properties": {
+        "title": "Multiple transition properties (decoy present)",
+        "verdict": "PASS",
+        "stillClosingAfterDecoyEnded": true,
+        "stillVisibleAfterDecoy": true,
+        "decoyEventsIgnored": 1,
+        "finalState": "closed",
+        "log": [
+          "open:opened",
+          "closing:close-intent:a11y-released",
+          "closed:closed"
+        ]
+      },
+      "case8_prefers_reduced_motion": {
+        "title": "prefers-reduced-motion",
+        "verdict": "PASS",
+        "mediaQueryMatched": true,
+        "measuredExitDurationMs": 0.01,
+        "finalState": "closed",
+        "visuallyGone": true,
+        "ariaExpanded": "false",
+        "log": [
+          "open:opened",
+          "closing:close-intent:a11y-released",
+          "closing:zero-duration:immediate",
+          "closed:closed"
+        ]
+      },
+      "case9b_deferred_exit_under_auto_light_dismiss": {
+        "title": "Deferred exit animation under popover=\"auto\" light dismiss",
+        "verdict": "NOT APPLICABLE",
+        "reason": "The browser removes the auto popover from the top layer BEFORE the toggle event reaches the controller, so there is no window in which a TEKAD-owned exit animation could run. This is a property of browser-owned light-dismiss, not a defect.",
+        "doNotInterpretAs": "Case 9 PASS does NOT mean popover=\"auto\" supports a deferred exit animation.",
+        "contract": "popover=\"manual\" -> TEKAD owns dismissal -> deferred visual exit lifecycle is guaranteed. popover=\"auto\" -> browser owns light-dismiss -> TEKAD reconciles the already-closed state; a deferred exit animation is NOT promised.",
+        "classification": {
+          "implementationInvariantProven": [],
+          "browserBehaviourObserved": [
+            "element leaves the top layer before the toggle event is delivered"
+          ],
+          "assumptions": [],
+          "unverified": [
+            "Firefox/Gecko",
+            "real Safari"
+          ]
+        }
+      },
+      "case9_popover_auto_light_dismiss": {
+        "title": "Browser-driven light-dismiss reconciliation (popover=\"auto\")",
+        "verdict": "PASS",
+        "realPointerEventUsed": true,
+        "lifecycleEntry": [
+          {
+            "entryPoint": "toggle event (newState=closed)",
+            "controllerStateAtEntry": "open",
+            "exitAnimationWasInFlight": false,
+            "elementStillInTopLayer": false,
+            "handledBy": "_hardReset (reconcile, do not animate)"
+          }
+        ],
+        "classification": {
+          "implementationInvariantProven": [
+            "controller reconciles browser-driven dismissal without leaking timers or listeners"
+          ],
+          "browserBehaviourObserved": [
+            "a real pointer click outside an auto popover removes it from the top layer immediately; the deferred exit animation cannot run"
+          ],
+          "assumptions": [],
+          "unverified": [
+            "Firefox/Gecko",
+            "real Safari",
+            "Escape-key light dismiss"
+          ]
+        },
+        "openedBefore": true,
+        "browserDismissals": 1,
+        "stateAfter": "closed",
+        "visuallyGone": true,
+        "stateReconciled": true,
+        "finding": "browser-driven dismissal removes the element from the top layer immediately; the exit animation CANNOT run. The controller must reconcile, not animate.",
+        "log": [
+          "open:opened",
+          "open:browser-dismissed"
+        ]
+      },
+      "case10_focus_a11y_lifecycle": {
+        "title": "Focus / a11y lifecycle separated from visual exit",
+        "verdict": "PASS",
+        "a_closeIntent_ariaExpanded": "false",
+        "d_focusRestoredAtIntent": "trigger",
+        "b_visualExitStillRunning": true,
+        "c_domClosedLater": true,
+        "screenReaderBehaviour": "UNVERIFIED — not tested by this prototype",
+        "log": [
+          "open:opened",
+          "closing:close-intent:a11y-released",
+          "closed:closed"
+        ]
+      },
+      "case11_leak_audit": {
+        "title": "Resource / lifecycle leak audit (long mixed sequence)",
+        "verdict": "PASS",
+        "duplicateEventListeners": "none — one synthetic exit event handled exactly once",
+        "listenerBalance": 0,
+        "timerBalance": 0,
+        "staleTimers": false,
+        "staleTransitionCallbacks": false,
+        "stuckClosingState": false,
+        "closeAfterReopenRaces": "5 real closes for 9 intents (must not exceed)",
+        "finalState": "closed",
+        "visuallyGone": true,
+        "stats": {
+          "opens": 9,
+          "closeIntents": 9,
+          "actualCloses": 5,
+          "listenersAdded": 9,
+          "listenersRemoved": 9,
+          "timersScheduled": 9,
+          "timersCleared": 9,
+          "staleSuppressed": 0,
+          "decoyIgnored": 3,
+          "cancelHandled": 4,
+          "browserDismissals": 0,
+          "endEventsHandled": 5,
+          "reentrantResetsBlocked": 0,
+          "toggleEventsSeen": 10
+        },
+        "classification": {
+          "implementationInvariantProven": [
+            "no duplicate listeners",
+            "no stale timers",
+            "no stale transition callbacks",
+            "no stuck closing state",
+            "no close-after-reopen race produced a spurious close"
+          ],
+          "browserBehaviourObserved": [],
+          "assumptions": [],
+          "unverified": [
+            "Firefox/Gecko"
+          ]
+        }
+      },
+      "case12_toggle_reentrancy": {
+        "title": "`toggle` reconciliation re-entrancy (external close mid-exit)",
+        "verdict": "PASS",
+        "stateImmediatelyAfterExternalClose": "closing",
+        "toggleEventsSeen": 1,
+        "reentrantResetsBlocked": 0,
+        "recursiveCleanupOccurred": "none attempted",
+        "closeAccounting": "0 real closes / 1 intents",
+        "listenerBalance": 0,
+        "timerBalance": 0,
+        "finalState": "closed",
+        "stuckClosing": false,
+        "classification": {
+          "implementationInvariantProven": [
+            "terminal state is entered before the DOM close call, so a synchronous toggle sees state=closed",
+            "a re-entrancy guard prevents recursive cleanup",
+            "no duplicate state transition or double-close accounting"
+          ],
+          "browserBehaviourObserved": [
+            "toggle/close notification timing relative to hidePopover()"
+          ],
+          "assumptions": [],
+          "unverified": [
+            "Firefox/Gecko"
+          ]
+        }
+      },
+      "case13_safety_timeout_semantics": {
+        "title": "Safety-timeout semantics + duration parsing",
+        "verdict": "PASS",
+        "durationParsing": [
+          {
+            "config": "default (scale 1200ms)",
+            "cssClass": "(default)",
+            "expectedMs": 1200,
+            "actualMs": 1200,
+            "ok": true
+          },
+          {
+            "config": "transition: all 300ms",
+            "cssClass": "cfg-all",
+            "expectedMs": 300,
+            "actualMs": 300,
+            "ok": true
+          },
+          {
+            "config": "scale 200ms + 100ms delay",
+            "cssClass": "cfg-delay",
+            "expectedMs": 300,
+            "actualMs": 300,
+            "ok": true
+          },
+          {
+            "config": "scale 0.5s (second units)",
+            "cssClass": "cfg-seconds",
+            "expectedMs": 500,
+            "actualMs": 500,
+            "ok": true
+          },
+          {
+            "config": "exit property absent -> 0 -> close immediately",
+            "cssClass": "cfg-noexitprop",
+            "expectedMs": 0,
+            "actualMs": 0,
+            "ok": true
+          },
+          {
+            "config": "3 properties, 1 duration (list-length mismatch)",
+            "cssClass": "cfg-mismatch",
+            "expectedMs": 150,
+            "actualMs": 150,
+            "ok": true
+          },
+          {
+            "config": "multi-property list, scale is 2nd entry",
+            "cssClass": "cfg-multi",
+            "expectedMs": 250,
+            "actualMs": 250,
+            "ok": true
+          },
+          {
+            "config": "zero duration",
+            "cssClass": "dur-zero",
+            "expectedMs": 0,
+            "actualMs": 0,
+            "ok": true
+          }
+        ],
+        "safetyTimeoutNeverDoubleCloses": true,
+        "closesAfterRealTransitionEnd": 1,
+        "closesAfterSafetyWindow": 1,
+        "classification": {
+          "implementationInvariantProven": [
+            "duration is read from computed style, never hard-coded",
+            "zero / sub-1ms duration closes immediately instead of awaiting an event that never fires",
+            "transition-delay is included",
+            "list-length mismatch and `all` are handled",
+            "the safety timeout is a fallback only and is disarmed by a real completion"
+          ],
+          "browserBehaviourObserved": [
+            "computed-style serialisation of transition shorthand"
+          ],
+          "assumptions": [],
+          "unverified": [
+            "Firefox/Gecko"
+          ]
+        }
+      }
+    }
+  },
+  "webkitgtk": {
+    "engine": "WebKitGTK 2.52.3 — WebKit evidence only, not Safari certification",
+    "userAgent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/60.5 Safari/605.1.15",
+    "cases": {
+      "case1_reopen_during_exit": {
+        "title": "Re-open during exit",
+        "verdict": "PASS",
+        "stateDuringExit": "closing",
+        "stateAfterReopen": "open",
+        "stateLater": "open",
+        "actualCloses": 0,
+        "stillOpenBeyondOriginalExitDuration": true,
+        "subsequentCloseWorked": true,
+        "exactlyOneRealCloseOccurred": true,
+        "listenerTimerBalanced": true,
+        "pendingWorkCancelledPreemptively": true,
+        "staleTokenGuardProven": true,
+        "staleGuardDetail": {
+          "before": {
+            "state": "open",
+            "actualCloses": 1
+          },
+          "after": {
+            "state": "open",
+            "actualCloses": 1,
+            "staleSuppressed": 1
+          },
+          "guardHeld": true
+        },
+        "classification": {
+          "implementationInvariantProven": [
+            "reopen cancels the in-flight close: overlay still open and painting on top beyond the original exit duration",
+            "subsequent close completes normally: no stale timer/listener/state left behind",
+            "exactly one real close occurred across the whole sequence",
+            "stale-token guard rejects a hand-fired stale completion"
+          ],
+          "browserBehaviourObserved": [],
+          "assumptions": [],
+          "unverified": [
+            "Firefox/Gecko"
+          ]
+        },
+        "pendingTimer": false,
+        "pendingListener": false,
+        "log": [
+          "open:opened",
+          "closing:close-intent:a11y-released",
+          "open:opened"
+        ]
+      },
+      "case2_rapid_cycling": {
+        "title": "Rapid open→close cycling (7 cycles)",
+        "verdict": "PASS",
+        "finalState": "closed",
+        "visuallyGone": true,
+        "stuckClosingClass": false,
+        "listenerBalance": 0,
+        "timerBalance": 0,
+        "stats": {
+          "opens": 7,
+          "closeIntents": 7,
+          "actualCloses": 3,
+          "listenersAdded": 7,
+          "listenersRemoved": 7,
+          "timersScheduled": 7,
+          "timersCleared": 7,
+          "staleSuppressed": 0,
+          "decoyIgnored": 3,
+          "cancelHandled": 2,
+          "browserDismissals": 0,
+          "endEventsHandled": 3,
+          "reentrantResetsBlocked": 0,
+          "toggleEventsSeen": 6
+        },
+        "log": [
+          "closing:close-intent:a11y-released",
+          "closed:closed",
+          "open:opened",
+          "closing:close-intent:a11y-released",
+          "open:opened",
+          "closing:close-intent:a11y-released",
+          "closed:closed",
+          "open:opened",
+          "closing:close-intent:a11y-released",
+          "open:opened",
+          "closing:close-intent:a11y-released",
+          "open:opened",
+          "closing:close-intent:a11y-released",
+          "closed:closed"
+        ]
+      },
+      "case3_interrupted_transition": {
+        "title": "Interrupted / cancelled transition",
+        "verdict": "PASS",
+        "transitioncancelSupported": true,
+        "cancelEventsHandled": 1,
+        "finalState": "closed",
+        "cleanedUp": true,
+        "note": "engine exposes transitioncancel",
+        "log": [
+          "open:opened",
+          "closing:close-intent:a11y-released",
+          "open:opened",
+          "closing:close-intent:a11y-released",
+          "closed:closed"
+        ]
+      },
+      "case4_zero_duration": {
+        "title": "Zero transition duration",
+        "verdict": "PASS",
+        "measuredExitDurationMs": 0,
+        "finalState": "closed",
+        "visuallyGone": true,
+        "closedWithoutWaitingForEvent": true,
+        "log": [
+          "open:opened",
+          "closing:close-intent:a11y-released",
+          "closing:zero-duration:immediate",
+          "closed:closed"
+        ]
+      },
+      "case5_duration_mismatch": {
+        "title": "Consumer CSS duration override (no hard-coded duration)",
+        "verdict": "PASS",
+        "durationReadFromComputedStyleMs": 60,
+        "closedWithinConsumerDuration": true,
+        "finalState": "closed",
+        "log": [
+          "open:opened",
+          "closing:close-intent:a11y-released",
+          "closed:closed"
+        ]
+      },
+      "case6_destroy_during_closing": {
+        "title": "Destroy during closing",
+        "verdict": "PASS",
+        "destroyed": true,
+        "pendingTimer": false,
+        "pendingListener": false,
+        "actualClosesAfterDestroy": 0,
+        "staleSuppressed": 0,
+        "log": [
+          "open:opened",
+          "closing:close-intent:a11y-released",
+          "closing:destroyed"
+        ]
+      },
+      "case7_multiple_transition_properties": {
+        "title": "Multiple transition properties (decoy present)",
+        "verdict": "PASS",
+        "stillClosingAfterDecoyEnded": true,
+        "stillVisibleAfterDecoy": true,
+        "decoyEventsIgnored": 1,
+        "finalState": "closed",
+        "log": [
+          "open:opened",
+          "closing:close-intent:a11y-released",
+          "closed:closed"
+        ]
+      },
+      "case8_prefers_reduced_motion": {
+        "title": "prefers-reduced-motion",
+        "verdict": "UNVERIFIED",
+        "reason": "this driver cannot emulate prefers-reduced-motion; CSS path is exercised by case 4"
+      },
+      "case9b_deferred_exit_under_auto_light_dismiss": {
+        "title": "Deferred exit animation under popover=\"auto\" light dismiss",
+        "verdict": "NOT APPLICABLE",
+        "reason": "The browser removes the auto popover from the top layer BEFORE the toggle event reaches the controller, so there is no window in which a TEKAD-owned exit animation could run. This is a property of browser-owned light-dismiss, not a defect.",
+        "doNotInterpretAs": "Case 9 PASS does NOT mean popover=\"auto\" supports a deferred exit animation.",
+        "contract": "popover=\"manual\" -> TEKAD owns dismissal -> deferred visual exit lifecycle is guaranteed. popover=\"auto\" -> browser owns light-dismiss -> TEKAD reconciles the already-closed state; a deferred exit animation is NOT promised.",
+        "classification": {
+          "implementationInvariantProven": [],
+          "browserBehaviourObserved": [
+            "element leaves the top layer before the toggle event is delivered"
+          ],
+          "assumptions": [],
+          "unverified": [
+            "Firefox/Gecko",
+            "real Safari"
+          ]
+        }
+      },
+      "case9_popover_auto_light_dismiss": {
+        "title": "Browser-driven light-dismiss reconciliation (popover=\"auto\")",
+        "verdict": "PASS",
+        "realPointerEventUsed": true,
+        "lifecycleEntry": [
+          {
+            "entryPoint": "toggle event (newState=closed)",
+            "controllerStateAtEntry": "open",
+            "exitAnimationWasInFlight": false,
+            "elementStillInTopLayer": false,
+            "handledBy": "_hardReset (reconcile, do not animate)"
+          }
+        ],
+        "classification": {
+          "implementationInvariantProven": [
+            "controller reconciles browser-driven dismissal without leaking timers or listeners"
+          ],
+          "browserBehaviourObserved": [
+            "a real pointer click outside an auto popover removes it from the top layer immediately; the deferred exit animation cannot run"
+          ],
+          "assumptions": [],
+          "unverified": [
+            "Firefox/Gecko",
+            "real Safari",
+            "Escape-key light dismiss"
+          ]
+        },
+        "openedBefore": true,
+        "browserDismissals": 1,
+        "stateAfter": "closed",
+        "visuallyGone": true,
+        "stateReconciled": true,
+        "finding": "browser-driven dismissal removes the element from the top layer immediately; the exit animation CANNOT run. The controller must reconcile, not animate.",
+        "log": [
+          "open:opened",
+          "open:browser-dismissed"
+        ]
+      },
+      "case10_focus_a11y_lifecycle": {
+        "title": "Focus / a11y lifecycle separated from visual exit",
+        "verdict": "PASS",
+        "a_closeIntent_ariaExpanded": "false",
+        "d_focusRestoredAtIntent": "trigger",
+        "b_visualExitStillRunning": true,
+        "c_domClosedLater": true,
+        "screenReaderBehaviour": "UNVERIFIED — not tested by this prototype",
+        "log": [
+          "open:opened",
+          "closing:close-intent:a11y-released",
+          "closed:closed"
+        ]
+      },
+      "case11_leak_audit": {
+        "title": "Resource / lifecycle leak audit (long mixed sequence)",
+        "verdict": "PASS",
+        "duplicateEventListeners": "none — one synthetic exit event handled exactly once",
+        "listenerBalance": 0,
+        "timerBalance": 0,
+        "staleTimers": false,
+        "staleTransitionCallbacks": false,
+        "stuckClosingState": false,
+        "closeAfterReopenRaces": "5 real closes for 9 intents (must not exceed)",
+        "finalState": "closed",
+        "visuallyGone": true,
+        "stats": {
+          "opens": 9,
+          "closeIntents": 9,
+          "actualCloses": 5,
+          "listenersAdded": 9,
+          "listenersRemoved": 9,
+          "timersScheduled": 9,
+          "timersCleared": 9,
+          "staleSuppressed": 0,
+          "decoyIgnored": 8,
+          "cancelHandled": 4,
+          "browserDismissals": 0,
+          "endEventsHandled": 5,
+          "reentrantResetsBlocked": 0,
+          "toggleEventsSeen": 10
+        },
+        "classification": {
+          "implementationInvariantProven": [
+            "no duplicate listeners",
+            "no stale timers",
+            "no stale transition callbacks",
+            "no stuck closing state",
+            "no close-after-reopen race produced a spurious close"
+          ],
+          "browserBehaviourObserved": [],
+          "assumptions": [],
+          "unverified": [
+            "Firefox/Gecko"
+          ]
+        }
+      },
+      "case12_toggle_reentrancy": {
+        "title": "`toggle` reconciliation re-entrancy (external close mid-exit)",
+        "verdict": "PASS",
+        "stateImmediatelyAfterExternalClose": "closing",
+        "toggleEventsSeen": 1,
+        "reentrantResetsBlocked": 0,
+        "recursiveCleanupOccurred": "none attempted",
+        "closeAccounting": "0 real closes / 1 intents",
+        "listenerBalance": 0,
+        "timerBalance": 0,
+        "finalState": "closed",
+        "stuckClosing": false,
+        "classification": {
+          "implementationInvariantProven": [
+            "terminal state is entered before the DOM close call, so a synchronous toggle sees state=closed",
+            "a re-entrancy guard prevents recursive cleanup",
+            "no duplicate state transition or double-close accounting"
+          ],
+          "browserBehaviourObserved": [
+            "toggle/close notification timing relative to hidePopover()"
+          ],
+          "assumptions": [],
+          "unverified": [
+            "Firefox/Gecko"
+          ]
+        }
+      },
+      "case13_safety_timeout_semantics": {
+        "title": "Safety-timeout semantics + duration parsing",
+        "verdict": "PASS",
+        "durationParsing": [
+          {
+            "config": "default (scale 1200ms)",
+            "cssClass": "(default)",
+            "expectedMs": 1200,
+            "actualMs": 1200,
+            "ok": true
+          },
+          {
+            "config": "transition: all 300ms",
+            "cssClass": "cfg-all",
+            "expectedMs": 300,
+            "actualMs": 300,
+            "ok": true
+          },
+          {
+            "config": "scale 200ms + 100ms delay",
+            "cssClass": "cfg-delay",
+            "expectedMs": 300,
+            "actualMs": 300,
+            "ok": true
+          },
+          {
+            "config": "scale 0.5s (second units)",
+            "cssClass": "cfg-seconds",
+            "expectedMs": 500,
+            "actualMs": 500,
+            "ok": true
+          },
+          {
+            "config": "exit property absent -> 0 -> close immediately",
+            "cssClass": "cfg-noexitprop",
+            "expectedMs": 0,
+            "actualMs": 0,
+            "ok": true
+          },
+          {
+            "config": "3 properties, 1 duration (list-length mismatch)",
+            "cssClass": "cfg-mismatch",
+            "expectedMs": 150,
+            "actualMs": 150,
+            "ok": true
+          },
+          {
+            "config": "multi-property list, scale is 2nd entry",
+            "cssClass": "cfg-multi",
+            "expectedMs": 250,
+            "actualMs": 250,
+            "ok": true
+          },
+          {
+            "config": "zero duration",
+            "cssClass": "dur-zero",
+            "expectedMs": 0,
+            "actualMs": 0,
+            "ok": true
+          }
+        ],
+        "safetyTimeoutNeverDoubleCloses": true,
+        "closesAfterRealTransitionEnd": 1,
+        "closesAfterSafetyWindow": 1,
+        "classification": {
+          "implementationInvariantProven": [
+            "duration is read from computed style, never hard-coded",
+            "zero / sub-1ms duration closes immediately instead of awaiting an event that never fires",
+            "transition-delay is included",
+            "list-length mismatch and `all` are handled",
+            "the safety timeout is a fallback only and is disarmed by a real completion"
+          ],
+          "browserBehaviourObserved": [
+            "computed-style serialisation of transition shorthand"
+          ],
+          "assumptions": [],
+          "unverified": [
+            "Firefox/Gecko"
+          ]
+        }
+      }
+    }
+  }
+}

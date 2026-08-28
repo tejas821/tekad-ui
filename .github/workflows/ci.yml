@@ -1,0 +1,113 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Least-privilege by default (docs/architecture/06-ci-quality-gates.md).
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  verify:
+    name: Verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          # nx affected needs history to diff against the base.
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install Node
+        uses: actions/setup-node@v5
+        with:
+          # Read from package.json "engines" so the floor lives in one place.
+          node-version-file: package.json
+          cache: pnpm
+
+      # Gate 1 — install from the committed lockfile, or fail.
+      - name: Install (frozen lockfile)
+        run: pnpm install --frozen-lockfile
+
+      # Every guard below is self-tested first. A gate that cannot fail is not
+      # a gate — the boundary rule and the licence audit were both found to be
+      # vacuous or wrong on their first implementation, and only a self-test
+      # caught it. This step runs those self-tests.
+      - name: Self-test the CI guards
+        run: pnpm run verify:gates
+
+      # Spike B gate — the deprecated webpack builder must not be in the tree.
+      # It is an optional peer of @nx/angular and of some test runners, so its
+      # absence is asserted rather than assumed. See ADR-012.
+      - name: No deprecated webpack builder
+        run: pnpm run verify:no-webpack-builder
+
+      # Gate 10 (part) — dependency policy at DECLARATION time. The eslint
+      # boundary rule provably cannot see an import of a package that is not
+      # installed, so this catches the moment the decision is actually made.
+      - name: Dependency policy
+        run: pnpm run verify:deps
+
+      # Gate 2
+      - name: Format check
+        run: pnpm run format:check
+
+      - name: Set nx base/head
+        uses: nrwl/nx-set-shas@v4
+
+      # Gates 3, 4, 5, 8 — scoped to affected projects.
+      # Nx REMOTE CACHING IS DELIBERATELY NOT USED. ADR-012: the self-hosted
+      # remote caches were withdrawn over CVE-2025-36852 (CREEP), whose threat
+      # model is an open-source repo taking fork PRs — a PR modifies the
+      # workflow, the workflow is not in the cache key, and the cache is
+      # poisoned for later legitimate builds. That is this project exactly.
+      - name: Lint
+        run: pnpm exec nx affected -t lint --parallel=3
+
+      - name: Typecheck
+        run: pnpm exec nx affected -t typecheck --parallel=3
+
+      - name: Test
+        run: pnpm exec nx affected -t test --parallel=3
+
+      - name: Build
+        run: pnpm exec nx affected -t build --parallel=3
+
+  # Gates 12 and 13 run separately so a vulnerability or licence finding is
+  # legible on its own rather than buried in a build log.
+  supply-chain:
+    name: Supply chain
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: package.json
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      # Two scopes, like the licence gate. `pnpm audit` exits non-zero whenever
+      # it finds anything, so the reports are captured and verify-audit.mjs
+      # decides the outcome. Lowering --audit-level is never the fix: it
+      # disables the gate for everything.
+      - name: Vulnerability audit
+        run: |
+          mkdir -p .nx
+          pnpm run verify:audit
+
+      # Two scopes: a forbidden licence in the PRODUCTION tree is fatal with no
+      # exception path; in build tooling it needs a recorded justification.
+      - name: Licence audit
+        run: pnpm run verify:licences

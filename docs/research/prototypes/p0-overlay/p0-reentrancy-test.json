@@ -1,0 +1,145 @@
+{
+  "test": "P0 targeted state-machine test — synchronous re-entry",
+  "evidenceClass": "DEFENSIVE / SIMULATED",
+  "notBrowserEvidence": "Synchronous toggle delivery was simulated at the injectable closeOp seam. Neither Chromium nor WebKitGTK was observed delivering it synchronously. Nothing here may be reported as OBSERVED browser behaviour.",
+  "assertions": [
+    {
+      "name": "state is terminal BEFORE the simulated close operation runs",
+      "verdict": "PASS",
+      "detail": {
+        "stateSeenByCloseOp": [
+          "closed"
+        ]
+      }
+    },
+    {
+      "name": "synchronous _onToggle observes state === \"closed\"",
+      "verdict": "PASS",
+      "detail": {
+        "reentrantObservations": [
+          {
+            "observedState": "closed",
+            "duringHardResetDepth": 1,
+            "resettingGuardHeld": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "_resetting guard is held while the nested callback runs",
+      "verdict": "PASS",
+      "detail": {
+        "resettingGuardHeld": true
+      }
+    },
+    {
+      "name": "no recursive _hardReset performed duplicate cleanup",
+      "verdict": "PASS",
+      "detail": {
+        "hardResetCalls": 1,
+        "maxResetDepth": 1,
+        "reentrantResetsBlocked": 0
+      }
+    },
+    {
+      "name": "no duplicate close recorded",
+      "verdict": "PASS",
+      "detail": {
+        "actualCloses": 1,
+        "closeIntents": 1,
+        "browserDismissals": 0
+      }
+    },
+    {
+      "name": "close operation invoked exactly once",
+      "verdict": "PASS",
+      "detail": {
+        "closeOpCalls": 1
+      }
+    },
+    {
+      "name": "no duplicate listener registration/removal",
+      "verdict": "PASS",
+      "detail": {
+        "listenersAdded": 1,
+        "listenersRemoved": 1,
+        "elementListeners": 1,
+        "baseline": 1
+      }
+    },
+    {
+      "name": "no stale timer remains",
+      "verdict": "PASS",
+      "detail": {
+        "timersScheduled": 1,
+        "timersCleared": 1
+      }
+    },
+    {
+      "name": "no stale transition callback remains",
+      "verdict": "PASS",
+      "detail": {
+        "onEnd": null
+      }
+    },
+    {
+      "name": "final state is \"closed\"",
+      "verdict": "PASS",
+      "detail": {
+        "state": "closed"
+      }
+    },
+    {
+      "name": "cleanup balanced (timers and listeners)",
+      "verdict": "PASS",
+      "detail": {
+        "timerBalance": 0,
+        "listenerBalance": 0
+      }
+    },
+    {
+      "name": "no stuck \"closing\" class or state",
+      "verdict": "PASS",
+      "detail": {
+        "hasClosingClass": false,
+        "state": "closed"
+      }
+    },
+    {
+      "name": "destroy() during closing leaves no stale `closing` class on the element",
+      "verdict": "PASS",
+      "detail": {
+        "classDuringClose": true,
+        "classAfterDestroy": false
+      }
+    },
+    {
+      "name": "destroy() during closing leaves no stuck \"closing\" state",
+      "verdict": "PASS",
+      "detail": {
+        "state": "closed",
+        "destroyed": true
+      }
+    },
+    {
+      "name": "destroy() during closing leaves no pending timer or listener",
+      "verdict": "PASS",
+      "detail": {
+        "timer": null,
+        "onEnd": null,
+        "elementListeners": 0
+      }
+    },
+    {
+      "name": "CONTROL: pre-fix ordering does re-enter (assertions are non-vacuous)",
+      "verdict": "PASS",
+      "detail": {
+        "maxResetDepth": 4,
+        "terminalStateWrites": 4,
+        "note": "reproduced against a local replica of the pre-fix ordering; the production class no longer contains it"
+      }
+    }
+  ],
+  "passed": 16,
+  "total": 16
+}

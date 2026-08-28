@@ -1,0 +1,595 @@
+{
+  "generatedAt": "2026-08-27T17:32:33.777Z",
+  "exitDurationMs": 1200,
+  "exitSampleTimesMs": [
+    0,
+    150,
+    400,
+    750,
+    1100
+  ],
+  "firefox": {
+    "engine": "Firefox / Gecko",
+    "status": "UNVERIFIED — no Gecko runtime is obtainable in this environment",
+    "note": "WebKitGTK results say nothing about Gecko. No Firefox behaviour is inferred anywhere in this report.",
+    "routesAttempted": [
+      "npx playwright install firefox -> HTTP 403, playwright.download.prss.microsoft.com not on the egress allowlist",
+      "ftp.mozilla.org, archive.mozilla.org, download.mozilla.org, releases.mozilla.org, product-details.mozilla.org -> all refused by proxy (000)",
+      "packages.mozilla.org apt repository -> blocked",
+      "ppa.launchpadcontent.net (mozillateam PPA) and launchpad.net -> blocked",
+      "snapcraft.io and api.snapcraft.io -> blocked",
+      "apt-get install firefox on Ubuntu 24.04 -> 1:1snap1-0ubuntu5, a snap transitional stub containing no binary",
+      "apt-cache search firefox|gecko|xulrunner|iceweasel -> only snap transitional stubs",
+      "no pre-existing browser binary on the cloud container",
+      "user's device VM via device_bash -> no browser installed; the same Mozilla hosts are blocked there too"
+    ]
+  },
+  "chromium": {
+    "engine": "Chromium (Playwright build 1194, headless)",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.0.0 Safari/537.36",
+    "capabilities": {
+      "popover": true,
+      "showModal": true,
+      "cssOverlayProperty": true,
+      "transitionBehaviorAllowDiscrete": true,
+      "startingStyle": true,
+      "inert": true
+    },
+    "core": [
+      {
+        "scenario": "popover/naive/ancestor=transform+overflowhidden+filter/pos=centre",
+        "PASS": true,
+        "heldTopLayer": true,
+        "actuallyClosed": true
+      },
+      {
+        "scenario": "popover/deferred/ancestor=transform+overflowhidden+filter/pos=centre",
+        "PASS": true,
+        "heldTopLayer": true,
+        "actuallyClosed": true
+      },
+      {
+        "scenario": "dialog/naive/ancestor=transform+overflowhidden+filter/pos=centre",
+        "PASS": true,
+        "heldTopLayer": true,
+        "actuallyClosed": true
+      },
+      {
+        "scenario": "dialog/deferred/ancestor=transform+overflowhidden+filter/pos=centre",
+        "PASS": true,
+        "heldTopLayer": true,
+        "actuallyClosed": true
+      }
+    ],
+    "ancestorSweep": [
+      {
+        "scenario": "popover/naive/ancestor=none/pos=centre",
+        "PASS": true,
+        "pixel": true,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/deferred/ancestor=none/pos=centre",
+        "PASS": true,
+        "pixel": true,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/naive/ancestor=transform/pos=centre",
+        "PASS": true,
+        "pixel": true,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/deferred/ancestor=transform/pos=centre",
+        "PASS": true,
+        "pixel": true,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/naive/ancestor=overflowhidden/pos=centre",
+        "PASS": true,
+        "pixel": true,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/deferred/ancestor=overflowhidden/pos=centre",
+        "PASS": true,
+        "pixel": true,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/naive/ancestor=overflowclip/pos=centre",
+        "PASS": true,
+        "pixel": true,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/deferred/ancestor=overflowclip/pos=centre",
+        "PASS": true,
+        "pixel": true,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/naive/ancestor=opacity/pos=centre",
+        "PASS": true,
+        "pixel": true,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/deferred/ancestor=opacity/pos=centre",
+        "PASS": true,
+        "pixel": true,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/naive/ancestor=filter/pos=centre",
+        "PASS": true,
+        "pixel": true,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/deferred/ancestor=filter/pos=centre",
+        "PASS": true,
+        "pixel": true,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/naive/ancestor=containpaint/pos=centre",
+        "PASS": true,
+        "pixel": true,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/deferred/ancestor=containpaint/pos=centre",
+        "PASS": true,
+        "pixel": true,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/naive/ancestor=willchange/pos=centre",
+        "PASS": true,
+        "pixel": true,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/deferred/ancestor=willchange/pos=centre",
+        "PASS": true,
+        "pixel": true,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/naive/ancestor=transform+overflowhidden+filter/pos=centre",
+        "PASS": true,
+        "pixel": true,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/deferred/ancestor=transform+overflowhidden+filter/pos=centre",
+        "PASS": true,
+        "pixel": true,
+        "geometry": true
+      }
+    ],
+    "edge": [
+      {
+        "scenario": "popover/naive/ancestor=transform+overflowhidden/pos=edge",
+        "PASS": true
+      },
+      {
+        "scenario": "popover/deferred/ancestor=transform+overflowhidden/pos=edge",
+        "PASS": true
+      }
+    ],
+    "nested": [
+      {
+        "scenario": "nested/naive",
+        "PASS": true,
+        "innerStackedAboveOuter": true,
+        "outerSurvivedInnerClose": true,
+        "allClosedAtEnd": true
+      },
+      {
+        "scenario": "nested/deferred",
+        "PASS": true,
+        "innerStackedAboveOuter": true,
+        "outerSurvivedInnerClose": true,
+        "allClosedAtEnd": true
+      }
+    ],
+    "keyTrace": {
+      "note": "raw per-sample trace, popover/naive/ancestor=none — the decisive WebKit mechanism",
+      "samples": [
+        {
+          "targetMs": 0,
+          "elapsedMs": 50,
+          "withinTransition": true,
+          "pixel": "ON_TOP",
+          "rgb": [
+            43,
+            108,
+            246
+          ],
+          "positionedAgainstViewport": true,
+          "fullyOnScreen": true,
+          "overlay": "auto",
+          "display": "block",
+          "rect": {
+            "x": 309,
+            "y": 234,
+            "w": 283,
+            "h": 132
+          }
+        },
+        {
+          "targetMs": 150,
+          "elapsedMs": 255,
+          "withinTransition": true,
+          "pixel": "ON_TOP",
+          "rgb": [
+            43,
+            108,
+            246
+          ],
+          "positionedAgainstViewport": true,
+          "fullyOnScreen": true,
+          "overlay": "auto",
+          "display": "block",
+          "rect": {
+            "x": 311,
+            "y": 235,
+            "w": 279,
+            "h": 130
+          }
+        },
+        {
+          "targetMs": 400,
+          "elapsedMs": 553,
+          "withinTransition": true,
+          "pixel": "ON_TOP",
+          "rgb": [
+            43,
+            108,
+            246
+          ],
+          "positionedAgainstViewport": true,
+          "fullyOnScreen": true,
+          "overlay": "auto",
+          "display": "block",
+          "rect": {
+            "x": 312,
+            "y": 236,
+            "w": 276,
+            "h": 129
+          }
+        },
+        {
+          "targetMs": 750,
+          "elapsedMs": 950,
+          "withinTransition": true,
+          "pixel": "ON_TOP",
+          "rgb": [
+            43,
+            108,
+            246
+          ],
+          "positionedAgainstViewport": true,
+          "fullyOnScreen": true,
+          "overlay": "auto",
+          "display": "block",
+          "rect": {
+            "x": 312,
+            "y": 236,
+            "w": 276,
+            "h": 129
+          }
+        },
+        {
+          "targetMs": 1100,
+          "elapsedMs": 1335,
+          "withinTransition": false,
+          "pixel": "COVERED",
+          "rgb": [
+            10,
+            61,
+            31
+          ],
+          "positionedAgainstViewport": false,
+          "fullyOnScreen": false,
+          "overlay": "none",
+          "display": "none",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0
+          }
+        }
+      ]
+    }
+  },
+  "webkitgtk": {
+    "engine": "WebKitGTK 2.52.3 via WebKitWebDriver — WEBKIT EVIDENCE ONLY, not Safari certification",
+    "userAgent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/60.5 Safari/605.1.15",
+    "capabilities": {
+      "popover": true,
+      "showModal": true,
+      "cssOverlayProperty": false,
+      "transitionBehaviorAllowDiscrete": true,
+      "startingStyle": true,
+      "inert": true
+    },
+    "core": [
+      {
+        "scenario": "popover/naive/ancestor=transform+overflowhidden+filter/pos=centre",
+        "PASS": false,
+        "heldTopLayer": false,
+        "actuallyClosed": true
+      },
+      {
+        "scenario": "popover/deferred/ancestor=transform+overflowhidden+filter/pos=centre",
+        "PASS": true,
+        "heldTopLayer": true,
+        "actuallyClosed": true
+      },
+      {
+        "scenario": "dialog/naive/ancestor=transform+overflowhidden+filter/pos=centre",
+        "PASS": false,
+        "heldTopLayer": false,
+        "actuallyClosed": true
+      },
+      {
+        "scenario": "dialog/deferred/ancestor=transform+overflowhidden+filter/pos=centre",
+        "PASS": true,
+        "heldTopLayer": true,
+        "actuallyClosed": true
+      }
+    ],
+    "ancestorSweep": [
+      {
+        "scenario": "popover/naive/ancestor=none/pos=centre",
+        "PASS": false,
+        "pixel": false,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/deferred/ancestor=none/pos=centre",
+        "PASS": true,
+        "pixel": true,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/naive/ancestor=transform/pos=centre",
+        "PASS": false,
+        "pixel": false,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/deferred/ancestor=transform/pos=centre",
+        "PASS": true,
+        "pixel": true,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/naive/ancestor=overflowhidden/pos=centre",
+        "PASS": false,
+        "pixel": false,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/deferred/ancestor=overflowhidden/pos=centre",
+        "PASS": true,
+        "pixel": true,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/naive/ancestor=overflowclip/pos=centre",
+        "PASS": false,
+        "pixel": false,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/deferred/ancestor=overflowclip/pos=centre",
+        "PASS": true,
+        "pixel": true,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/naive/ancestor=opacity/pos=centre",
+        "PASS": false,
+        "pixel": false,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/deferred/ancestor=opacity/pos=centre",
+        "PASS": true,
+        "pixel": true,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/naive/ancestor=filter/pos=centre",
+        "PASS": false,
+        "pixel": false,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/deferred/ancestor=filter/pos=centre",
+        "PASS": true,
+        "pixel": true,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/naive/ancestor=containpaint/pos=centre",
+        "PASS": false,
+        "pixel": false,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/deferred/ancestor=containpaint/pos=centre",
+        "PASS": true,
+        "pixel": true,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/naive/ancestor=willchange/pos=centre",
+        "PASS": false,
+        "pixel": false,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/deferred/ancestor=willchange/pos=centre",
+        "PASS": true,
+        "pixel": true,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/naive/ancestor=transform+overflowhidden+filter/pos=centre",
+        "PASS": false,
+        "pixel": false,
+        "geometry": true
+      },
+      {
+        "scenario": "popover/deferred/ancestor=transform+overflowhidden+filter/pos=centre",
+        "PASS": true,
+        "pixel": true,
+        "geometry": true
+      }
+    ],
+    "edge": [
+      {
+        "scenario": "popover/naive/ancestor=transform+overflowhidden/pos=edge",
+        "PASS": false
+      },
+      {
+        "scenario": "popover/deferred/ancestor=transform+overflowhidden/pos=edge",
+        "PASS": true
+      }
+    ],
+    "nested": [
+      {
+        "scenario": "nested/naive",
+        "PASS": false,
+        "innerStackedAboveOuter": true,
+        "outerSurvivedInnerClose": true,
+        "allClosedAtEnd": true
+      },
+      {
+        "scenario": "nested/deferred",
+        "PASS": true,
+        "innerStackedAboveOuter": true,
+        "outerSurvivedInnerClose": true,
+        "allClosedAtEnd": true
+      }
+    ],
+    "keyTrace": {
+      "note": "raw per-sample trace, popover/naive/ancestor=none — the decisive WebKit mechanism",
+      "samples": [
+        {
+          "targetMs": 0,
+          "elapsedMs": 65,
+          "withinTransition": true,
+          "pixel": "ON_TOP",
+          "rgb": [
+            43,
+            108,
+            246
+          ],
+          "positionedAgainstViewport": true,
+          "fullyOnScreen": true,
+          "overlay": "(unsupported)",
+          "display": "block",
+          "rect": {
+            "x": 308,
+            "y": 215,
+            "w": 284,
+            "h": 132
+          }
+        },
+        {
+          "targetMs": 150,
+          "elapsedMs": 309,
+          "withinTransition": true,
+          "pixel": "COVERED",
+          "rgb": [
+            10,
+            61,
+            31
+          ],
+          "positionedAgainstViewport": true,
+          "fullyOnScreen": true,
+          "overlay": "(unsupported)",
+          "display": "block",
+          "rect": {
+            "x": 311,
+            "y": 216,
+            "w": 279,
+            "h": 130
+          }
+        },
+        {
+          "targetMs": 400,
+          "elapsedMs": 598,
+          "withinTransition": true,
+          "pixel": "COVERED",
+          "rgb": [
+            10,
+            61,
+            31
+          ],
+          "positionedAgainstViewport": true,
+          "fullyOnScreen": true,
+          "overlay": "(unsupported)",
+          "display": "block",
+          "rect": {
+            "x": 312,
+            "y": 217,
+            "w": 276,
+            "h": 129
+          }
+        },
+        {
+          "targetMs": 750,
+          "elapsedMs": 989,
+          "withinTransition": true,
+          "pixel": "COVERED",
+          "rgb": [
+            10,
+            61,
+            31
+          ],
+          "positionedAgainstViewport": true,
+          "fullyOnScreen": true,
+          "overlay": "(unsupported)",
+          "display": "block",
+          "rect": {
+            "x": 312,
+            "y": 217,
+            "w": 276,
+            "h": 129
+          }
+        },
+        {
+          "targetMs": 1100,
+          "elapsedMs": 1377,
+          "withinTransition": false,
+          "pixel": "COVERED",
+          "rgb": [
+            10,
+            61,
+            31
+          ],
+          "positionedAgainstViewport": false,
+          "fullyOnScreen": false,
+          "overlay": "(unsupported)",
+          "display": "none",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "w": 0,
+            "h": 0
+          }
+        }
+      ]
+    }
+  }
+}

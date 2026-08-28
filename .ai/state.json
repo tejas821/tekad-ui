@@ -1,0 +1,312 @@
+{
+  "project": "TEKAD",
+  "brandVersion": "0.0.0-pre",
+  "masterPromptVersion": "1.0",
+  "updated": "2026-08-28",
+  "phase": {
+    "current": "0.9 - prototypes and pre-scaffold spikes COMPLETE",
+    "next": "Phase 1 - Nx + pnpm workspace scaffold (legacy TS setup, no preset, explicit Angular pin)",
+    "codeWritten": false
+  },
+  "repository": {
+    "root": "ui-library",
+    "vcs": "none \u2014 not a git repository",
+    "hasPackageJson": false,
+    "hasWorkspace": false,
+    "hasCI": false,
+    "sourceCode": "none"
+  },
+  "platformBaseline": {
+    "verifiedOn": "2026-08-26",
+    "source": "https://angular.dev/reference/versions",
+    "angular": "22.0.x",
+    "node": "^22.22.3 || ^24.15.0 || ^26.0.0",
+    "typescript": ">=6.0.0 <6.1.0",
+    "rxjs": "^6.5.3 || ^7.4.0"
+  },
+  "toolingDetected": {
+    "note": "Detected inside the session workspace VM, not the founder's macOS toolchain. Re-verify locally before Phase 1.",
+    "node": "v22.23.2",
+    "npm": "10.9.8",
+    "pnpm": "not installed",
+    "yarn": "not installed",
+    "angularCli": "not installed",
+    "git": "2.34.1"
+  },
+  "decisions": {
+    "accepted": [
+      "ADR-000",
+      "ADR-001",
+      "ADR-002",
+      "ADR-003",
+      "ADR-004",
+      "ADR-005",
+      "ADR-006",
+      "ADR-007",
+      "ADR-008",
+      "ADR-009",
+      "ADR-010",
+      "ADR-011",
+      "ADR-012",
+      "ADR-013",
+      "ADR-014",
+      "ADR-015",
+      "ADR-016",
+      "ADR-017"
+    ],
+    "provisional": [],
+    "gatedOnPrototype": [
+      "ADR-010 (P0: CSS overlay property gap in Firefox/Safari)",
+      "ADR-014 (P1: ngGridCell under @for, angular/components#32603)"
+    ]
+  },
+  "blockers": [
+    "PUBLISH GATE: npm scope availability, placeholder registration, professional trademark clearance - see ADR-016",
+    "Cross-engine and AT validation for P0 overlay and P1 grid - tracked, not blocking implementation",
+    "Spike B ran under npm; re-measure the @angular-devkit/build-angular install path under pnpm during Phase 1 (ADR-012)",
+    "ADR-004's CI tree-shaking probe app is still required - Spike B showed the mechanism works, not that it holds for TEKAD's real package graph"
+  ],
+  "invariants": [
+    "Signals canonical; RxJS is an adapter at the public boundary only",
+    "Angular 22-first; no legacy contamination",
+    "Standalone-first; NgModules are not public API",
+    "No core package may reach a charting library",
+    "Dependencies flow downward only; no cycles",
+    "Tree-shaking is verified, never assumed",
+    "No speculative abstraction"
+  ],
+  "filesCreatedInPhase0": [
+    "CLAUDE.md",
+    "ROADMAP.md",
+    ".ai/state.json",
+    ".ai/current-task.md",
+    ".ai/decisions.md",
+    ".ai/completed-tasks.md",
+    ".ai/research-notes.md",
+    "docs/architecture/00-overview.md",
+    "docs/architecture/01-package-strategy.md",
+    "docs/architecture/02-public-api-rules.md",
+    "docs/architecture/03-dependency-policy.md",
+    "docs/architecture/04-testing-strategy.md",
+    "docs/architecture/05-performance-budgets.md",
+    "docs/architecture/06-ci-quality-gates.md",
+    "docs/decisions/README.md",
+    "docs/decisions/ADR-000..ADR-012",
+    "docs/research/README.md"
+  ],
+  "researchStatus": {
+    "complete": true,
+    "areas": [
+      "competitive analysis",
+      "Angular v22 platform",
+      "monorepo/packaging tooling",
+      "overlay & positioning",
+      "CSS/tokens/theming",
+      "table & data grid",
+      "licence & dependency matrix",
+      "trademark & namespace",
+      "docs, governance, security"
+    ],
+    "handoff": "IMPLEMENTATION_HANDOFF.md"
+  },
+  "keyFindings": [
+    "PrimeNG v22 left open source: commercial PrimeUI licence with licence-key enforcement; v21 stays MIT; public repo frozen at 21.1.9; MIT fork @openng/optimus-ui appeared within 3 weeks",
+    "@angular/aria is stable in v22: MIT, headless, zero CSS, 12 patterns, test harnesses \u2014 adopt for the Pattern layer",
+    "@angular/aria peer-pins @angular/cdk at an EXACT version \u2014 'Aria instead of CDK' is not an option",
+    "@angular/aria positions nothing: no dialog, tooltip, popover, focus trap, overlay \u2014 TEKAD owns the entire floating layer",
+    "@angular/cdk/overlay is ~24 KB gzip and does NOT tree-shake (minimal import is 98% of the full barrel); focus trap is pre-inert",
+    "CDK overlay v22 already uses the Popover API by default (usePopover ?? true)",
+    "CSS `overlay` property unsupported in Firefox and Safari (73.5% global) \u2014 exit-animation top-layer demotion is the go/no-go risk",
+    "Angular forbids implementing both ControlValueAccessor and FormValueControl on one component \u2014 Reactive Forms support must be a separate CVA adapter entry point",
+    "Nx lags Angular majors by 4-8 weeks; Nx free remote cache deprecated over CVE-2025-36852 (CREEP), whose threat model is an OSS repo taking fork PRs",
+    "ng-packagr generates the exports map with no wildcard subpath, so internal paths are unimportable by default",
+    "CORRECTED 2026-08-28 (Spike B): ng-packagr emits no shared CHUNK files, but it does NOT duplicate either - each secondary FESM keeps a bare unresolved package-name import and the shared code lives once in the primary FESM, so deduplication is deferred to the consumer's bundler. The outcome that matters (no duplication) holds.",
+    "Angular Material M3 prebuilt theme is 7.4 KB vs ~108 KB for the Material 2 per-component-CSS approach",
+    "Spike A (OBSERVED): tsserver 6.0.3 DOES offer auto-import from secondary entry points and inserts the correct deep specifier - angular/angular#40407 does not block ADR-004's entry-point granularity. The Angular Language Service template path remains UNVERIFIED.",
+    "Spike B (OBSERVED): @nx/angular 23.1.1 routes through @angular/build, not the deprecated @angular-devkit/build-angular - both library and app builds succeed with that package removed from disk.",
+    "Spike B (OBSERVED): Nx 23's default TypeScript setup (project references) is REFUSED by @nx/angular generators per angular/angular#37276 - TEKAD must scaffold on the legacy tsconfig.base.json + paths setup.",
+    "Spike B (OBSERVED): create-nx-workspace --preset=angular-monorepo now resolves to a fixed GitHub template and ignores --appName/--ssr/--routing - not usable as TEKAD's scaffold.",
+    "Spike B (OBSERVED): @nx/angular 23.1.1 pins Angular ~22.0.4 and installed 22.0.6; the P0/P1 gates were measured against 22.1.4, so Phase 1 must pin Angular explicitly after scaffolding."
+  ],
+  "prototypes": {
+    "P0_overlay": {
+      "status": "CLOSED - CONDITIONAL GO (architecture locked; overlay lifecycle contract defined; candidate implementation hardened; remaining browser/AT validation explicitly tracked)",
+      "date": "2026-08-27",
+      "artifact": "docs/research/prototypes/p0-overlay/",
+      "browserMatrix": {
+        "chromium": "naive PASS all, deferred PASS all",
+        "webkitgtk": "naive FAIL 0/9, deferred PASS 9/9 - WebKit evidence only, does NOT certify Safari",
+        "firefox": "UNVERIFIED - no Gecko runtime obtainable; no Gecko behaviour inferred from WebKit"
+      },
+      "hardening": {
+        "chromium": "cases 1-13 PASS",
+        "webkitgtk": "cases 1-7 PASS; case 8 (prefers-reduced-motion) UNVERIFIED - WebDriver has no media emulation; cases 9-13 PASS",
+        "firefox": "UNVERIFIED - not one case executed",
+        "case9b": "NOT APPLICABLE - deferred exit animation under popover=auto light-dismiss is structurally impossible"
+      },
+      "decision": "top-layer substrate (popover / dialog.showModal / inert) + deferred close as the single exit path; native CSS `overlay` and hybrid both rejected",
+      "popoverModeContract": {
+        "manual": "TEKAD owns dismissal -> deferred visual exit lifecycle GUARANTEED",
+        "auto": "browser owns light-dismiss -> TEKAD reconciles already-closed state -> deferred exit animation NOT promised"
+      },
+      "contract": "12 normative requirements in p0-report.md section H5",
+      "latentHazardFixed": "_hardReset set terminal state after the DOM close call; a synchronous toggle could have re-entered cleanup. Fixed + guard. NOTE: both engines delivered toggle asynchronously, so the recursive path was never triggered - the guard is defence-in-depth, not an observed fix.",
+      "harnessDefectsFound": 4,
+      "accessibility": "close intent / visual exit / actual close all OBSERVED; assistive-technology behaviour UNVERIFIED - no screen reader tested at any point. Generic aria-hidden rule removed as semantically wrong.",
+      "trackedSeparately": [
+        "Firefox/Gecko (whole matrix)",
+        "real Safari macOS+iOS",
+        "screen readers",
+        "prefers-reduced-motion in WebKit",
+        "synchronous toggle delivery",
+        "mobile virtual keyboard",
+        "showModal force-closing auto popovers"
+      ],
+      "reentrancy": {
+        "rootCause": "_hardReset assigned the terminal state AFTER the browser close operation, so _onToggle's `state !== closed` guard was ineffective during that window; a synchronously delivered toggle could re-enter cleanup",
+        "fix": "terminal state established before the close operation, plus a _resetting guard; close operation extracted to an injectable closeOp platform seam",
+        "proof": "reentrancy.test.mjs - 16/16 assertions, evidence class DEFENSIVE / SIMULATED (synchronous delivery simulated at the closeOp seam; NOT browser evidence)",
+        "control": "pre-fix ordering reproduced against a local replica and confirmed to re-enter, so the assertions are non-vacuous",
+        "browserObservation": "neither Chromium nor WebKitGTK delivers toggle synchronously; synchronous delivery by a real engine remains UNVERIFIED"
+      },
+      "secondOrderReview": {
+        "scope": "_onToggle, _hardReset, _finish, _clearPending, open, close reviewed as one state machine",
+        "concreteDefectsFound": 1,
+        "defect": "destroy() left the `closing` class on the element and state at 'closing', leaking visual exit state onto a DOM node that outlives the controller",
+        "fix": "destroy() removes the class and sets state to 'closed'; it deliberately does NOT close the element - unmounting is the caller's concern",
+        "redesign": "none - no other concrete defect found"
+      },
+      "evidenceLabels": [
+        "OBSERVED",
+        "PROVEN IMPLEMENTATION INVARIANT",
+        "DEFENSIVE / SIMULATED",
+        "UNVERIFIED"
+      ],
+      "singleSourceOfTruth": "deferred-overlay.mjs - imported by both harness4.html (browser) and reentrancy.test.mjs (state machine), so they cannot drift"
+    },
+    "P1_ariaGrid": {
+      "status": "CLOSED - GO (ADR-014 stands, one normative requirement added)",
+      "date": "2026-08-28",
+      "artifact": "docs/research/prototypes/p1-aria-grid/",
+      "environment": "Angular 22.1.x, @angular/aria 22.1.4, @angular/cdk 22.1.4, CLI 22.1.6 on Node 26.8.1, Chromium",
+      "pass": [
+        "static control",
+        "@for rows x @for cells (PRIMARY GATE)",
+        "ngTemplateOutlet declared inside the row",
+        "consumer-supplied template + insertion-site injector",
+        "cells with ngGridCellWidget"
+      ],
+      "fail": [
+        "ngTemplateOutlet declared outside the grid (GRID missing)",
+        "content projection across a component boundary (GRID_ROW missing)",
+        "ViewContainerRef.createEmbeddedView with an outside template (GRID missing)",
+        "consumer-supplied template without an injector (GRID_ROW missing)"
+      ],
+      "control": "cdk-table reproduced angular/components#32603 (GRID_ROW missing, 4 of 12 cells) - confirms the test is non-vacuous and validates TEKAD owning L3",
+      "rootCause": "Angular resolves directive DI by the template's DECLARATION site, not its DOM insertion point; embedded views inherit the declaration-site injector unless one is supplied",
+      "newRequirement": "consumer-supplied cell/column templates MUST be rendered with the row's insertion-site injector (ngTemplateOutletInjector / createEmbeddedView({injector})); without it cells silently fail to register - no build error, no visible cells. Cell API must be template-based, NOT content-projection-based.",
+      "methodologyDefect": "an NG0201 during change detection contaminated the next scenario; runner now reloads the page per scenario",
+      "unverified": [
+        "Firefox/Gecko",
+        "Safari",
+        "assistive technology",
+        "virtualization interaction",
+        "aria-rowcount/colcount under windowing",
+        "PageUp/PageDown and F2",
+        "selection semantics",
+        "RTL"
+      ]
+    },
+    "SpikeA_autoImport": {
+      "status": "CLOSED - Q1 RESOLVED, Q2 UNVERIFIED",
+      "date": "2026-08-28",
+      "artifact": "docs/research/prototypes/spike-a-autoimport/",
+      "gates": "ADR-004 (entry-point granularity, previously provisional)",
+      "method": "tsserver driven over its stdio protocol - the machinery VS Code runs - against a fixture whose exports map mirrors ng-packagr output, with a primary-entry-point-only CONTROL package in the same run",
+      "q1_typescriptAutoImport": {
+        "verdict": "SECONDARY ENTRY POINTS ARE OFFERED",
+        "typescript": "6.0.3",
+        "controlOffered": true,
+        "probeValid": true,
+        "insertedImport": "import { TekadButton } from \"@tekad/core/components/button\"",
+        "evidence": "OBSERVED"
+      },
+      "q2_angularLanguageService": {
+        "verdict": "UNVERIFIED - environment limitation, NOT evidence about angular/angular#40407",
+        "detail": "the plugin would not attach; completionInfo inside an inline template returned ZERO entries for the control as well, so no conclusion may be drawn either way",
+        "evidence": "UNVERIFIED"
+      },
+      "probeDefectFound": "a first probe used ts.createLanguageService and returned nothing INCLUDING for the control - a bare LanguageService only completes symbols already in the program; auto-import is tsserver's AutoImportProviderProject",
+      "residualRisk": "the selector-driven template convenience is unverified; if it does not work the consequence is a degraded convenience, not a broken workflow. Verify in a real VS Code / WebStorm session before promising it in DX docs."
+    },
+    "SpikeB_nxAngularBuild": {
+      "status": "CLOSED - GO (ADR-012 open item closed; three new Phase 1 constraints)",
+      "date": "2026-08-28",
+      "artifact": "docs/research/prototypes/spike-b-nx-angular-build/",
+      "gates": "ADR-012 (open item); additionally measures two ADR-004 assumptions",
+      "method": "a real Nx 23.1.1 workspace was built, a publishable library and an app generated, @angular-devkit/build-angular physically removed from node_modules, and both builds run. Source reading was used only to decide what to test.",
+      "packageManagerScope": "npm - ADR-012 mandates pnpm; the install-path observation must be re-measured under pnpm",
+      "versions": {
+        "node": "26.8.1",
+        "nx": "23.1.1",
+        "@nx/angular": "23.1.1",
+        "@angular/core": "22.0.6",
+        "@angular/build": "22.0.6",
+        "ng-packagr": "22.0.2",
+        "typescript": "6.0.3"
+      },
+      "q1_routing": {
+        "verdict": "@angular/build, NOT the deprecated builder",
+        "libraryBuildWithoutBuildAngular": "SUCCESS",
+        "appBuildWithoutBuildAngular": "SUCCESS",
+        "evidence": "OBSERVED"
+      },
+      "q2_stillInstalled": {
+        "verdict": "declared by the Nx Angular template and present as an optional peer under npm, but on no build path TEKAD uses",
+        "action": "do not declare it in Phase 1; assert its absence from the lockfile in CI"
+      },
+      "q3_tsSolutionSetup": {
+        "verdict": "Nx 23's default TS project-references setup is REFUSED by @nx/angular generators (angular/angular#37276)",
+        "action": "scaffold on the legacy tsconfig.base.json + paths setup; NX_IGNORE_UNSUPPORTED_TS_SETUP is not acceptable for a foundation",
+        "evidence": "OBSERVED"
+      },
+      "q4_presetFidelity": {
+        "verdict": "--preset=angular-monorepo resolves to a fixed GitHub template and ignored --appName/--ssr/--routing",
+        "action": "build from an empty workspace and add projects with generators",
+        "evidence": "OBSERVED"
+      },
+      "q5_angularPin": {
+        "verdict": "pins ~22.0.4, installed 22.0.6; gates were measured against 22.1.4",
+        "action": "explicit Angular pin step in Phase 1",
+        "evidence": "OBSERVED"
+      },
+      "q6_twoLevelEntryPoints": {
+        "verdict": "SUPPORTED - a hand-authored components/input/ entry point was auto-discovered by directory scan and emitted ./components/input in the exports map, with sideEffects:false and no wildcard subpath",
+        "note": "chains with Spike A: ng-packagr emits the map, tsserver resolves it",
+        "stockGenerator": "emits a FLAT one-level entry point containing an NgModule - wrong on both counts for TEKAD; a TEKAD generator is required",
+        "evidence": "OBSERVED"
+      },
+      "q7_crossEntryPointImports": {
+        "relative": "BUILD FAILS, but with an internal crash (Cannot destructure property 'pos' of 'file.referencedFiles[index]') rather than a readable diagnostic - add a lint rule so contributors get the readable error first",
+        "packageName": "BUILD SUCCEEDS with NO duplication; the shared symbol lives once in the primary FESM",
+        "evidence": "OBSERVED"
+      },
+      "q8_treeShaking": {
+        "verdict": "unused primary-entry-point code IS tree-shaken out of a consumer bundle that imports only a secondary entry point",
+        "method": "the BUILT package was installed into node_modules; a ballast symbol used by nothing was searched for in the production browser bundle",
+        "positiveControl": "the app was rebuilt with an explicit ballast import and the ballast appeared - probe valid",
+        "doesNotDischarge": "ADR-004's CI tree-shaking probe app remains required; one ballast symbol in one app shows the mechanism works, not that it holds for the real package graph",
+        "evidence": "OBSERVED"
+      },
+      "newPhase1WorkItems": [
+        "scaffold on the legacy TypeScript setup, not Nx 23's default",
+        "do not use the angular-monorepo preset",
+        "pin Angular explicitly after scaffolding (22.1.x)",
+        "write a TEKAD secondary-entry-point generator (standalone, two-level)",
+        "add a lint rule forbidding relative imports across entry-point boundaries",
+        "assert @angular-devkit/build-angular is absent from the lockfile",
+        "re-measure the optional-peer install path under pnpm"
+      ]
+    }
+  }
+}

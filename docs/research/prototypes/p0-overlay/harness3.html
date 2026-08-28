@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>TEKAD P0 harness</title>
+<style>
+  html,body { margin:0; height:100%; background:#000; overflow:hidden; }
+
+  /* Opaque, maximum-z-index, full-viewport cover.
+     Only genuine top-layer content can paint above it. This is the oracle. */
+  .cover { position:fixed; inset:0; z-index:2147483647; background:#0a3d1f; }
+
+  /* Ancestor under test. Modifiers are applied by T.setup(). */
+  .stage { position:absolute; left:14px; top:14px; width:190px; height:100px;
+           border:1px solid #333; }
+  .stage.a-transform      { transform: translateZ(0); }
+  .stage.a-overflowhidden { overflow: hidden; }
+  .stage.a-overflowclip   { overflow: clip; }
+  .stage.a-opacity        { opacity: .99; }
+  .stage.a-filter         { filter: blur(0px); }
+  .stage.a-containpaint   { contain: paint; }
+  .stage.a-willchange     { will-change: transform; }
+
+  /* Overlays. Fixed-positioned: in the top layer the containing block is the
+     viewport; when demoted it becomes the transformed/filtered ancestor. */
+  .ov { position:fixed; margin:0; border:0; padding:0;
+        width:300px; height:140px; box-sizing:border-box; }
+  .p-centre { left:50%; top:50%; translate:-50% -50%; }
+  /* `left:auto` is REQUIRED: the UA stylesheet for [popover] sets `inset:0`,
+     which would otherwise over-constrain the box and pin it to the left. */
+  .p-edge   { left:auto; right:0; top:50%; bottom:auto; translate:0 -50%; }
+
+  #pop  { background:#2b6cf6; }   /* outer   */
+  #pop2 { background:#f2b01e; width:180px; height:90px; }  /* nested inner */
+  #dlg  { background:#2b6cf6; }
+  #dlg::backdrop { background:transparent; }
+
+  /* Variant A — naive: rely on CSS `overlay` + allow-discrete.
+     Scale animates across the whole exit; opacity only collapses in the last
+     20ms so the sampled pixel stays saturated and the oracle is unambiguous. */
+  .naive { scale:1;
+    transition: scale 1200ms linear,
+                display 1200ms allow-discrete,
+                overlay 1200ms allow-discrete; }
+  .naive:not(:popover-open):not([open]) { scale:.92; }
+  @starting-style { .naive:popover-open, .naive[open] { scale:.92; } }
+
+  /* Variant B — deferred: element stays OPEN (therefore in the top layer)
+     for the entire animation; JS closes it only once the animation ends. */
+  .deferred { scale:1;
+    transition: scale 1200ms linear; }
+  .deferred.closing { scale:.92; }
+</style>
+</head>
+<body>
+<script>
+const COVER = Object.assign(document.createElement('div'), { className: 'cover' });
+document.body.appendChild(COVER);
+
+let stage, pop, pop2, dlg;
+
+function build({ ancestor = 'none', position = 'centre' } = {}) {
+  document.querySelectorAll('.stage').forEach(n => n.remove());
+  stage = document.createElement('div');
+  stage.className = 'stage';
+  for (const a of (ancestor === 'none' ? [] : ancestor.split('+'))) stage.classList.add('a-' + a);
+
+  pop  = Object.assign(document.createElement('div'), { id: 'pop',  className: 'ov p-' + position });
+  pop.setAttribute('popover', 'manual');
+  pop2 = Object.assign(document.createElement('div'), { id: 'pop2', className: 'ov p-' + position });
+  pop2.setAttribute('popover', 'manual');
+  dlg  = Object.assign(document.createElement('dialog'), { id: 'dlg', className: 'ov p-' + position });
+
+  stage.append(pop, pop2, dlg);
+  document.body.appendChild(stage);
+}
+build();
+
+const el = w => ({ popover: pop, popover2: pop2, dialog: dlg }[w]);
+
+function probe(w) {
+  const e = el(w), cs = getComputedStyle(e), r = e.getBoundingClientRect();
+  return {
+    display: cs.display,
+    overlay: cs.overlay ?? '(unsupported)',
+    rect: { x: Math.round(r.x), y: Math.round(r.y), w: Math.round(r.width), h: Math.round(r.height) },
+    // Top layer => containing block is the viewport => geometry matches the
+    // viewport-relative expectation. Demoted => reflows into .stage.
+    // Tolerance must absorb the scale animation (the box legitimately shrinks
+    // during the exit). It only needs to discriminate "positioned against the
+    // viewport" (~centre 450 / right ~890) from "demoted into .stage"
+    // (a 190px box at left:14 => centre ~109 / right ~204). 40px is ample.
+    positionedAgainstViewport: (() => {
+      const cls = e.className;
+      if (cls.includes('p-centre')) return Math.abs((r.x + r.width / 2) - innerWidth / 2) < 40 && r.width > 10;
+      return (innerWidth - r.right) < 40 && r.width > 10;   // p-edge
+    })(),
+    // Fully visible inside the viewport (not clipped away by an ancestor).
+    fullyOnScreen: r.width > 10 && r.height > 10 && r.right > 0 && r.bottom > 0
+                   && r.left < innerWidth && r.top < innerHeight,
+  };
+}
+
+window.T = {
+  capabilities: () => ({
+    popover: HTMLElement.prototype.hasOwnProperty('popover'),
+    showModal: typeof HTMLDialogElement !== 'undefined'
+      && typeof HTMLDialogElement.prototype.showModal === 'function',
+    cssOverlayProperty: CSS.supports('overlay', 'auto'),
+    transitionBehaviorAllowDiscrete: CSS.supports('transition-behavior', 'allow-discrete'),
+    startingStyle: (() => { try { const s = new CSSStyleSheet();
+      s.insertRule('@starting-style { .x { opacity:0 } }'); return true; } catch { return false; } })(),
+    inert: 'inert' in HTMLElement.prototype,
+  }),
+
+  setup: (opts) => { build(opts); return 1; },
+
+  // Where the driver should sample, if the element is in the top layer.
+  expectedPoint: (w) => {
+    const e = el(w);
+    return e.className.includes('p-centre')
+      ? { x: Math.round(innerWidth / 2), y: Math.round(innerHeight / 2) }
+      : { x: Math.round(innerWidth - 60), y: Math.round(innerHeight / 2) };
+  },
+
+  reset: () => {
+    for (const w of ['popover', 'popover2', 'dialog']) {
+      const e = el(w);
+      try { e.hidePopover?.(); } catch {}
+      try { e.close?.(); } catch {}
+      e.classList.remove('naive', 'deferred', 'closing');
+      e.style.display = 'none';
+    }
+    return 1;
+  },
+
+  open: (w, variant) => {
+    const e = el(w);
+    e.style.display = '';
+    e.classList.remove('naive', 'deferred', 'closing');
+    e.classList.add(variant);
+    if (w === 'dialog') e.showModal(); else e.showPopover();
+    return 1;
+  },
+
+  startExit: (w, variant) => {
+    const e = el(w);
+    if (variant === 'naive') { if (w === 'dialog') e.close(); else e.hidePopover(); }
+    else e.classList.add('closing');
+    return 1;
+  },
+
+  finishDeferred: (w) => {
+    const e = el(w);
+    if (w === 'dialog') e.close(); else e.hidePopover();
+    return 1;
+  },
+
+  markExitStart: () => { window.__t0 = performance.now(); return 1; },
+  elapsed: () => Math.round(performance.now() - (window.__t0 ?? performance.now())),
+
+  probe,
+  isGone: (w) => { const p = probe(w); return p.display === 'none' || !p.fullyOnScreen; },
+};
+document.title = 'READY';
+</script>
+</body>
+</html>

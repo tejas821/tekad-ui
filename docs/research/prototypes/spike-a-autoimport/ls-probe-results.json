@@ -1,0 +1,22 @@
+{
+  "question": "Does the Angular Language Service offer a component from a SECONDARY entry point in a template, and auto-add the import?",
+  "method": "tsserver + @angular/language-service plugin; completionInfo inside an inline template, then completionEntryDetails for the code action",
+  "angularLanguageServiceLoaded": false,
+  "control_primaryEntryPoint": {
+    "totalEntries": 0,
+    "sampleEntryNames": [],
+    "matched": [],
+    "offered": false,
+    "codeActions": []
+  },
+  "secondaryEntryPoint": {
+    "totalEntries": 0,
+    "sampleEntryNames": [],
+    "matched": [],
+    "offered": false,
+    "codeActions": []
+  },
+  "probeValid": false,
+  "verdict": "PROBE INVALID — the Angular language service plugin did not load",
+  "stderrSample": ""
+}

@@ -1,0 +1,6052 @@
+{
+  "generatedAt": "2026-08-27T17:32:33.777Z",
+  "exitDurationMs": 1200,
+  "exitSampleTimesMs": [
+    0,
+    150,
+    400,
+    750,
+    1100
+  ],
+  "postCloseCheckMs": 1500,
+  "chromium": {
+    "engine": "Chromium (Playwright build 1194, headless)",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.0.0 Safari/537.36",
+    "capabilities": {
+      "popover": true,
+      "showModal": true,
+      "cssOverlayProperty": true,
+      "transitionBehaviorAllowDiscrete": true,
+      "startingStyle": true,
+      "inert": true
+    },
+    "core": [
+      {
+        "scenario": "popover/naive/ancestor=transform+overflowhidden+filter/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 102,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 308,
+              "y": 234,
+              "w": 284,
+              "h": 132
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 344,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 311,
+              "y": 235,
+              "w": 279,
+              "h": 130
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 666,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 1065,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1461,
+            "withinTransition": false,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": false,
+            "fullyOnScreen": false,
+            "overlay": "none",
+            "display": "none",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/deferred/ancestor=transform+overflowhidden+filter/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 57,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 300,
+              "y": 230,
+              "w": 299,
+              "h": 140
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 246,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 302,
+              "y": 231,
+              "w": 296,
+              "h": 138
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 576,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 306,
+              "y": 233,
+              "w": 289,
+              "h": 135
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 987,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 310,
+              "y": 235,
+              "w": 281,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1382,
+            "withinTransition": false,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "dialog/naive/ancestor=transform+overflowhidden+filter/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 70,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 308,
+              "y": 234,
+              "w": 283,
+              "h": 132
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 262,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 310,
+              "y": 235,
+              "w": 280,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 571,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 963,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1371,
+            "withinTransition": false,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": false,
+            "fullyOnScreen": false,
+            "overlay": "none",
+            "display": "none",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "dialog/deferred/ancestor=transform+overflowhidden+filter/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 64,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 300,
+              "y": 230,
+              "w": 299,
+              "h": 140
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 272,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 303,
+              "y": 231,
+              "w": 295,
+              "h": 138
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 562,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 305,
+              "y": 233,
+              "w": 289,
+              "h": 135
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 968,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 310,
+              "y": 235,
+              "w": 281,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1358,
+            "withinTransition": false,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          }
+        ]
+      }
+    ],
+    "ancestorSweep": [
+      {
+        "scenario": "popover/naive/ancestor=none/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 50,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 309,
+              "y": 234,
+              "w": 283,
+              "h": 132
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 255,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 311,
+              "y": 235,
+              "w": 279,
+              "h": 130
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 553,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 950,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1335,
+            "withinTransition": false,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": false,
+            "fullyOnScreen": false,
+            "overlay": "none",
+            "display": "none",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/deferred/ancestor=none/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 46,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 300,
+              "y": 230,
+              "w": 299,
+              "h": 140
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 247,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 302,
+              "y": 231,
+              "w": 295,
+              "h": 138
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 549,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 305,
+              "y": 232,
+              "w": 289,
+              "h": 135
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 960,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 309,
+              "y": 234,
+              "w": 281,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1348,
+            "withinTransition": false,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/naive/ancestor=transform/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 53,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 308,
+              "y": 234,
+              "w": 283,
+              "h": 132
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 243,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 310,
+              "y": 235,
+              "w": 280,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 543,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 948,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1343,
+            "withinTransition": false,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": false,
+            "fullyOnScreen": false,
+            "overlay": "none",
+            "display": "none",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/deferred/ancestor=transform/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 38,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 300,
+              "y": 230,
+              "w": 300,
+              "h": 140
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 243,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 302,
+              "y": 231,
+              "w": 296,
+              "h": 138
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 545,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 305,
+              "y": 232,
+              "w": 290,
+              "h": 135
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 941,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 309,
+              "y": 234,
+              "w": 282,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1329,
+            "withinTransition": false,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/naive/ancestor=overflowhidden/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 46,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 308,
+              "y": 234,
+              "w": 284,
+              "h": 133
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 248,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 310,
+              "y": 235,
+              "w": 280,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 547,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 943,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1342,
+            "withinTransition": false,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": false,
+            "fullyOnScreen": false,
+            "overlay": "none",
+            "display": "none",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/deferred/ancestor=overflowhidden/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 73,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 300,
+              "y": 230,
+              "w": 299,
+              "h": 140
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 268,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 303,
+              "y": 231,
+              "w": 295,
+              "h": 138
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 568,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 306,
+              "y": 233,
+              "w": 289,
+              "h": 135
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 965,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 309,
+              "y": 234,
+              "w": 281,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1361,
+            "withinTransition": false,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/naive/ancestor=overflowclip/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 48,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 308,
+              "y": 234,
+              "w": 284,
+              "h": 133
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 254,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 310,
+              "y": 235,
+              "w": 280,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 551,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 951,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1336,
+            "withinTransition": false,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": false,
+            "fullyOnScreen": false,
+            "overlay": "none",
+            "display": "none",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/deferred/ancestor=overflowclip/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 38,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 300,
+              "y": 230,
+              "w": 300,
+              "h": 140
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 233,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 302,
+              "y": 231,
+              "w": 296,
+              "h": 138
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 524,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 305,
+              "y": 232,
+              "w": 290,
+              "h": 135
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 923,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 309,
+              "y": 234,
+              "w": 282,
+              "h": 132
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1324,
+            "withinTransition": false,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/naive/ancestor=opacity/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 50,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 308,
+              "y": 234,
+              "w": 284,
+              "h": 133
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 254,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 310,
+              "y": 235,
+              "w": 280,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 553,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 953,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1351,
+            "withinTransition": false,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": false,
+            "fullyOnScreen": false,
+            "overlay": "none",
+            "display": "none",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/deferred/ancestor=opacity/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 51,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 300,
+              "y": 230,
+              "w": 299,
+              "h": 140
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 251,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 302,
+              "y": 231,
+              "w": 295,
+              "h": 138
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 556,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 305,
+              "y": 233,
+              "w": 289,
+              "h": 135
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 955,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 309,
+              "y": 234,
+              "w": 281,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1341,
+            "withinTransition": false,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/naive/ancestor=filter/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 38,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 308,
+              "y": 234,
+              "w": 284,
+              "h": 133
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 243,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 310,
+              "y": 235,
+              "w": 280,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 559,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 954,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1339,
+            "withinTransition": false,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": false,
+            "fullyOnScreen": false,
+            "overlay": "none",
+            "display": "none",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/deferred/ancestor=filter/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 41,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 300,
+              "y": 230,
+              "w": 300,
+              "h": 140
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 243,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 302,
+              "y": 231,
+              "w": 295,
+              "h": 138
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 538,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 305,
+              "y": 232,
+              "w": 290,
+              "h": 135
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 940,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 309,
+              "y": 234,
+              "w": 282,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1335,
+            "withinTransition": false,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/naive/ancestor=containpaint/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 55,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 308,
+              "y": 234,
+              "w": 284,
+              "h": 133
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 254,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 310,
+              "y": 235,
+              "w": 280,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 553,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 967,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1355,
+            "withinTransition": false,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": false,
+            "fullyOnScreen": false,
+            "overlay": "none",
+            "display": "none",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/deferred/ancestor=containpaint/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 43,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 300,
+              "y": 230,
+              "w": 300,
+              "h": 140
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 254,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 302,
+              "y": 231,
+              "w": 295,
+              "h": 138
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 545,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 305,
+              "y": 232,
+              "w": 290,
+              "h": 135
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 942,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 309,
+              "y": 234,
+              "w": 282,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1337,
+            "withinTransition": false,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/naive/ancestor=willchange/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 46,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 308,
+              "y": 234,
+              "w": 284,
+              "h": 133
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 248,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 310,
+              "y": 235,
+              "w": 280,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 552,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 945,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1332,
+            "withinTransition": false,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": false,
+            "fullyOnScreen": false,
+            "overlay": "none",
+            "display": "none",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/deferred/ancestor=willchange/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 42,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 300,
+              "y": 230,
+              "w": 299,
+              "h": 140
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 242,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 303,
+              "y": 231,
+              "w": 295,
+              "h": 138
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 569,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 306,
+              "y": 233,
+              "w": 289,
+              "h": 135
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 971,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 310,
+              "y": 235,
+              "w": 281,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1362,
+            "withinTransition": false,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/naive/ancestor=transform+overflowhidden+filter/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 55,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 308,
+              "y": 234,
+              "w": 284,
+              "h": 133
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 248,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 310,
+              "y": 235,
+              "w": 280,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 549,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 965,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1359,
+            "withinTransition": false,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": false,
+            "fullyOnScreen": false,
+            "overlay": "none",
+            "display": "none",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/deferred/ancestor=transform+overflowhidden+filter/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 50,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 300,
+              "y": 230,
+              "w": 300,
+              "h": 140
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 255,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 302,
+              "y": 231,
+              "w": 296,
+              "h": 138
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 565,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 305,
+              "y": 232,
+              "w": 289,
+              "h": 135
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 972,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 310,
+              "y": 234,
+              "w": 281,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1358,
+            "withinTransition": false,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          }
+        ]
+      }
+    ],
+    "edge": [
+      {
+        "scenario": "popover/naive/ancestor=transform+overflowhidden/pos=edge",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 55,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 608,
+              "y": 234,
+              "w": 283,
+              "h": 132
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 246,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 610,
+              "y": 235,
+              "w": 280,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 566,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 612,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 966,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 612,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1368,
+            "withinTransition": false,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": false,
+            "fullyOnScreen": false,
+            "overlay": "none",
+            "display": "none",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/deferred/ancestor=transform+overflowhidden/pos=edge",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 76,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 600,
+              "y": 230,
+              "w": 299,
+              "h": 140
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 267,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 603,
+              "y": 231,
+              "w": 295,
+              "h": 138
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 567,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 605,
+              "y": 233,
+              "w": 289,
+              "h": 135
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 967,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 609,
+              "y": 234,
+              "w": 281,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1360,
+            "withinTransition": false,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "auto",
+            "display": "block",
+            "rect": {
+              "x": 612,
+              "y": 236,
+              "w": 276,
+              "h": 129
+            }
+          }
+        ]
+      }
+    ],
+    "nested": [
+      {
+        "scenario": "nested/naive",
+        "outerOpenedOnTop": true,
+        "innerStackedAboveOuter": true,
+        "innerHeldDuringExit": true,
+        "outerSurvivedInnerClose": true,
+        "outerHeldDuringExit": true,
+        "allClosedAtEnd": true,
+        "PASS": true,
+        "innerExit": [
+          {
+            "tMs": 60,
+            "rgb": [
+              242,
+              176,
+              30
+            ],
+            "verdict": "ON_TOP",
+            "dExpect": 0,
+            "dCover": 259
+          },
+          {
+            "tMs": 350,
+            "rgb": [
+              242,
+              176,
+              30
+            ],
+            "verdict": "ON_TOP",
+            "dExpect": 0,
+            "dCover": 259
+          },
+          {
+            "tMs": 800,
+            "rgb": [
+              242,
+              176,
+              30
+            ],
+            "verdict": "ON_TOP",
+            "dExpect": 0,
+            "dCover": 259
+          }
+        ],
+        "outerExit": [
+          {
+            "tMs": 60,
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "verdict": "ON_TOP",
+            "dExpect": 0,
+            "dCover": 223
+          },
+          {
+            "tMs": 350,
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "verdict": "ON_TOP",
+            "dExpect": 0,
+            "dCover": 223
+          },
+          {
+            "tMs": 800,
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "verdict": "ON_TOP",
+            "dExpect": 0,
+            "dCover": 223
+          }
+        ]
+      },
+      {
+        "scenario": "nested/deferred",
+        "outerOpenedOnTop": true,
+        "innerStackedAboveOuter": true,
+        "innerHeldDuringExit": true,
+        "outerSurvivedInnerClose": true,
+        "outerHeldDuringExit": true,
+        "allClosedAtEnd": true,
+        "PASS": true,
+        "innerExit": [
+          {
+            "tMs": 60,
+            "rgb": [
+              242,
+              176,
+              30
+            ],
+            "verdict": "ON_TOP",
+            "dExpect": 0,
+            "dCover": 259
+          },
+          {
+            "tMs": 350,
+            "rgb": [
+              242,
+              176,
+              30
+            ],
+            "verdict": "ON_TOP",
+            "dExpect": 0,
+            "dCover": 259
+          },
+          {
+            "tMs": 800,
+            "rgb": [
+              242,
+              176,
+              30
+            ],
+            "verdict": "ON_TOP",
+            "dExpect": 0,
+            "dCover": 259
+          }
+        ],
+        "outerExit": [
+          {
+            "tMs": 60,
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "verdict": "ON_TOP",
+            "dExpect": 0,
+            "dCover": 223
+          },
+          {
+            "tMs": 350,
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "verdict": "ON_TOP",
+            "dExpect": 0,
+            "dCover": 223
+          },
+          {
+            "tMs": 800,
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "verdict": "ON_TOP",
+            "dExpect": 0,
+            "dCover": 223
+          }
+        ]
+      }
+    ]
+  },
+  "firefox": {
+    "engine": "Firefox / Gecko",
+    "status": "UNVERIFIED — no Gecko runtime is obtainable in this environment",
+    "note": "WebKitGTK results say nothing about Gecko. No Firefox behaviour is inferred anywhere in this report.",
+    "routesAttempted": [
+      "npx playwright install firefox -> HTTP 403, playwright.download.prss.microsoft.com not on the egress allowlist",
+      "ftp.mozilla.org, archive.mozilla.org, download.mozilla.org, releases.mozilla.org, product-details.mozilla.org -> all refused by proxy (000)",
+      "packages.mozilla.org apt repository -> blocked",
+      "ppa.launchpadcontent.net (mozillateam PPA) and launchpad.net -> blocked",
+      "snapcraft.io and api.snapcraft.io -> blocked",
+      "apt-get install firefox on Ubuntu 24.04 -> 1:1snap1-0ubuntu5, a snap transitional stub containing no binary",
+      "apt-cache search firefox|gecko|xulrunner|iceweasel -> only snap transitional stubs",
+      "no pre-existing browser binary on the cloud container",
+      "user's device VM via device_bash -> no browser installed; the same Mozilla hosts are blocked there too"
+    ]
+  },
+  "webkitgtk": {
+    "engine": "WebKitGTK 2.52.3 via WebKitWebDriver — WEBKIT EVIDENCE ONLY, not Safari certification",
+    "userAgent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/60.5 Safari/605.1.15",
+    "capabilities": {
+      "popover": true,
+      "showModal": true,
+      "cssOverlayProperty": false,
+      "transitionBehaviorAllowDiscrete": true,
+      "startingStyle": true,
+      "inert": true
+    },
+    "core": [
+      {
+        "scenario": "popover/naive/ancestor=transform+overflowhidden+filter/pos=centre",
+        "openedOnTop": false,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": false,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": false,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": false,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 109,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 319,
+              "y": 228,
+              "w": 289,
+              "h": 135
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 382,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 322,
+              "y": 229,
+              "w": 284,
+              "h": 132
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 755,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 326,
+              "y": 230,
+              "w": 277,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 1155,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 326,
+              "y": 231,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1581,
+            "withinTransition": false,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": false,
+            "fullyOnScreen": false,
+            "overlay": "(unsupported)",
+            "display": "none",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/deferred/ancestor=transform+overflowhidden+filter/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 94,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 301,
+              "y": 211,
+              "w": 299,
+              "h": 139
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 313,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 303,
+              "y": 212,
+              "w": 294,
+              "h": 137
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 621,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 306,
+              "y": 214,
+              "w": 288,
+              "h": 134
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 1037,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 310,
+              "y": 216,
+              "w": 280,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1437,
+            "withinTransition": false,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 217,
+              "w": 276,
+              "h": 129
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "dialog/naive/ancestor=transform+overflowhidden+filter/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": false,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": false,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": false,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 68,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 321,
+              "y": 228,
+              "w": 287,
+              "h": 134
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 272,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 323,
+              "y": 229,
+              "w": 282,
+              "h": 132
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 585,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 326,
+              "y": 231,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 990,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 326,
+              "y": 231,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1383,
+            "withinTransition": false,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": false,
+            "fullyOnScreen": false,
+            "overlay": "(unsupported)",
+            "display": "none",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "dialog/deferred/ancestor=transform+overflowhidden+filter/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 53,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 300,
+              "y": 211,
+              "w": 299,
+              "h": 140
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 263,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 303,
+              "y": 212,
+              "w": 295,
+              "h": 138
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 575,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 306,
+              "y": 214,
+              "w": 289,
+              "h": 135
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 968,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 310,
+              "y": 215,
+              "w": 281,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1378,
+            "withinTransition": false,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 217,
+              "w": 276,
+              "h": 129
+            }
+          }
+        ]
+      }
+    ],
+    "ancestorSweep": [
+      {
+        "scenario": "popover/naive/ancestor=none/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": false,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": false,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": false,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 65,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 308,
+              "y": 215,
+              "w": 284,
+              "h": 132
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 309,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 311,
+              "y": 216,
+              "w": 279,
+              "h": 130
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 598,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 217,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 989,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 217,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1377,
+            "withinTransition": false,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": false,
+            "fullyOnScreen": false,
+            "overlay": "(unsupported)",
+            "display": "none",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/deferred/ancestor=none/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 47,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 300,
+              "y": 211,
+              "w": 299,
+              "h": 140
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 245,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 302,
+              "y": 212,
+              "w": 295,
+              "h": 138
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 578,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 306,
+              "y": 214,
+              "w": 289,
+              "h": 135
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 994,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 310,
+              "y": 216,
+              "w": 280,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1388,
+            "withinTransition": false,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 217,
+              "w": 276,
+              "h": 129
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/naive/ancestor=transform/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": false,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": false,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": false,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 51,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 322,
+              "y": 229,
+              "w": 284,
+              "h": 133
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 266,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 324,
+              "y": 230,
+              "w": 280,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 585,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 326,
+              "y": 231,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 978,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 326,
+              "y": 231,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1372,
+            "withinTransition": false,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": false,
+            "fullyOnScreen": false,
+            "overlay": "(unsupported)",
+            "display": "none",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/deferred/ancestor=transform/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 92,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 301,
+              "y": 211,
+              "w": 299,
+              "h": 139
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 297,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 303,
+              "y": 212,
+              "w": 294,
+              "h": 137
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 602,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 306,
+              "y": 214,
+              "w": 288,
+              "h": 134
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 1022,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 310,
+              "y": 216,
+              "w": 280,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1414,
+            "withinTransition": false,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 217,
+              "w": 276,
+              "h": 129
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/naive/ancestor=overflowhidden/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": false,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": false,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": false,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 74,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 308,
+              "y": 215,
+              "w": 284,
+              "h": 132
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 285,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 310,
+              "y": 216,
+              "w": 279,
+              "h": 130
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 578,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 217,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 976,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 217,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1390,
+            "withinTransition": false,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": false,
+            "fullyOnScreen": false,
+            "overlay": "(unsupported)",
+            "display": "none",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/deferred/ancestor=overflowhidden/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 69,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 301,
+              "y": 211,
+              "w": 299,
+              "h": 139
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 302,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 303,
+              "y": 212,
+              "w": 295,
+              "h": 138
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 613,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 306,
+              "y": 214,
+              "w": 288,
+              "h": 134
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 1011,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 310,
+              "y": 216,
+              "w": 280,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1400,
+            "withinTransition": false,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 217,
+              "w": 276,
+              "h": 129
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/naive/ancestor=overflowclip/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": false,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": false,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": false,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 64,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 308,
+              "y": 215,
+              "w": 284,
+              "h": 133
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 314,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 310,
+              "y": 216,
+              "w": 279,
+              "h": 130
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 610,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 217,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 1001,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 217,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1392,
+            "withinTransition": false,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": false,
+            "fullyOnScreen": false,
+            "overlay": "(unsupported)",
+            "display": "none",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/deferred/ancestor=overflowclip/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 86,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 301,
+              "y": 211,
+              "w": 299,
+              "h": 139
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 289,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 303,
+              "y": 212,
+              "w": 295,
+              "h": 138
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 588,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 306,
+              "y": 214,
+              "w": 289,
+              "h": 135
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 989,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 310,
+              "y": 216,
+              "w": 281,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1403,
+            "withinTransition": false,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 217,
+              "w": 276,
+              "h": 129
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/naive/ancestor=opacity/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": false,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": false,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": false,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 74,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 308,
+              "y": 215,
+              "w": 284,
+              "h": 132
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 281,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 310,
+              "y": 216,
+              "w": 279,
+              "h": 130
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 574,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 217,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 969,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 217,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1361,
+            "withinTransition": false,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": false,
+            "fullyOnScreen": false,
+            "overlay": "(unsupported)",
+            "display": "none",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/deferred/ancestor=opacity/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 51,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 300,
+              "y": 211,
+              "w": 299,
+              "h": 140
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 255,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 303,
+              "y": 212,
+              "w": 295,
+              "h": 138
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 607,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 306,
+              "y": 214,
+              "w": 288,
+              "h": 134
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 1004,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 310,
+              "y": 216,
+              "w": 280,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1397,
+            "withinTransition": false,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 217,
+              "w": 276,
+              "h": 129
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/naive/ancestor=filter/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": false,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": false,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": false,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 74,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 322,
+              "y": 229,
+              "w": 284,
+              "h": 132
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 284,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 324,
+              "y": 230,
+              "w": 279,
+              "h": 130
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 580,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 326,
+              "y": 231,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 982,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 326,
+              "y": 231,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1395,
+            "withinTransition": false,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": false,
+            "fullyOnScreen": false,
+            "overlay": "(unsupported)",
+            "display": "none",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/deferred/ancestor=filter/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 48,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 300,
+              "y": 211,
+              "w": 299,
+              "h": 140
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 267,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 303,
+              "y": 212,
+              "w": 295,
+              "h": 138
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 563,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 306,
+              "y": 214,
+              "w": 289,
+              "h": 135
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 975,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 310,
+              "y": 216,
+              "w": 281,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1380,
+            "withinTransition": false,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 217,
+              "w": 276,
+              "h": 129
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/naive/ancestor=containpaint/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": false,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": false,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": false,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 63,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 322,
+              "y": 229,
+              "w": 284,
+              "h": 132
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 285,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 324,
+              "y": 230,
+              "w": 279,
+              "h": 130
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 576,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 326,
+              "y": 231,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 975,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 326,
+              "y": 231,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1371,
+            "withinTransition": false,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": false,
+            "fullyOnScreen": false,
+            "overlay": "(unsupported)",
+            "display": "none",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/deferred/ancestor=containpaint/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 47,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 300,
+              "y": 211,
+              "w": 299,
+              "h": 140
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 251,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 302,
+              "y": 212,
+              "w": 295,
+              "h": 138
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 549,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 305,
+              "y": 214,
+              "w": 289,
+              "h": 135
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 947,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 309,
+              "y": 215,
+              "w": 281,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1365,
+            "withinTransition": false,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 217,
+              "w": 276,
+              "h": 129
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/naive/ancestor=willchange/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": false,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": false,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": false,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 76,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 322,
+              "y": 229,
+              "w": 284,
+              "h": 132
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 294,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 325,
+              "y": 230,
+              "w": 279,
+              "h": 130
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 588,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 326,
+              "y": 231,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 1014,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 326,
+              "y": 231,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1407,
+            "withinTransition": false,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": false,
+            "fullyOnScreen": false,
+            "overlay": "(unsupported)",
+            "display": "none",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/deferred/ancestor=willchange/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 48,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 300,
+              "y": 211,
+              "w": 299,
+              "h": 140
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 257,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 303,
+              "y": 212,
+              "w": 295,
+              "h": 138
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 572,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 306,
+              "y": 214,
+              "w": 289,
+              "h": 135
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 975,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 310,
+              "y": 216,
+              "w": 281,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1366,
+            "withinTransition": false,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 217,
+              "w": 276,
+              "h": 129
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/naive/ancestor=transform+overflowhidden+filter/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": false,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": false,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": false,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 66,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 322,
+              "y": 229,
+              "w": 284,
+              "h": 133
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 311,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 324,
+              "y": 230,
+              "w": 280,
+              "h": 130
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 606,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 326,
+              "y": 231,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 1011,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 326,
+              "y": 231,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1416,
+            "withinTransition": false,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": false,
+            "fullyOnScreen": false,
+            "overlay": "(unsupported)",
+            "display": "none",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/deferred/ancestor=transform+overflowhidden+filter/pos=centre",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 65,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 301,
+              "y": 211,
+              "w": 299,
+              "h": 139
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 280,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 303,
+              "y": 212,
+              "w": 294,
+              "h": 137
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 597,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 306,
+              "y": 214,
+              "w": 289,
+              "h": 135
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 1010,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 310,
+              "y": 216,
+              "w": 280,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1415,
+            "withinTransition": false,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 312,
+              "y": 217,
+              "w": 276,
+              "h": 129
+            }
+          }
+        ]
+      }
+    ],
+    "edge": [
+      {
+        "scenario": "popover/naive/ancestor=transform+overflowhidden/pos=edge",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": false,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": false,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": false,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 67,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 622,
+              "y": 229,
+              "w": 284,
+              "h": 132
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 284,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 625,
+              "y": 230,
+              "w": 279,
+              "h": 130
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 574,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 626,
+              "y": 231,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 969,
+            "withinTransition": true,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 626,
+              "y": 231,
+              "w": 276,
+              "h": 129
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1360,
+            "withinTransition": false,
+            "pixel": "COVERED",
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "positionedAgainstViewport": false,
+            "fullyOnScreen": false,
+            "overlay": "(unsupported)",
+            "display": "none",
+            "rect": {
+              "x": 0,
+              "y": 0,
+              "w": 0,
+              "h": 0
+            }
+          }
+        ]
+      },
+      {
+        "scenario": "popover/deferred/ancestor=transform+overflowhidden/pos=edge",
+        "openedOnTop": true,
+        "fullyOpenOnTop": true,
+        "heldTopLayerThroughoutExit": true,
+        "samplesInsideTransitionWindow": 4,
+        "pixelOracleHeld": true,
+        "geometryOracleHeld": true,
+        "actuallyClosed": true,
+        "PASS": true,
+        "exitSamples": [
+          {
+            "targetMs": 0,
+            "elapsedMs": 78,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 601,
+              "y": 211,
+              "w": 299,
+              "h": 139
+            }
+          },
+          {
+            "targetMs": 150,
+            "elapsedMs": 283,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 603,
+              "y": 212,
+              "w": 294,
+              "h": 137
+            }
+          },
+          {
+            "targetMs": 400,
+            "elapsedMs": 577,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 606,
+              "y": 214,
+              "w": 289,
+              "h": 135
+            }
+          },
+          {
+            "targetMs": 750,
+            "elapsedMs": 976,
+            "withinTransition": true,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 610,
+              "y": 216,
+              "w": 281,
+              "h": 131
+            }
+          },
+          {
+            "targetMs": 1100,
+            "elapsedMs": 1388,
+            "withinTransition": false,
+            "pixel": "ON_TOP",
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "positionedAgainstViewport": true,
+            "fullyOnScreen": true,
+            "overlay": "(unsupported)",
+            "display": "block",
+            "rect": {
+              "x": 612,
+              "y": 217,
+              "w": 276,
+              "h": 129
+            }
+          }
+        ]
+      }
+    ],
+    "nested": [
+      {
+        "scenario": "nested/naive",
+        "outerOpenedOnTop": true,
+        "innerStackedAboveOuter": true,
+        "innerHeldDuringExit": false,
+        "outerSurvivedInnerClose": true,
+        "outerHeldDuringExit": false,
+        "allClosedAtEnd": true,
+        "PASS": false,
+        "innerExit": [
+          {
+            "tMs": 60,
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "verdict": "COVERED",
+            "dExpect": 301,
+            "dCover": 223
+          },
+          {
+            "tMs": 350,
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "verdict": "COVERED",
+            "dExpect": 301,
+            "dCover": 223
+          },
+          {
+            "tMs": 800,
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "verdict": "COVERED",
+            "dExpect": 301,
+            "dCover": 223
+          }
+        ],
+        "outerExit": [
+          {
+            "tMs": 60,
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "verdict": "COVERED",
+            "dExpect": 223,
+            "dCover": 0
+          },
+          {
+            "tMs": 350,
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "verdict": "COVERED",
+            "dExpect": 223,
+            "dCover": 0
+          },
+          {
+            "tMs": 800,
+            "rgb": [
+              10,
+              61,
+              31
+            ],
+            "verdict": "COVERED",
+            "dExpect": 223,
+            "dCover": 0
+          }
+        ]
+      },
+      {
+        "scenario": "nested/deferred",
+        "outerOpenedOnTop": true,
+        "innerStackedAboveOuter": true,
+        "innerHeldDuringExit": true,
+        "outerSurvivedInnerClose": true,
+        "outerHeldDuringExit": true,
+        "allClosedAtEnd": true,
+        "PASS": true,
+        "innerExit": [
+          {
+            "tMs": 60,
+            "rgb": [
+              242,
+              176,
+              30
+            ],
+            "verdict": "ON_TOP",
+            "dExpect": 0,
+            "dCover": 259
+          },
+          {
+            "tMs": 350,
+            "rgb": [
+              242,
+              176,
+              30
+            ],
+            "verdict": "ON_TOP",
+            "dExpect": 0,
+            "dCover": 259
+          },
+          {
+            "tMs": 800,
+            "rgb": [
+              242,
+              176,
+              30
+            ],
+            "verdict": "ON_TOP",
+            "dExpect": 0,
+            "dCover": 259
+          }
+        ],
+        "outerExit": [
+          {
+            "tMs": 60,
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "verdict": "ON_TOP",
+            "dExpect": 0,
+            "dCover": 223
+          },
+          {
+            "tMs": 350,
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "verdict": "ON_TOP",
+            "dExpect": 0,
+            "dCover": 223
+          },
+          {
+            "tMs": 800,
+            "rgb": [
+              43,
+              108,
+              246
+            ],
+            "verdict": "ON_TOP",
+            "dExpect": 0,
+            "dCover": 223
+          }
+        ]
+      }
+    ]
+  }
+}

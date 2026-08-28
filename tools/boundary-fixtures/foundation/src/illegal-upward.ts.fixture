@@ -1,0 +1,5 @@
+// ILLEGAL: layer:foundation may only depend on layer:foundation.
+// boundary-fixture-charts is layer:integration, and does not import back, so
+// this is a pure upward-dependency violation rather than a cycle.
+import type { ChartsFixture } from '@tekad/boundary-fixture-charts';
+export type Broken = ChartsFixture;

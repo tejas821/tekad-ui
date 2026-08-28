@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>TEKAD P0 hardening harness</title>
+<style>
+  html,body { margin:0; height:100%; background:#000; overflow:hidden; }
+  .cover { position:fixed; inset:0; z-index:2147483647; background:#0a3d1f; }
+
+  /* Hostile ancestor, as in the validated matrix. */
+  .stage { position:absolute; left:14px; top:14px; width:190px; height:100px;
+           overflow:hidden; transform:translateZ(0); border:1px solid #333; }
+
+  #trigger { position:fixed; left:8px; bottom:8px; z-index:10; }
+
+  .ov { position:fixed; left:50%; top:50%; translate:-50% -50%;
+        width:300px; height:140px; margin:0; border:0; padding:0;
+        background:#2b6cf6; box-sizing:border-box; }
+  dialog.ov::backdrop { background:transparent; }
+
+  /* EXIT animation. `scale` is the intended exit property.
+     `background-color` is a DECOY with a much shorter duration: a naive
+     implementation that resolves on any transitionend would finish early. */
+  .ov {
+    scale: 1;
+    transition: scale var(--exit-dur, 1200ms) linear var(--exit-delay, 0ms),
+                background-color 80ms linear;
+  }
+  .ov.closing { scale: .92; background-color: #2f74ff; }
+
+  /* Case 4/8: zero-duration and reduced-motion configurations. */
+  .dur-zero  { --exit-dur: 0ms; }
+  .dur-short { --exit-dur: 60ms; }
+
+  /* Case 13: transition-declaration shapes the duration parser must survive. */
+  .cfg-all        { transition: all 300ms linear; }
+  .cfg-delay      { transition: scale 200ms linear 100ms; }
+  .cfg-seconds    { transition: scale 0.5s linear; }
+  .cfg-noexitprop { transition: opacity 500ms linear; }
+  .cfg-mismatch   { transition-property: scale, opacity, color;
+                    transition-duration: 150ms;
+                    transition-delay: 0s; }
+  .cfg-multi      { transition: opacity 900ms linear, scale 250ms linear, color 40ms linear; }
+  @media (prefers-reduced-motion: reduce) {
+    .ov { --exit-dur: 0.01ms; }
+  }
+</style>
+</head>
+<body>
+<div class="cover"></div>
+<button id="trigger" aria-expanded="false" aria-controls="pop">open</button>
+<div class="stage"><div id="pop" class="ov" popover="manual"></div></div>
+
+<script type="module">
+import { DeferredOverlay } from './deferred-overlay.mjs';
+
+/* ============================ test surface ============================ */
+let ctl = null;
+const popEl = document.getElementById('pop');
+const trigger = document.getElementById('trigger');
+
+window.H = {
+  reset: (opts = {}) => {
+    if (ctl) ctl.destroy();
+    popEl.className = 'ov' + (opts.durClass ? ' ' + opts.durClass : '');
+    popEl.removeAttribute('popover');
+    popEl.setAttribute('popover', opts.popoverMode || 'manual');
+    try { popEl.hidePopover(); } catch {}
+    trigger.setAttribute('aria-expanded', 'false');
+    trigger.focus();
+    ctl = new DeferredOverlay(popEl, { trigger, kind: 'popover' });
+    return 1;
+  },
+  open: () => { ctl.open(); return 1; },
+  close: () => { ctl.close(); return 1; },
+  destroy: () => { ctl.destroy(); return 1; },
+
+  /* Directly exercise the stale-token guard: capture the token of an
+     in-flight close, re-open, then fire that stale completion by hand.
+     Pre-emptive cancellation in open() means this can normally never happen —
+     this proves the second line of defence independently. */
+  proveStaleGuard: () => {
+    ctl.open();
+    ctl.close();
+    const staleToken = ctl._token;
+    ctl.open();                       // invalidates staleToken
+    const before = { state: ctl.state, actualCloses: ctl.stats.actualCloses };
+    ctl._finish(staleToken);          // stale completion attempts to close
+    return JSON.stringify({
+      before,
+      after: { state: ctl.state, actualCloses: ctl.stats.actualCloses,
+               staleSuppressed: ctl.stats.staleSuppressed },
+      guardHeld: ctl.state === 'open' && ctl.stats.actualCloses === before.actualCloses,
+    });
+  },
+  removeFromDom: () => { popEl.remove(); return 1; },
+  lightDismiss: () => { document.querySelector('.cover').click(); return 1; },
+
+  /* Duplicate-listener probe: dispatch ONE synthetic exit-property
+     transitionend while closing. A duplicated listener would handle it more
+     than once. */
+  dispatchOneExitEnd: () => {
+    const before = ctl.stats.endEventsHandled;
+    popEl.dispatchEvent(new TransitionEvent('transitionend',
+      { propertyName: 'scale', bubbles: true }));
+    return JSON.stringify({ handledDelta: ctl.stats.endEventsHandled - before });
+  },
+  pressEscape: () => {
+    popEl.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    return 1;
+  },
+  /* Case 13: read the parsed exit duration for a given CSS configuration. */
+  measureDuration: (cfgClass) => {
+    popEl.className = 'ov' + (cfgClass ? ' ' + cfgClass : '');
+    return ctl.exitDurationMs();
+  },
+
+  /* Case 12: force a browser-driven toggle while the controller is mid-close,
+     to exercise the reconciliation path re-entrantly. */
+  closeThenExternallyDismiss: () => {
+    ctl.open();
+    ctl.close();                       // controller-owned exit begins
+    popEl.hidePopover();               // external close DURING the exit
+    return JSON.stringify({ state: ctl.state, stats: { ...ctl.stats } });
+  },
+
+  snapshot: () => ({
+    lifecycleEvents: ctl.lifecycleEvents.slice(),
+    state: ctl.state,
+    destroyed: ctl.destroyed,
+    stats: { ...ctl.stats },
+    log: ctl.log.slice(-14),
+    inTopLayerByLayout: (() => {
+      const r = popEl.getBoundingClientRect();
+      return r.width > 10 && Math.abs((r.x + r.width / 2) - innerWidth / 2) < 40;
+    })(),
+    isOpenAttr: popEl.matches(':popover-open'),
+    hasClosingClass: popEl.classList.contains('closing'),
+    display: getComputedStyle(popEl).display,
+    activeElementId: document.activeElement ? (document.activeElement.id || document.activeElement.tagName) : null,
+    triggerAriaExpanded: trigger.getAttribute('aria-expanded'),
+    exitDurationMs: ctl.exitDurationMs(),
+    pendingTimer: ctl._timer !== null,
+    pendingListener: ctl._onEnd !== null,
+  }),
+  capabilities: () => ({
+    transitioncancel: 'ontransitioncancel' in window || 'ontransitioncancel' in document.createElement('div'),
+    prefersReducedMotion: matchMedia('(prefers-reduced-motion: reduce)').matches,
+  }),
+};
+document.title = 'READY';
+</script>
+</body>
+</html>

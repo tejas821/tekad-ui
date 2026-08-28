@@ -1,0 +1,3 @@
+// ILLEGAL: only a project tagged type:charts may import a charting library.
+import { Chart } from 'chart.js';
+export const broken = Chart;
