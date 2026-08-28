@@ -1,0 +1,41 @@
+{
+  "$comment": [
+    "Reviewed licence exceptions for BUILD TOOLING only (CI gate 13, ADR-015).",
+    "",
+    "ADR-015 forbids copyleft because 'an Angular library is compiled and",
+    "tree-shaken into the consumer's bundle'. That argument is about SHIPPED",
+    "code. A bundler or a d.ts rollup plugin runs on a build machine and ships",
+    "nothing, so the same licence carries a different risk there.",
+    "",
+    "An entry here is a decision, not a mute button. Rules:",
+    "  1. The package must NOT appear in `pnpm licenses list --prod`. The",
+    "     production scope has no exception path — verify-licences.mjs enforces",
+    "     that separately and will fail regardless of what is written here.",
+    "  2. The justification must say why the licence cannot reach a consumer.",
+    "  3. Removing the dependency is always preferable to adding an entry.",
+    "",
+    "Verified 2026-08-28 against the Phase 1 lockfile: `pnpm licenses list",
+    "--prod` reported 9 packages, all MIT / Apache-2.0 / 0BSD. Every entry below",
+    "is dev-only."
+  ],
+  "exceptions": [
+    {
+      "package": "lightningcss",
+      "licence": "MPL-2.0",
+      "justification": "Build-time CSS transformer reached through @angular/build. MPL-2.0 copyleft is file-scoped and attaches to lightningcss's own source files, which are never emitted into a TEKAD package or a consumer bundle — the tool processes CSS and exits. Not present in the production dependency tree.",
+      "reviewed": "2026-08-28"
+    },
+    {
+      "package": "lightningcss-linux-x64-gnu",
+      "licence": "MPL-2.0",
+      "justification": "Platform-specific native binary for lightningcss above. Same reasoning; a build-machine binary, never shipped.",
+      "reviewed": "2026-08-28"
+    },
+    {
+      "package": "rollup-plugin-dts",
+      "licence": "LGPL-3.0-only",
+      "justification": "Used by ng-packagr to roll up .d.ts files at build time. LGPL applies to the plugin's own code, which is not linked into or emitted with TEKAD output — the plugin reads declaration files and writes declaration files. Not present in the production dependency tree. Flagged for re-review if ng-packagr ever inlines plugin code into its output.",
+      "reviewed": "2026-08-28"
+    }
+  ]
+}

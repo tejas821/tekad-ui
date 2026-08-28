@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["node"],
+    "allowJs": true,
+    "checkJs": true
+  },
+  "include": ["packages/**/*.ts", "tools/**/*.mjs"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "tmp",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "tools/boundary-fixtures/**"
+  ]
+}

@@ -1,0 +1,37 @@
+# TEKAD workspace (ADR-012).
+#
+# pnpm is non-negotiable: its non-flat node_modules turns a phantom dependency —
+# the primary way a library monorepo ships something that works in-repo and
+# breaks for consumers — into an install-time error, one layer below lint where
+# it cannot be disabled.
+packages:
+  - 'packages/*'
+  - 'tools/*'
+
+# pnpm 11 blocks dependency install scripts by default. Each entry below is an
+# explicit decision to let that package run code at install time, not a blanket
+# approval — this is the cheapest supply-chain control in the stack, so it stays
+# an allowlist (docs/architecture/06-ci-quality-gates.md). Adding an entry means
+# reviewing what that package's install script does.
+allowBuilds:
+  '@parcel/watcher': true # nx file watching (native binding)
+  esbuild: true # @angular/build's bundler (native binary)
+  less: true # ng-packagr stylesheet processing
+  lmdb: true # nx local cache (native binding)
+  msgpackr-extract: true # nx local cache (native binding)
+  nx: true # nx postinstall
+
+# Security overrides. Each entry pins a transitive dependency past a published
+# advisory. The selector form `name@major` keeps the fix surgical — forcing every
+# range to one version is how an override turns into a breakage.
+#   brace-expansion@5: GHSA — DoS via unbounded intermediate arrays, bypassing
+#   the CVE-2026-14257 mitigation. Patched in 5.0.9. Reached through nx.
+#   The 1.x line in the tree is a separate range and is not affected.
+overrides:
+  brace-expansion@5: 5.0.9
+
+# @angular-devkit/build-angular is Angular's DEPRECATED webpack builder. Spike B
+# proved no TEKAD build path touches it, but it arrives as an OPTIONAL PEER of
+# @nx/angular and of some test runners. Its absence is asserted on every CI run
+# by tools/verify-no-webpack-builder.mjs rather than left to habit.
+# See ADR-012 and docs/research/prototypes/spike-b-nx-angular-build/.

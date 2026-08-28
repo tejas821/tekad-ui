@@ -1,0 +1,23 @@
+{
+  "$comment": [
+    "Reviewed vulnerability-audit exceptions for BUILD TOOLING only (CI gate 12).",
+    "",
+    "Rules, enforced by tools/verify-audit.mjs:",
+    "  1. The advisory must NOT appear in `pnpm audit --prod`. The production",
+    "     scope has no exception path and fails regardless of this file.",
+    "  2. Every entry needs an expiry date. An unpatched advisory is a decision",
+    "     to revisit, not a fact to file away — an expired entry fails the build",
+    "     so someone has to look again.",
+    "  3. Fixing it is always preferable. An override in pnpm-workspace.yaml is",
+    "     usually enough; lowering --audit-level is never acceptable, because it",
+    "     silently disables the gate for everything else too."
+  ],
+  "exceptions": [
+    {
+      "module": "image-size",
+      "justification": "Denial of service via infinite loops in the ICNS, JXL and HEIF parsers. NO patched version exists. Reached only through @nx/webpack -> less, a webpack path TEKAD does not use: builds go through @angular/build (esbuild) per ADR-012 and Spike B. The parser is invoked only when a stylesheet references an image for size inlining, which no TEKAD build does. Dev-only; ships nothing. Re-check for a patched release, and re-check whether @nx/angular still drags @nx/webpack in.",
+      "expires": "2026-11-30",
+      "reviewed": "2026-08-28"
+    }
+  ]
+}

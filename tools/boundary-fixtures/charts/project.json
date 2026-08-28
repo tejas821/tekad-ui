@@ -1,0 +1,7 @@
+{
+  "name": "boundary-fixture-charts",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "tools/boundary-fixtures/charts/src",
+  "projectType": "library",
+  "tags": ["layer:integration", "type:charts"]
+}

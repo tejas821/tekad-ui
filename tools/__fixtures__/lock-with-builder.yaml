@@ -1,0 +1,10 @@
+lockfileVersion: '9.0'
+importers:
+  .:
+    devDependencies:
+      '@angular-devkit/build-angular':
+        specifier: 22.0.6
+        version: 22.0.6
+packages:
+  '@angular-devkit/build-angular@22.0.6':
+    resolution: { integrity: sha512-fake }
