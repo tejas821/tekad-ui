@@ -1,0 +1,6 @@
+import { computed, signal } from '@angular/core';
+export class Fine {
+  readonly a = signal(1);
+  // The correct form of the effect-write fixture above.
+  readonly b = computed(() => this.a() * 2);
+}

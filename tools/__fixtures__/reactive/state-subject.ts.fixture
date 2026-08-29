@@ -1,0 +1,6 @@
+import { BehaviorSubject } from 'rxjs';
+export class Bad {
+  // A second source of truth that must be kept in sync with the signal.
+  private readonly value$ = new BehaviorSubject<number>(0);
+  read() { return this.value$.value; }
+}

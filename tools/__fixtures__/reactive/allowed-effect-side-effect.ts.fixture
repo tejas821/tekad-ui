@@ -1,0 +1,11 @@
+import { effect, signal, type ElementRef } from '@angular/core';
+export class Fine {
+  readonly open = signal(false);
+  constructor(private readonly host: ElementRef<HTMLElement>) {
+    // ADR-002: effect() IS for genuine side effects at the edge — DOM, focus,
+    // announcements. This touches the DOM; it copies nothing.
+    effect(() => {
+      if (this.open()) this.host.nativeElement.focus();
+    });
+  }
+}

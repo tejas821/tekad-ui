@@ -1,0 +1,6 @@
+import { Subject } from 'rxjs';
+export class Fine {
+  // ADR-003: a Subject modelling an EVENT STREAM is fine. It holds no state.
+  readonly closed$ = new Subject<void>();
+  close() { this.closed$.next(); }
+}

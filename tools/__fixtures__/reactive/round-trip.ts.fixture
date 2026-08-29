@@ -1,0 +1,7 @@
+import { signal } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+export class Bad {
+  readonly a = signal(1);
+  // Leaves the signal graph and comes straight back.
+  readonly b = toSignal(toObservable(this.a));
+}
