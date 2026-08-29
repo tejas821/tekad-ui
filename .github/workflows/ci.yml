@@ -81,6 +81,14 @@ jobs:
       - name: ADR-005 assumptions still hold
         run: pnpm run verify:aria
 
+      # ADR-013 claimed Angular forbids implementing both ControlValueAccessor
+      # and FormValueControl. It does not — measured in 22.1.4, it silently
+      # prefers the CVA and the signal-forms value model never binds. There is
+      # no framework error here, so this gate is the ONLY thing that catches a
+      # control which compiles, boots, renders and does not work.
+      - name: Forms contracts
+        run: pnpm run verify:forms-contracts
+
       # Gate 2
       - name: Format check
         run: pnpm run format:check
@@ -140,6 +148,12 @@ jobs:
       # proof is not vacuous.
       - name: Overlay lifecycle
         run: pnpm run verify:overlay
+
+      # Re-measures what Angular actually does with both forms contracts on one
+      # control. If a future Angular starts REJECTING the combination, this
+      # fails — and ADR-013's correction should then be revisited.
+      - name: ADR-013 forms behaviour
+        run: pnpm run verify:forms
 
   # Gates 12 and 13 run separately so a vulnerability or licence finding is
   # legible on its own rather than buried in a build log.
