@@ -4,17 +4,17 @@
   "masterPromptVersion": "1.0",
   "updated": "2026-08-29",
   "phase": {
-    "current": "3 - reactive foundation COMPLETE",
-    "next": "Phase 4 - design tokens & theme (ADR-007)",
+    "current": "4 - design tokens & theme COMPLETE",
+    "next": "Phase 5 - accessibility foundation (ADR-005)",
     "codeWritten": true
   },
   "repository": {
     "root": "ui-library",
-    "vcs": "git, branch main, 5 commits",
+    "vcs": "git, branch main, 6 commits",
     "hasPackageJson": true,
     "hasWorkspace": true,
     "hasCI": true,
-    "sourceCode": "2 proving packages (@tekad/core, @tekad/button), 1 probe app, 8 CI gates"
+    "sourceCode": "3 packages (@tekad/core, @tekad/button, @tekad/theme), 1 probe app, 11 CI gates"
   },
   "platformBaseline": {
     "verifiedOn": "2026-08-26",
@@ -427,6 +427,41 @@
       "a boundary-normalisation helper, when a real component needs one",
       "resource / httpResource - nothing in TEKAD fetches anything yet",
       "a providedIn:'root' rule - none exist yet; the tree-shaking probe grows a scenario when the first appears"
+    ]
+  },
+  "phase4": {
+    "doc": "docs/architecture/10-design-tokens-and-theme.md",
+    "package": "@tekad/theme (layer:foundation) - shipped artefact is styles/tekad.css; the TS surface is 2 symbols",
+    "measured": {
+      "mainSheet": "0.60 KB gzip / 2.26 KB raw (ADR-007 budget: 2 KB gzip)",
+      "lightDarkFallback": "0.60 KB gzip / 4.58 KB raw (ADR-007 budget: 1 KB gzip)",
+      "total": "1.01 KB gzip, 0.82 KB brotli",
+      "notableFinding": "the fallback is TWICE the raw size of the main sheet and compresses to the SAME 0.60 KB, because it is pure repetition - every colour token re-declared four times. 59% of shipped bytes, removable in one edit when light-dark() clears the browser floor."
+    },
+    "tiers": "primitive --_tekad-ref-* resolved at build time and NEVER emitted (65 values would be ~2 KB of dead :root); semantic --tekad-sys-* is the only shipped tier and the semver-stable contract; component tier lives in each component CSS",
+    "contrast": {
+      "requirement": "ADR-007 decision 6 - build-time assertion, both schemes, 4.5:1 / 3:1",
+      "result": "12 declared pairs, all clear WCAG 2.2 AA in light AND dark; tightest is outline on surface at 5.22:1 against a 3:1 requirement",
+      "provenNotAsserted": "five hues at IDENTICAL OKLCH lightness 0.58 and chroma 0.12, all in gamut, span 4.054:1 to 4.550:1 on white - the AA threshold falls INSIDE the spread. Recorded in tools/lib/color.test.mjs.",
+      "antiSilencing": "the gate independently asserts every on-* token has a contrastWith partner, because deleting one would be the easiest way to pass while verifying less",
+      "selfTest": "8 cases including a shortfall in the DARK scheme only - checking a palette once in light mode and inverting the ramp for dark is how this fails in practice"
+    },
+    "gamutFitting": {
+      "firstBuildFailed": "19 tones fell outside the sRGB gamut",
+      "rejectedFix": "a hand-tuned chroma table per hue - at L=0.30 yellow runs out at ~0.063 chroma while blue reaches ~0.174, so any fixed table is wrong for the next hue added",
+      "chosenFix": "reduce chroma until the colour fits, holding lightness and hue. Silent channel clamping would make the browser render a colour the contrast gate never examined."
+    },
+    "gatesAddedInPhase4": [
+      "tools/lib/color.mjs + color.test.mjs - OKLCH/sRGB/WCAG, pinned against published reference values",
+      "tools/build-tokens.mjs - generator, with --check so the committed output cannot drift",
+      "tools/verify-contrast.mjs + test - CI gate 6 (part)",
+      "tools/verify-css-budget.mjs - CI gate 14, the ONLY numeric budget before Phase 9, and only because ADR-007 states it"
+    ],
+    "notBuilt": [
+      "@layer tekad.reset is declared in the layer order but empty - it gets content when a component needs something reset",
+      "consumer brand seeds - the pipeline is parameterised by tokens/palette.json but the public entry point should be designed against a real request",
+      "forced-colors substitutes - ADR-007 decision 7 is a RELEASE gate; there are no box-shadow focus rings yet because there are no styled components yet",
+      "the typography scale"
     ]
   }
 }

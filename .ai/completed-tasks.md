@@ -132,3 +132,21 @@ generator, the packed-tarball probe. Phase 3 (reactive foundation) next.
 
 Not done, intentionally: any reactive utility, `resource`/`httpResource`
 integration, a `providedIn: 'root'` rule. Phase 4 (design tokens) next.
+
+## Phase 4 — Design tokens & theme (2026-08-29)
+
+- [x] `@tekad/theme`: three tiers, one shipped. 1.01 KB gzip total.
+- [x] **Contrast asserted at build time, in both schemes**, over 12 pairs — and
+      the gate cannot be silenced by deleting a `contrastWith` entry, because it
+      independently checks that every `on-*` token has a partner.
+- [x] **Proved rather than asserted** that OKLCH lightness is not WCAG
+      luminance: five hues at identical lightness and chroma span 4.054:1 to
+      4.550:1 on white, with the AA threshold inside the spread.
+- [x] **Gamut fitting.** The first build failed with 19 out-of-gamut tones; the
+      fix reduces chroma while holding lightness and hue, so the emitted colour
+      is always the checked colour.
+- [x] Colour maths pinned against published CSS Color 4 and WCAG values.
+- [x] First numeric budget in the project, and only because ADR-007 stated it.
+
+Not done, intentionally: the reset layer's contents, consumer brand seeds,
+forced-colors substitutes, typography. Phase 5 (accessibility foundation) next.
