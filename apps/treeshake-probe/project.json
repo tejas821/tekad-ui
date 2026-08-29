@@ -1,0 +1,33 @@
+{
+  "name": "treeshake-probe",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/treeshake-probe/src",
+  "prefix": "tk",
+  "projectType": "application",
+  "tags": ["layer:app"],
+  "implicitDependencies": ["core", "button"],
+  "targets": {
+    "build": {
+      "executor": "@angular/build:application",
+      "outputs": ["{options.outputPath}"],
+      "dependsOn": ["^build"],
+      "options": {
+        "outputPath": "dist/apps/treeshake-probe",
+        "browser": "apps/treeshake-probe/src/main.ts",
+        "index": "apps/treeshake-probe/src/index.html",
+        "tsConfig": "apps/treeshake-probe/tsconfig.app.json",
+        "optimization": true,
+        "sourceMap": true,
+        "outputHashing": "none",
+        "namedChunks": false
+      },
+      "defaultConfiguration": "production",
+      "configurations": {
+        "production": {},
+        "development": {
+          "optimization": false
+        }
+      }
+    }
+  }
+}

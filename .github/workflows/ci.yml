@@ -58,6 +58,12 @@ jobs:
       - name: Dependency policy
         run: pnpm run verify:deps
 
+      # Spike B: a relative import across an entry-point boundary fails the
+      # ng-packagr build with an internal crash rather than a readable error.
+      # This produces the readable one first.
+      - name: Entry-point boundaries
+        run: pnpm run verify:entrypoints
+
       # Gate 2
       - name: Format check
         run: pnpm run format:check
@@ -82,6 +88,19 @@ jobs:
 
       - name: Build
         run: pnpm exec nx affected -t build --parallel=3
+
+      # Gate 9 — package validation, run against the BUILT output. What the
+      # source says is an intention; what dist/ says is what a consumer gets.
+      # This is what catches a library accidentally built in FULL compilation
+      # mode, which ng-packagr otherwise only blocks at publish time.
+      - name: Package format
+        run: pnpm run verify:packages
+
+      # Gate 11 — ADR-004: tree-shaking is verified by a probe app, never
+      # assumed. Every scenario asserts a presence as well as an absence, so a
+      # probe that has stopped measuring anything fails rather than passes.
+      - name: Tree-shaking probe
+        run: pnpm run verify:treeshaking
 
   # Gates 12 and 13 run separately so a vulnerability or licence finding is
   # legible on its own rather than buried in a build log.

@@ -1,0 +1,20 @@
+{
+  "name": "button",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/button/src",
+  "prefix": "tk",
+  "projectType": "library",
+  "tags": ["layer:component"],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/packages/button"],
+      "options": {
+        "project": "packages/button/ng-package.json",
+        "tsConfig": "packages/button/tsconfig.lib.json"
+      },
+      "configurations": { "production": {}, "development": {} },
+      "defaultConfiguration": "production"
+    }
+  }
+}

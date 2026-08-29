@@ -13,6 +13,9 @@ out-tsc/
 .nx/workspace-data
 .nx/*.json
 
+# Angular CLI build cache
+.angular/
+
 # test / coverage
 coverage/
 .vitest/
@@ -34,3 +37,6 @@ pnpm-debug.log*
 .env
 .env.*
 !.env.example
+
+# Staging area for files this environment cannot delete directly.
+_to_delete/
