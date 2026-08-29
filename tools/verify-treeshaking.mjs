@@ -60,6 +60,8 @@ const ENTRY_POINTS = {
   '@tekad/core': 'packages/core/src/tekad-core.ts',
   '@tekad/core/primitives/identity':
     'packages/core/primitives/identity/src/tekad-core-primitives-identity.ts',
+  '@tekad/core/a11y/live-announcer':
+    'packages/core/a11y/live-announcer/src/tekad-core-a11y-live-announcer.ts',
   '@tekad/button': 'packages/button/src/tekad-button.ts',
 };
 
@@ -105,6 +107,48 @@ void bootstrapApplication(ProbeRoot);
     mustExclude: ['@tekad/core'],
   },
   {
+    /*
+     * Phase 2 recorded that the things which actually defeat tree-shaking — DI
+     * tokens evaluated at import time, module-level side effects, and
+     * `providedIn: 'root'` services — did not exist in this repo yet, and that
+     * the probe must grow a scenario when the first one appears. The live
+     * announcer is that first one.
+     *
+     * `providedIn: 'root'` is tree-shakable BY DESIGN: the injector reference
+     * is what retains it, so a service nobody injects is dropped. That is a
+     * property of how it is written, not a guarantee of the decorator — an
+     * `APP_INITIALIZER`, a module-level `inject()`, or anything that registers
+     * itself on import defeats it. Which is exactly why it is measured.
+     */
+    name: 'a providedIn:root service nobody injects',
+    why:
+      'The live announcer is the first providedIn:root service in the repo. If merely ' +
+      'existing in the package graph pulled it into a bundle, every consumer would pay ' +
+      'for a live region they never use.',
+    source: `import { uniqueId } from '@tekad/core/primitives/identity';
+const el = document.createElement('span');
+el.id = uniqueId('probe');
+document.body.appendChild(el);
+`,
+    mustInclude: ['@tekad/core/primitives/identity'],
+    mustExclude: ['@tekad/core', '@tekad/button', '@tekad/core/a11y/live-announcer'],
+  },
+  {
+    name: 'the same app that DOES inject it',
+    why:
+      'The positive control for the scenario above. If importing the announcer did not ' +
+      'make it appear, its absence there would prove nothing.',
+    source: `import { createApplication } from '@angular/platform-browser';
+import { TekadLiveAnnouncer } from '@tekad/core/a11y/live-announcer';
+
+void createApplication().then((app) => {
+  app.injector.get(TekadLiveAnnouncer).announce('ready');
+});
+`,
+    mustInclude: ['@tekad/core/a11y/live-announcer'],
+    mustExclude: ['@tekad/button'],
+  },
+  {
     name: 'the primary entry point only',
     why:
       'The positive control for the two scenarios above. If importing `@tekad/core` did not make ' +
@@ -113,7 +157,11 @@ void bootstrapApplication(ProbeRoot);
 document.body.textContent = TEKAD_VERSION;
 `,
     mustInclude: ['@tekad/core'],
-    mustExclude: ['@tekad/button', '@tekad/core/primitives/identity'],
+    mustExclude: [
+      '@tekad/button',
+      '@tekad/core/primitives/identity',
+      '@tekad/core/a11y/live-announcer',
+    ],
   },
 ];
 

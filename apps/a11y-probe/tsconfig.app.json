@@ -3,9 +3,6 @@
   "compilerOptions": {
     "types": [],
     "paths": {
-      "@tekad/core": ["../../dist/packages/core"],
-      "@tekad/core/primitives/identity": ["../../dist/packages/core/primitives/identity"],
-      "@tekad/button": ["../../dist/packages/button"],
       "@tekad/core/a11y/live-announcer": ["../../dist/packages/core/a11y/live-announcer"]
     }
   },

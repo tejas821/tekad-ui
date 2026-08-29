@@ -3,12 +3,15 @@
   "version": "0.0.0",
   "description": "TEKAD foundation. Nothing here may depend on a component package.",
   "//peerDependencies": [
-    "@angular/core is deliberately NOT declared. Nothing in this package imports",
-    "it yet: the identity primitive is plain TypeScript. Declaring an unused peer",
-    "makes every consumer install something the package never touches, and the",
-    "@nx/dependency-checks lint rule flags it — correctly. It gets added the",
-    "moment a symbol here actually needs Angular."
+    "Phase 2 removed @angular/core from here because nothing imported it, and",
+    "@nx/dependency-checks was right to flag it. Phase 4's live announcer uses",
+    "Angular DI, so it is back — declared because it is used, which is the only",
+    "reason a peer should ever be declared."
   ],
+  "peerDependencies": {
+    "@angular/core": "^22.1.0",
+    "@angular/common": "^22.1.0"
+  },
   "license": "Apache-2.0",
   "sideEffects": false,
   "private": true,

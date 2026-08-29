@@ -1,0 +1,3 @@
+// A public Aria entry point is the sanctioned way to build on the patterns.
+import { Listbox } from '@angular/aria/listbox';
+export type Fine = typeof Listbox;

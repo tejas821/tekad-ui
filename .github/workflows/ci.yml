@@ -73,6 +73,14 @@ jobs:
       - name: Colour contrast (WCAG 2.2 AA)
         run: pnpm run verify:contrast
 
+      # ADR-005 decided TEKAD owns the floating layer and its own live announcer
+      # on the strength of two facts about @angular/aria. Either could change in
+      # a PATCH release — and if Aria gains a live announcer, the right response
+      # is to DELETE TEKAD's, not maintain a duplicate. A failure here means an
+      # ADR needs rereading, not that something is broken.
+      - name: ADR-005 assumptions still hold
+        run: pnpm run verify:aria
+
       # Gate 2
       - name: Format check
         run: pnpm run format:check
@@ -117,6 +125,13 @@ jobs:
       # has become a selector.
       - name: Theme CSS budget
         run: pnpm run verify:css-budget
+
+      # Accessibility verified BEHAVIOURALLY in a real browser, not by counting
+      # attributes (CLAUDE.md Definition of Done). A live region that is
+      # display:none is removed from the accessibility tree and announces
+      # nothing — only a real layout can tell you it is still rendered.
+      - name: Live announcer contract
+        run: pnpm run verify:a11y
 
   # Gates 12 and 13 run separately so a vulnerability or licence finding is
   # legible on its own rather than buried in a build log.
