@@ -32,7 +32,8 @@
     "verify:contrast": "node tools/build-tokens.mjs --check && node tools/verify-contrast.mjs",
     "verify:css-budget": "nx build theme && node tools/verify-css-budget.mjs",
     "verify:aria": "node tools/verify-aria-assumptions.mjs",
-    "verify:a11y": "nx build a11y-probe && node tools/verify-live-announcer.mjs"
+    "verify:a11y": "nx build a11y-probe && node tools/verify-live-announcer.mjs",
+    "verify:overlay": "nx build overlay && node tools/verify-overlay-lifecycle.test.mjs"
   },
   "devDependencies": {
     "@angular-devkit/core": "22.1.6",

@@ -31,7 +31,8 @@
       "@tekad/core/primitives/identity": ["./packages/core/primitives/identity/src/index.ts"],
       "@tekad/button": ["./packages/button/src/index.ts"],
       "@tekad/theme": ["./packages/theme/src/index.ts"],
-      "@tekad/core/a11y/live-announcer": ["./packages/core/a11y/live-announcer/src/index.ts"]
+      "@tekad/core/a11y/live-announcer": ["./packages/core/a11y/live-announcer/src/index.ts"],
+      "@tekad/overlay": ["./packages/overlay/src/index.ts"]
     }
   },
   "angularCompilerOptions": {

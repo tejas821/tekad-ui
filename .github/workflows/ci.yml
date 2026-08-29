@@ -133,6 +133,14 @@ jobs:
       - name: Live announcer contract
         run: pnpm run verify:a11y
 
+      # The deferred-close state machine, proved deterministically against the
+      # BUILT package. EVIDENCE CLASS: DEFENSIVE / SIMULATED — no browser was
+      # ever observed delivering `toggle` synchronously, and none is claimed to.
+      # The control shows the pre-fix ordering recursing without bound, so the
+      # proof is not vacuous.
+      - name: Overlay lifecycle
+        run: pnpm run verify:overlay
+
   # Gates 12 and 13 run separately so a vulnerability or licence finding is
   # legible on its own rather than buried in a build log.
   supply-chain:
