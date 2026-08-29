@@ -95,3 +95,25 @@ CI config, or `LICENSE`. Phase 1 starts now.
 
 Not done, intentionally: `LICENSE` (blocked by ADR-015 until ADR-016's gates
 pass), any package, any component. Phase 2 next.
+
+## Phase 2 — Package & entry-point architecture (2026-08-29)
+
+- [x] `@tekad/core` with a two-level `./primitives/identity` secondary entry
+      point, and `@tekad/button` depending on it — the ADR-004 topology as
+      running code rather than a diagram.
+- [x] `uniqueId` chosen over a placeholder: it is the smallest genuinely real
+      foundation capability TEKAD has, since every accessible widget needs
+      stable unique ids for `aria-labelledby` and friends.
+- [x] **Partial compilation fixed and gated.** The first build silently emitted
+      a fully compiled package because ng-packagr defaults to `full` when the
+      setting is absent.
+- [x] **Tree-shaking measured**, discharging ADR-004's standing requirement for
+      the current graph. Two plausible signals were tried and rejected before
+      settling on source-map `sources`.
+- [x] Entry-point boundary gate — Spike B's unreadable ng-packagr crash now
+      arrives as a readable error first.
+- [x] Three new gates, each with a self-test.
+- [x] `docs/architecture/08-package-architecture.md`.
+
+Not done, intentionally: `LICENSE`, any real component, the TEKAD entry-point
+generator, the packed-tarball probe. Phase 3 (reactive foundation) next.

@@ -2,19 +2,19 @@
   "project": "TEKAD",
   "brandVersion": "0.0.0-pre",
   "masterPromptVersion": "1.0",
-  "updated": "2026-08-28",
+  "updated": "2026-08-29",
   "phase": {
-    "current": "1 - workspace foundation COMPLETE",
-    "next": "Phase 2 - package & entry-point architecture",
+    "current": "2 - package & entry-point architecture COMPLETE",
+    "next": "Phase 3 - reactive foundation (ADR-002/ADR-003)",
     "codeWritten": true
   },
   "repository": {
     "root": "ui-library",
-    "vcs": "git, branch main, initial commit f1965c5 (121 files)",
+    "vcs": "git, branch main, 3 commits (f1965c5, ada0036, 17db29c)",
     "hasPackageJson": true,
     "hasWorkspace": true,
     "hasCI": true,
-    "sourceCode": "workspace scaffold and CI gates only - no packages yet"
+    "sourceCode": "2 proving packages (@tekad/core, @tekad/button), 1 probe app, 8 CI gates"
   },
   "platformBaseline": {
     "verifiedOn": "2026-08-26",
@@ -60,10 +60,11 @@
     ]
   },
   "blockers": [
-    "PUBLISH GATE: npm scope availability, placeholder registration, professional trademark clearance - see ADR-016. LICENSE is not committed until this passes.",
+    "PUBLISH GATE: npm scope availability, placeholder registration, professional trademark clearance - see ADR-016. LICENSE is not committed and every package carries private:true until this passes.",
     "Cross-engine and AT validation for P0 overlay and P1 grid - tracked, not blocking implementation",
-    "Spike B ran under npm; re-measure the @angular-devkit/build-angular install path under pnpm (Phase 2)",
-    "ADR-004's CI tree-shaking probe app is still required - Spike B showed the mechanism works, not that it holds for TEKAD's real package graph"
+    "Tree-shaking is proved for the CURRENT graph only. Add a probe scenario whenever a DI token, a module-level side effect or a providedIn:'root' service is introduced.",
+    "A TEKAD secondary-entry-point generator is still owed; the stock one emits the wrong shape.",
+    "The packed-tarball import probe (ADR-012's fourth boundary layer) is not built yet - it is the only check that sees what a consumer actually receives."
   ],
   "invariants": [
     "Signals canonical; RxJS is an adapter at the public boundary only",
@@ -348,5 +349,60 @@
       "pnpmBuildScripts": "blocked by default; six explicitly allowed in pnpm-workspace.yaml"
     },
     "notInstalledLocally": "node_modules was NOT written over the device bridge. Run `corepack enable pnpm && pnpm install` in the repo; the lockfile is committed and CI installs frozen."
+  },
+  "phase2": {
+    "doc": "docs/architecture/08-package-architecture.md",
+    "packages": {
+      "@tekad/core": {
+        "tags": [
+          "layer:foundation"
+        ],
+        "entryPoints": [
+          ".",
+          "./primitives/identity"
+        ],
+        "note": "two-level category-prefixed secondary entry point, the ADR-004 topology"
+      },
+      "@tekad/button": {
+        "tags": [
+          "layer:component"
+        ],
+        "entryPoints": [
+          "."
+        ],
+        "note": "standalone component; imports @tekad/core/primitives/identity, exercising the layer graph and a real cross-package deep import"
+      }
+    },
+    "probeApp": "apps/treeshake-probe (layer:app)",
+    "defectsFoundByTheGates": [
+      "PARTIAL COMPILATION WAS OFF. ng-packagr reads tsConfig.options.compilationMode || 'full', so omitting the setting silently produced a FULLY compiled package - which bakes Angular's private instruction set into the output and breaks on a later Angular. ng-packagr's own backstop only fires at publish time; verify-package-format.mjs now asserts it at build time.",
+      "@tekad/core declared an @angular/core peer it never used. @nx/dependency-checks flagged it correctly; the peer was REMOVED rather than the rule silenced.",
+      "A sibling workspace package is not linked by its peer range alone - pnpm went to the registry. The peer states what a consumer supplies; a devDependency of workspace:* links the sibling in development."
+    ],
+    "treeShaking": {
+      "requirement": "ADR-004: verified by a CI probe app, never assumed - now DISCHARGED for the current graph",
+      "signalSelection": {
+        "identifierNames": "REJECTED - minified away whether or not the module survived, so absence proves nothing",
+        "stringLiterals": "REJECTED - works, but only for code that happens to contain a distinctive string, which would push authors into planting markers in production code",
+        "sourceMapSources": "CHOSEN - a production build lists exactly which source files contributed mappings; a fully tree-shaken module contributes none. Name-independent, minifier-independent, no instrumentation."
+      },
+      "results": {
+        "identity only": "identity only - NOT the primary entry point, NOT the component",
+        "button only": "button + identity (its real dependency) - NOT core's primary entry point",
+        "core primary only": "core only - the POSITIVE CONTROL"
+      },
+      "nonVacuity": "every scenario asserts a presence as well as an absence; a scenario declaring no mustInclude is rejected as malformed",
+      "stillOwed": "the things that actually defeat tree-shaking - DI tokens evaluated at import time, module-level side effects, providedIn:root services - do not exist in this repo yet. Add a probe scenario as each appears."
+    },
+    "gatesAddedInPhase2": [
+      "verify-package-format.mjs - CI gate 9; partial compilation, exports map, sideEffects, ESM, types, no internal or wildcard path, no exact external peer pin, publish safety",
+      "verify-treeshaking.mjs - CI gate 11",
+      "verify-entrypoint-boundaries.mjs - replaces ng-packagr\u2019s internal crash with a readable error (Spike B item)"
+    ],
+    "spikeBItemsClosed": [
+      "entry-point boundary lint - DONE as a gate script; a custom ESLint plugin would mean publishing a package to hold one rule before TEKAD has a component (CLAUDE.md rule 9)",
+      "pnpm re-measurement of the @angular-devkit/build-angular install path - DONE; Phase 1 installed under pnpm and the gate passes"
+    ],
+    "spikeBItemStillOpen": "a TEKAD secondary-entry-point generator - the stock @nx/angular one emits a FLAT one-level entry point containing an NgModule"
   }
 }
