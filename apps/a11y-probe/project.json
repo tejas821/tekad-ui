@@ -1,0 +1,27 @@
+{
+  "name": "a11y-probe",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/a11y-probe/src",
+  "prefix": "tk",
+  "projectType": "application",
+  "tags": ["layer:app"],
+  "implicitDependencies": ["core"],
+  "targets": {
+    "build": {
+      "executor": "@angular/build:application",
+      "outputs": ["{options.outputPath}"],
+      "dependsOn": ["^build"],
+      "options": {
+        "outputPath": "dist/apps/a11y-probe",
+        "browser": "apps/a11y-probe/src/main.ts",
+        "index": "apps/a11y-probe/src/index.html",
+        "tsConfig": "apps/a11y-probe/tsconfig.app.json",
+        "optimization": false,
+        "sourceMap": true,
+        "outputHashing": "none"
+      },
+      "defaultConfiguration": "production",
+      "configurations": { "production": {}, "development": {} }
+    }
+  }
+}

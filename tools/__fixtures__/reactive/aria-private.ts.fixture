@@ -1,0 +1,3 @@
+// ADR-005: @angular/aria/private carries no compatibility guarantee.
+import { something } from '@angular/aria/private';
+export const bad = something;

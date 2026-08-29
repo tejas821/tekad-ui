@@ -2,9 +2,9 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "noEmit": true,
-    "types": ["node"],
     "allowJs": true,
-    "checkJs": true
+    "checkJs": true,
+    "types": ["node"]
   },
   "include": ["packages/**/*.ts", "tools/**/*.mjs"],
   "exclude": [
@@ -13,6 +13,18 @@
     "tmp",
     "**/*.spec.ts",
     "**/*.test.ts",
-    "tools/boundary-fixtures/**"
+    "tools/boundary-fixtures/**",
+
+    // The Playwright drivers below are excluded from checkJs, NOT from lint.
+    //
+    // The bodies passed to page.evaluate() are serialised and executed inside
+    // the BROWSER, against a window this process never sees. Type-checking them
+    // here would mean declaring page-context globals on Node's Window type,
+    // which is not merely ceremony — it is a false statement about what this
+    // file's runtime provides. Their assertions are verified by running against
+    // a real browser, which is a stronger check than tsc could offer. They join
+    // the real suite in Phase 8 (ADR-011, Vitest).
+    "tools/verify-live-announcer.mjs",
+    "tools/verify-treeshaking.mjs"
   ]
 }

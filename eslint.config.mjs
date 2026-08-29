@@ -168,6 +168,36 @@ export default tseslint.config(
   {
     files: ['packages/**/*.ts'],
     rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              /*
+               * ADR-005: "Never build on `@angular/aria/private` — it carries no
+               * compatibility guarantee."
+               *
+               * It is a real, published entry point, so importing it works and
+               * nothing else complains. The cost lands later: it can change or
+               * vanish in a patch release, and TEKAD would be shipping a
+               * dependency on Angular's internals to every consumer.
+               */
+              group: ['@angular/aria/private', '@angular/aria/private/*'],
+              message:
+                'ADR-005: @angular/aria/private carries no compatibility guarantee and can change in a patch release. Build on a public Aria entry point, or own the behaviour in TEKAD.',
+            },
+            {
+              /*
+               * The same reasoning for Angular's own private surface. `ɵ`-prefixed
+               * symbols are exported for the framework's internal use.
+               */
+              group: ['@angular/*/private', '@angular/*/*/private'],
+              message:
+                'This is a private Angular entry point with no compatibility guarantee. Use the public API.',
+            },
+          ],
+        },
+      ],
       'no-restricted-syntax': [
         'error',
         {
@@ -225,6 +255,26 @@ export default tseslint.config(
             'ADR-003: copying an Observable into a signal by hand needs teardown bookkeeping, has no initial value, and leaks if the subscription outlives its owner. Convert once at the boundary with toSignal() instead.',
         },
       ],
+    },
+  },
+
+  /* -------------------- browser drivers (Playwright) ----------------------- *
+   * These files run in Node, but the bodies passed to `page.evaluate()` are
+   * serialised and executed inside the BROWSER, where `document`, `window` and
+   * `MutationObserver` are exactly right. Listed explicitly rather than by a
+   * loose glob: a browser global appearing in any other tooling file is a
+   * mistake worth catching, and this exception should stay small enough to read.
+   * ------------------------------------------------------------------------ */
+  {
+    files: ['tools/verify-live-announcer.mjs', 'tools/verify-treeshaking.mjs'],
+    languageOptions: {
+      globals: {
+        window: 'readonly',
+        document: 'readonly',
+        getComputedStyle: 'readonly',
+        MutationObserver: 'readonly',
+        HTMLElement: 'readonly',
+      },
     },
   },
 

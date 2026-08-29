@@ -56,6 +56,17 @@ const cases = [
     expectMessage: /NgModules are not a TEKAD public API/,
   },
   {
+    name: 'ADR-005: an @angular/aria/private import → REPORTED',
+    fixture: 'aria-private.ts.fixture',
+    expectReport: true,
+    expectMessage: /no compatibility guarantee/,
+  },
+  {
+    name: 'ADR-005: a PUBLIC @angular/aria entry point → allowed',
+    fixture: 'allowed-aria-public.ts.fixture',
+    expectReport: false,
+  },
+  {
     name: 'ADR-003: a BehaviorSubject holding state → REPORTED',
     fixture: 'state-subject.ts.fixture',
     expectReport: true,
@@ -110,7 +121,7 @@ try {
     copyFileSync(join(FIX, c.fixture), target);
 
     const { out } = lint('packages/__reactive-fixture__/fixture.ts');
-    const reported = /no-restricted-syntax/.test(out);
+    const reported = /no-restricted-syntax|no-restricted-imports/.test(out);
     let ok = reported === c.expectReport;
     if (ok && c.expectMessage) ok = c.expectMessage.test(out);
 
