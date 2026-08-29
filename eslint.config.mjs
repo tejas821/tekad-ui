@@ -266,7 +266,11 @@ export default tseslint.config(
    * mistake worth catching, and this exception should stay small enough to read.
    * ------------------------------------------------------------------------ */
   {
-    files: ['tools/verify-live-announcer.mjs', 'tools/verify-treeshaking.mjs'],
+    files: [
+      'tools/verify-live-announcer.mjs',
+      'tools/verify-treeshaking.mjs',
+      'tools/verify-forms-assumptions.mjs',
+    ],
     languageOptions: {
       globals: {
         window: 'readonly',

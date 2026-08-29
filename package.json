@@ -19,9 +19,9 @@
     "test": "nx run-many -t test",
     "graph": "nx graph",
     "verify:no-webpack-builder": "node tools/verify-no-webpack-builder.mjs",
-    "verify": "pnpm run format:check && pnpm run verify:no-webpack-builder && pnpm run verify:deps && pnpm run verify:entrypoints && pnpm run verify:aria && pnpm run verify:contrast && pnpm run verify:gates && pnpm run lint && pnpm run typecheck",
+    "verify": "pnpm run format:check && pnpm run verify:no-webpack-builder && pnpm run verify:deps && pnpm run verify:entrypoints && pnpm run verify:aria && pnpm run verify:forms-contracts && pnpm run verify:contrast && pnpm run verify:gates && pnpm run lint && pnpm run typecheck",
     "verify:deps": "node tools/verify-dependency-policy.mjs",
-    "verify:gates": "node tools/verify-no-webpack-builder.test.mjs && node tools/verify-dependency-policy.test.mjs && node tools/verify-licences.test.mjs && node tools/verify-audit.test.mjs && node tools/verify-package-format.test.mjs && node tools/verify-entrypoint-boundaries.test.mjs && node tools/verify-reactive-rules.test.mjs && node tools/lib/color.test.mjs && node tools/verify-contrast.test.mjs && node tools/verify-boundaries.test.mjs",
+    "verify:gates": "node tools/verify-no-webpack-builder.test.mjs && node tools/verify-dependency-policy.test.mjs && node tools/verify-licences.test.mjs && node tools/verify-audit.test.mjs && node tools/verify-package-format.test.mjs && node tools/verify-entrypoint-boundaries.test.mjs && node tools/verify-reactive-rules.test.mjs && node tools/lib/color.test.mjs && node tools/verify-contrast.test.mjs && node tools/verify-forms-contracts.test.mjs && node tools/verify-boundaries.test.mjs",
     "verify:licences": "pnpm licenses list --prod --json > .nx/lic-prod.json && pnpm licenses list --json > .nx/lic-all.json && node tools/verify-licences.mjs .nx/lic-prod.json .nx/lic-all.json",
     "verify:audit": "pnpm audit --prod --audit-level=high --json > .nx/audit-prod.json || true; pnpm audit --audit-level=high --json > .nx/audit-all.json || true; node tools/verify-audit.mjs .nx/audit-prod.json .nx/audit-all.json",
     "verify:entrypoints": "node tools/verify-entrypoint-boundaries.mjs",
@@ -33,7 +33,9 @@
     "verify:css-budget": "nx build theme && node tools/verify-css-budget.mjs",
     "verify:aria": "node tools/verify-aria-assumptions.mjs",
     "verify:a11y": "nx build a11y-probe && node tools/verify-live-announcer.mjs",
-    "verify:overlay": "nx build overlay && node tools/verify-overlay-lifecycle.test.mjs"
+    "verify:overlay": "nx build overlay && node tools/verify-overlay-lifecycle.test.mjs",
+    "verify:forms": "nx build forms-probe && node tools/verify-forms-assumptions.mjs",
+    "verify:forms-contracts": "node tools/verify-forms-contracts.mjs"
   },
   "devDependencies": {
     "@angular-devkit/core": "22.1.6",

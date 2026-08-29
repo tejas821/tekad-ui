@@ -1,0 +1,25 @@
+{
+  "name": "forms-probe",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/forms-probe/src",
+  "prefix": "tk",
+  "projectType": "application",
+  "tags": ["layer:app"],
+  "targets": {
+    "build": {
+      "executor": "@angular/build:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/forms-probe",
+        "browser": "apps/forms-probe/src/main.ts",
+        "index": "apps/forms-probe/src/index.html",
+        "tsConfig": "apps/forms-probe/tsconfig.app.json",
+        "optimization": false,
+        "sourceMap": true,
+        "outputHashing": "none"
+      },
+      "defaultConfiguration": "production",
+      "configurations": { "production": {}, "development": {} }
+    }
+  }
+}

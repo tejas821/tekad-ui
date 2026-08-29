@@ -33,6 +33,7 @@
     // They join the real suite in Phase 8 (ADR-011, Vitest).
     "tools/verify-live-announcer.mjs",
     "tools/verify-treeshaking.mjs",
-    "tools/verify-overlay-lifecycle.test.mjs"
+    "tools/verify-overlay-lifecycle.test.mjs",
+    "tools/verify-forms-assumptions.mjs"
   ]
 }
