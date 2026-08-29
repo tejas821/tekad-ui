@@ -38,5 +38,5 @@ pnpm-debug.log*
 .env.*
 !.env.example
 
-# Staging area for files this environment cannot delete directly.
+# Staging area for files an environment cannot unlink directly.
 _to_delete/

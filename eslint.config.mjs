@@ -121,15 +121,6 @@ export default tseslint.config(
       ],
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-explicit-any': 'error',
-      'no-restricted-syntax': [
-        'error',
-        {
-          // CLAUDE.md rule 4 / ADR-004: NgModules are not a public API.
-          selector: 'Decorator[expression.callee.name="NgModule"]',
-          message:
-            'NgModules are not a TEKAD public API (CLAUDE.md rule 4, ADR-004). Use standalone components, directives and providers.',
-        },
-      ],
     },
   },
 
@@ -146,6 +137,78 @@ export default tseslint.config(
       'no-unused-vars': [
         'error',
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' },
+      ],
+    },
+  },
+
+  /* ------------------ ADR-002 / ADR-003: reactive discipline ---------------
+   * These four patterns are not stylistic. Each is listed verbatim in an ADR
+   * as something "code review specifically rejects" — and a rule that lives
+   * only in a reviewer's head stops being enforced the first busy week.
+   *
+   * Scoped to `packages/` on purpose: an application, a probe or a test may
+   * legitimately do any of these while adapting to something else's API. The
+   * constraint is on what TEKAD ITSELF ships.
+   * ---------------------------------------------------------------------- */
+  {
+    files: ['packages/**/*.ts'],
+    rules: {
+      'no-restricted-syntax': [
+        'error',
+        {
+          // CLAUDE.md rule 4 / ADR-004: NgModules are not a public API.
+          selector: 'Decorator[expression.callee.name="NgModule"]',
+          message:
+            'NgModules are not a TEKAD public API (CLAUDE.md rule 4, ADR-004). Use standalone components, directives and providers.',
+        },
+        {
+          /*
+           * ADR-003: "An internal Subject holding state is a review blocker; a
+           * Subject modelling an event stream is fine."
+           *
+           * BehaviorSubject and ReplaySubject are state by construction — they
+           * exist to replay a current value. A plain Subject is an event
+           * stream and stays allowed, which is what makes this rule precise
+           * rather than a blanket ban on RxJS.
+           */
+          selector: 'NewExpression[callee.name=/^(BehaviorSubject|ReplaySubject)$/]',
+          message:
+            'ADR-002/ADR-003: signals are the canonical state model. A BehaviorSubject or ReplaySubject IS state — it exists to replay a current value — so this creates a second source of truth that must be kept in sync. Use a signal, and derive an Observable at the public boundary with toObservable() if consumers need one. A plain `Subject` modelling an event stream is fine.',
+        },
+        {
+          /*
+           * ADR-002: "effect() is reserved for genuine side effects at the edge
+           * (DOM, focus, announcements) — never to copy one reactive value into
+           * another." A `.set()`/`.update()` inside an effect is that copy.
+           */
+          selector:
+            'CallExpression[callee.name="effect"] CallExpression[callee.property.name=/^(set|update)$/]',
+          message:
+            'ADR-002: effect() is for genuine side effects at the edge (DOM, focus, announcements), never to copy one reactive value into another. Writing a signal inside an effect makes the derivation implicit, ordering-dependent and impossible to read off the declaration. Use computed() instead.',
+        },
+        {
+          /*
+           * A toSignal(toObservable(x)) round-trip converts a signal to an
+           * Observable and straight back, paying subscription and scheduling
+           * cost to arrive where it started — and losing synchronous, glitch-
+           * free semantics on the way.
+           */
+          selector:
+            'CallExpression[callee.name="toSignal"] > CallExpression[callee.name="toObservable"]',
+          message:
+            'ADR-002/ADR-003: this is a toSignal(toObservable(x)) round-trip. It leaves the signal graph and comes back, paying subscription and scheduling cost to arrive where it started, and loses the synchronous glitch-free semantics on the way. Use the signal directly, or computed() if it needs deriving.',
+        },
+        {
+          /*
+           * Hand-rolled subscribe-then-set is the manual version of toSignal:
+           * it needs teardown bookkeeping, has no initial value, and silently
+           * leaks if the subscription outlives the component.
+           */
+          selector:
+            'CallExpression[callee.property.name="subscribe"] CallExpression[callee.property.name=/^(set|update)$/]',
+          message:
+            'ADR-003: copying an Observable into a signal by hand needs teardown bookkeeping, has no initial value, and leaks if the subscription outlives its owner. Convert once at the boundary with toSignal() instead.',
+        },
       ],
     },
   },

@@ -1,0 +1,9 @@
+import { effect, signal } from '@angular/core';
+export class Bad {
+  readonly a = signal(1);
+  readonly b = signal(0);
+  constructor() {
+    // A derivation smuggled in as a side effect. This is computed().
+    effect(() => this.b.set(this.a() * 2));
+  }
+}

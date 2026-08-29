@@ -1,0 +1,12 @@
+import { signal } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import type { Observable } from 'rxjs';
+export class Fine {
+  private readonly state = signal(0);
+  // ADR-003 (1): an Observable DERIVED from the canonical signal, at the edge.
+  readonly state$ = toObservable(this.state);
+  // ADR-003: a consumer-supplied Observable converted ONCE, at the boundary.
+  fromConsumer(source$: Observable<number>) {
+    return toSignal(source$, { initialValue: 0 });
+  }
+}

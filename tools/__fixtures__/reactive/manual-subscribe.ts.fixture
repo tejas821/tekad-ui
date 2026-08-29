@@ -1,0 +1,9 @@
+import { signal } from '@angular/core';
+import type { Observable } from 'rxjs';
+export class Bad {
+  readonly value = signal(0);
+  wire(source$: Observable<number>) {
+    // Hand-rolled toSignal, with no teardown and no initial value.
+    source$.subscribe((v) => this.value.set(v));
+  }
+}
