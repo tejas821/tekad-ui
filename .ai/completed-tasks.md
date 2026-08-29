@@ -189,3 +189,24 @@ phase whose evidence already exists, from P0.
 
 Not done, intentionally: Floating UI positioning, the dismissal dispatcher, the
 focus trap. Each waits for a call site. Phase 7 (forms foundation) next.
+
+## Phase 7 — Forms foundation (2026-08-29)
+
+- [x] **Tested ADR-013's central claim before building on it — and it was
+      false.** Angular 22.1.4 does not forbid a control implementing both forms
+      contracts; it silently prefers the `ControlValueAccessor` and never binds
+      the signal-forms value model.
+- [x] Corrected ADR-013 with a dated section. The decision is unchanged; only
+      its stated reason was wrong, so no superseding ADR was needed.
+- [x] `verify-forms-contracts.mjs` — now load-bearing rather than
+      belt-and-braces, catching both routes to a CVA including the one that
+      never names the interface.
+- [x] `verify-forms-assumptions.mjs` re-runs the measurement every build, so a
+      future Angular that starts rejecting the combination is noticed.
+- [x] Two smaller corrections recorded, including one wrong conclusion that was
+      caught before it was written down.
+
+Not done, intentionally: `@tekad/forms`. The contract is Angular's, and the CVA
+adapter belongs with the Phase 9 slice that gives it something to adapt.
+Phase 8 (testing infrastructure) next — several stopgap browser drivers move
+into it.

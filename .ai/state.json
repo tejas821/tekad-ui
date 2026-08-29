@@ -4,17 +4,17 @@
   "masterPromptVersion": "1.0",
   "updated": "2026-08-29",
   "phase": {
-    "current": "6 - overlay foundation COMPLETE",
-    "next": "Phase 7 - forms foundation (ADR-013, Signal Forms native + a separate CVA adapter entry point)",
+    "current": "7 - forms foundation COMPLETE",
+    "next": "Phase 8 - testing, CI & performance infrastructure (ADR-011, Vitest). Several stopgap browser drivers move into it.",
     "codeWritten": true
   },
   "repository": {
     "root": "ui-library",
-    "vcs": "git, branch main, 9 commits",
+    "vcs": "git, branch main, 11 commits",
     "hasPackageJson": true,
     "hasWorkspace": true,
     "hasCI": true,
-    "sourceCode": "4 packages (@tekad/core, @tekad/button, @tekad/theme, @tekad/overlay), 2 probe apps, 15 CI gates"
+    "sourceCode": "4 packages, 3 probe apps, 17 CI gates"
   },
   "platformBaseline": {
     "verifiedOn": "2026-08-26",
@@ -531,5 +531,44 @@
       "showModal() force-closes auto popovers",
       "showPopover() throws InvalidStateError if called re-entrantly from beforetoggle"
     ]
+  },
+  "phase7": {
+    "doc": "docs/architecture/13-forms-foundation.md",
+    "headline": "ADR-013's central claim was FALSE. The decision stands and is now more important; the reason is corrected.",
+    "claimTested": "\"Angular explicitly forbids implementing both ControlValueAccessor and FormValueControl on the same component.\"",
+    "measured": {
+      "angularVersion": "22.1.4",
+      "method": "real browser, with a signal-forms-only control in the same page as a positive control",
+      "rejected": false,
+      "bootErrors": 0,
+      "consoleErrors": 0,
+      "whichContractWon": "the ControlValueAccessor - writeValue called twice with the correct value",
+      "valueModelBound": false,
+      "renderedInstead": "\"\" where the field held \"changed-both\"",
+      "positiveControl": "a signal-forms-only control bound correctly (\"changed-signal\"), so the probe was measuring something",
+      "mechanism": "FormField.\u0275ngControlCreate resolves if(controlValueAccessor) ... else if(customControl) ... - no branch rejects a host satisfying both"
+    },
+    "whyWorseThanAProhibition": "a prohibition fails at the moment the mistake is made. This compiles, boots, renders, and passes any test that checks the control appears, while the value silently never binds - the failure mode that reaches production.",
+    "adrHandling": "a DATED CORRECTION appended to ADR-013, not a superseding ADR, because the decision is unchanged - only its stated reason was wrong",
+    "gate": {
+      "file": "tools/verify-forms-contracts.mjs",
+      "status": "load-bearing, not belt-and-braces - there is no framework error to fall back on",
+      "checksBothRoutes": [
+        "an implements ... ControlValueAccessor clause",
+        "a class providing NG_VALUE_ACCESSOR without ever naming ControlValueAccessor - invisible to any rule reading only heritage clauses"
+      ],
+      "legalFixture": "a signal-forms control AND a separate CVA adapter in one package - the sanctioned shape; a rule rejecting it would make @tekad/forms/compat impossible to write"
+    },
+    "smallerCorrections": [
+      "FormValueControl and FormCheckboxControl ARE importable from @angular/forms/signals despite not appearing in the visible export block. The wrong conclusion was nearly recorded; compiling an actual import settled it.",
+      "`touch` (OutputRef<void>, control -> field) is NOT `touched` (InputSignal<boolean>, field -> control). One letter apart. The probe got it wrong on first build and the compiler caught it."
+    ],
+    "notBuilt": "@tekad/forms does not exist. The control contract is Angular's, and the one piece of genuine TEKAD code implied - the CVA adapter - is placed by ADR-013 in the Phase 9 slice and needs a control to adapt.",
+    "phase9Owes": [
+      "the CVA adapter, built against real controls",
+      "its own tests, SSR and a11y obligations - ADR-013 says it is public API",
+      "a tree-shaking scenario proving @tekad/forms/compat does not reach a signal-forms-only consumer"
+    ],
+    "watchdog": "tools/verify-forms-assumptions.mjs re-runs the measurement every build. If a future Angular starts REJECTING the combination it fails, and the correction should be revisited."
   }
 }
