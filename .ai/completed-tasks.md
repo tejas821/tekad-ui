@@ -117,3 +117,18 @@ pass), any package, any component. Phase 2 next.
 
 Not done, intentionally: `LICENSE`, any real component, the TEKAD entry-point
 generator, the packed-tarball probe. Phase 3 (reactive foundation) next.
+
+## Phase 3 — Reactive foundation (2026-08-29)
+
+- [x] **No runtime code added, deliberately.** Angular already ships the
+      boundary adapters ADR-003 describes, no caller exists for a normalisation
+      helper, and a state framework is the failure mode this phase was warned
+      about. Recorded in `docs/architecture/09-reactive-foundation.md`.
+- [x] ADR-002's four stated review blockers turned into lint rules scoped to
+      `packages/**`, each message naming its ADR and the correct alternative.
+- [x] Nine self-test cases — five violations, four allowed forms. The allowed
+      forms matter as much: a rule that rejected an event-stream `Subject` or a
+      DOM-touching `effect()` would be enforcing something the ADRs never said.
+
+Not done, intentionally: any reactive utility, `resource`/`httpResource`
+integration, a `providedIn: 'root'` rule. Phase 4 (design tokens) next.

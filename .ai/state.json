@@ -4,13 +4,13 @@
   "masterPromptVersion": "1.0",
   "updated": "2026-08-29",
   "phase": {
-    "current": "2 - package & entry-point architecture COMPLETE",
-    "next": "Phase 3 - reactive foundation (ADR-002/ADR-003)",
+    "current": "3 - reactive foundation COMPLETE",
+    "next": "Phase 4 - design tokens & theme (ADR-007)",
     "codeWritten": true
   },
   "repository": {
     "root": "ui-library",
-    "vcs": "git, branch main, 3 commits (f1965c5, ada0036, 17db29c)",
+    "vcs": "git, branch main, 5 commits",
     "hasPackageJson": true,
     "hasWorkspace": true,
     "hasCI": true,
@@ -404,5 +404,29 @@
       "pnpm re-measurement of the @angular-devkit/build-angular install path - DONE; Phase 1 installed under pnpm and the gate passes"
     ],
     "spikeBItemStillOpen": "a TEKAD secondary-entry-point generator - the stock @nx/angular one emits a FLAT one-level entry point containing an NgModule"
+  },
+  "phase3": {
+    "doc": "docs/architecture/09-reactive-foundation.md",
+    "roadmapInstruction": "Small. Resist building a state framework.",
+    "runtimeCodeAdded": "NONE - deliberately",
+    "whyNothingWasBuilt": [
+      "Angular already ships the adapters: toSignal/toObservable in @angular/core/rxjs-interop ARE the boundary conversions ADR-003 describes. Wrapping them adds a TEKAD name, version and migration cost on top of an API Angular maintains.",
+      "No caller exists. A \"value | Signal | Observable\" normaliser is plausible but the first real component will define its shape better than speculation (CLAUDE.md rule 9).",
+      "Signals already ARE the state framework. The useful work is enforcement, which is a review problem rather than a library problem."
+    ],
+    "whatWasBuilt": "ADR-002/ADR-003 review blockers as no-restricted-syntax rules scoped to packages/**",
+    "rules": [
+      "BehaviorSubject/ReplaySubject banned (state by construction); a plain Subject modelling an event stream is ALLOWED - exactly the line ADR-003 draws",
+      ".set()/.update() inside effect() banned; effect() touching the DOM or moving focus is ALLOWED",
+      "toSignal(toObservable(x)) round-trips banned",
+      "subscribe-then-set by hand banned; toSignal at the boundary is ALLOWED",
+      "NgModule decorator banned in packages (ADR-004, moved here from the repo-wide block - it is a rule about what TEKAD ships)"
+    ],
+    "selfTest": "tools/verify-reactive-rules.test.mjs - 9 cases: 5 violations that must be reported, 4 allowed forms that must not be. The allowed cases carry equal weight: a rule that fires on correct code gets disabled.",
+    "deferred": [
+      "a boundary-normalisation helper, when a real component needs one",
+      "resource / httpResource - nothing in TEKAD fetches anything yet",
+      "a providedIn:'root' rule - none exist yet; the tree-shaking probe grows a scenario when the first appears"
+    ]
   }
 }
