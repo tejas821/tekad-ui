@@ -4,17 +4,17 @@
   "masterPromptVersion": "1.0",
   "updated": "2026-08-29",
   "phase": {
-    "current": "4 - design tokens & theme COMPLETE",
-    "next": "Phase 5 - accessibility foundation (ADR-005)",
+    "current": "5 - accessibility foundation COMPLETE",
+    "next": "Phase 6 - overlay foundation (ADR-010), which the P0 evidence already gates",
     "codeWritten": true
   },
   "repository": {
     "root": "ui-library",
-    "vcs": "git, branch main, 6 commits",
+    "vcs": "git, branch main, 7 commits",
     "hasPackageJson": true,
     "hasWorkspace": true,
     "hasCI": true,
-    "sourceCode": "3 packages (@tekad/core, @tekad/button, @tekad/theme), 1 probe app, 11 CI gates"
+    "sourceCode": "3 packages, 2 probe apps, 14 CI gates"
   },
   "platformBaseline": {
     "verifiedOn": "2026-08-26",
@@ -462,6 +462,52 @@
       "consumer brand seeds - the pipeline is parameterised by tokens/palette.json but the public entry point should be designed against a real request",
       "forced-colors substitutes - ADR-007 decision 7 is a RELEASE gate; there are no box-shadow focus rings yet because there are no styled components yet",
       "the typography scale"
+    ]
+  },
+  "phase5": {
+    "doc": "docs/architecture/11-accessibility-foundation.md",
+    "roadmapInstruction": "thin if @angular/aria is adopted - TEKAD builds only the gaps",
+    "assumptionsReVerified": {
+      "why": "ADR-005 decided TEKAD owns the floating layer AND must build its own live announcer, on facts about a package Angular can change in a PATCH release",
+      "ariaVersion": "22.1.4",
+      "cdkPeer": "22.1.4 - EXACT, not a range, as ADR-005 recorded",
+      "absent": [
+        "aria-live / LiveAnnouncer",
+        "FocusTrap",
+        "showModal / popover / backdrop",
+        "getBoundingClientRect / offsetWidth / getComputedStyle"
+      ],
+      "present": {
+        "compareDocumentPosition": "1 - exactly as recorded",
+        "scrollIntoView": "3 - NEW to the record; Aria scrolls active list items into view. Scrolling, not floating-layer positioning.",
+        "inert": "6 - NEW to the record; bound on Aria's OWN hidden accordion/tab panels and hard-disabled toolbar widgets. NOT a focus trap."
+      },
+      "gate": "tools/verify-aria-assumptions.mjs - runs every build. A failure means an ADR needs rereading, not that something is broken.",
+      "mostImportantImplication": "if Aria ever ships a live announcer, DELETE TEKAD's rather than maintain a duplicate (CLAUDE.md rule 1)"
+    },
+    "built": {
+      "package": "@tekad/core/a11y/live-announcer - its own secondary entry point so an app that never announces never pays for it",
+      "correctnessDecisions": [
+        "lazy browser-only region creation - SSR has no DOM, and creating the region during hydration is a mismatch",
+        "clear-before-set - a live region fires on a CHANGE, so announcing the same string twice is otherwise silently dropped",
+        "one region per politeness - politeness is read when the region is first encountered, so flipping the attribute is unreliable",
+        "visually hidden by CLIPPING - display:none / visibility:hidden / hidden / aria-hidden each remove the element from the accessibility tree, the most common way a live region announces nothing"
+      ]
+    },
+    "verification": {
+      "method": "15 assertions against real Chromium via Playwright (tools/verify-live-announcer.mjs)",
+      "keyObservation": "the clear-then-set observed through a MutationObserver as the sequence [\"\",\"three results\"] - the same-message-twice case actually producing a change",
+      "NOT_PROVED": "that a screen reader speaks. No screen reader has been run at any point in this project. What is verified is the DOM contract they rely on - the same distinction P0 drew for Firefox.",
+      "stopgap": "ADR-011 chose Vitest; Phase 8 builds the test infra and these assertions move into it unchanged"
+    },
+    "alsoDone": [
+      "@angular/aria/private banned by no-restricted-imports (ADR-005), with a PUBLIC Aria entry point as the negative case",
+      "Phase 2's promise kept: the announcer is the repo's first providedIn:'root' service, so the tree-shaking probe gained the scenario Phase 2 said it would need, with a positive control",
+      "@angular/core returned to @tekad/core's peers - declared because it is USED, the only reason a peer should be declared"
+    ],
+    "notBuilt": [
+      "focus trap - genuinely absent from Aria and genuinely needed, but P0 settled that the substrate is native inert + top layer, so it belongs to Phase 6",
+      "directionality - CDK ships it and CDK is already a peer via Aria's exact pin. KEEP before BUILD."
     ]
   }
 }

@@ -150,3 +150,23 @@ integration, a `providedIn: 'root'` rule. Phase 4 (design tokens) next.
 
 Not done, intentionally: the reset layer's contents, consumer brand seeds,
 forced-colors substitutes, typography. Phase 5 (accessibility foundation) next.
+
+## Phase 5 — Accessibility foundation (2026-08-29)
+
+- [x] **Re-verified ADR-005's assumptions before building anything.** Both hold
+      against `@angular/aria` 22.1.4, and two details the original grep missed
+      (`scrollIntoView` ×3, `inert` ×6) are now recorded precisely.
+- [x] `tools/verify-aria-assumptions.mjs` — a gate whose failure means an ADR
+      needs rereading rather than that something is broken.
+- [x] `@tekad/core/a11y/live-announcer` — the one gap this phase owns.
+- [x] **15 behavioural assertions in real Chromium**, including the clear-then-
+      set observed as `["", "three results"]`. Explicitly NOT claiming any
+      screen reader was run.
+- [x] `@angular/aria/private` banned by lint, with a public entry point as the
+      negative case.
+- [x] Phase 2's tree-shaking promise kept for the first `providedIn: 'root'`
+      service, with a positive control.
+
+Not done, intentionally: focus trap (Phase 6, with the floating layer),
+directionality (CDK ships it). Phase 6 (overlay foundation) next — it is the one
+phase whose evidence already exists, from P0.
