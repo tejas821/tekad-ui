@@ -4,17 +4,17 @@
   "masterPromptVersion": "1.0",
   "updated": "2026-08-29",
   "phase": {
-    "current": "7 - forms foundation COMPLETE",
-    "next": "Phase 8 - testing, CI & performance infrastructure (ADR-011, Vitest). Several stopgap browser drivers move into it.",
+    "current": "8 - testing infrastructure COMPLETE",
+    "next": "Phase 9 - first vertical slice. It owes: the CVA adapter (ADR-013), size-limit per-entry budgets, forced-colors snapshots, an SSR/hydration test per package, and axe on every example - all four deferred from Phase 8 because they need components to measure.",
     "codeWritten": true
   },
   "repository": {
     "root": "ui-library",
-    "vcs": "git, branch main, 11 commits",
+    "vcs": "git, branch main, 14 commits",
     "hasPackageJson": true,
     "hasWorkspace": true,
     "hasCI": true,
-    "sourceCode": "4 packages, 3 probe apps, 17 CI gates"
+    "sourceCode": "4 packages, 3 probe apps, 19 CI gates, 27 unit tests"
   },
   "platformBaseline": {
     "verifiedOn": "2026-08-26",
@@ -111,13 +111,13 @@
   },
   "keyFindings": [
     "PrimeNG v22 left open source: commercial PrimeUI licence with licence-key enforcement; v21 stays MIT; public repo frozen at 21.1.9; MIT fork @openng/optimus-ui appeared within 3 weeks",
-    "@angular/aria is stable in v22: MIT, headless, zero CSS, 12 patterns, test harnesses \u2014 adopt for the Pattern layer",
-    "@angular/aria peer-pins @angular/cdk at an EXACT version \u2014 'Aria instead of CDK' is not an option",
-    "@angular/aria positions nothing: no dialog, tooltip, popover, focus trap, overlay \u2014 TEKAD owns the entire floating layer",
+    "@angular/aria is stable in v22: MIT, headless, zero CSS, 12 patterns, test harnesses — adopt for the Pattern layer",
+    "@angular/aria peer-pins @angular/cdk at an EXACT version — 'Aria instead of CDK' is not an option",
+    "@angular/aria positions nothing: no dialog, tooltip, popover, focus trap, overlay — TEKAD owns the entire floating layer",
     "@angular/cdk/overlay is ~24 KB gzip and does NOT tree-shake (minimal import is 98% of the full barrel); focus trap is pre-inert",
     "CDK overlay v22 already uses the Popover API by default (usePopover ?? true)",
-    "CSS `overlay` property unsupported in Firefox and Safari (73.5% global) \u2014 exit-animation top-layer demotion is the go/no-go risk",
-    "Angular forbids implementing both ControlValueAccessor and FormValueControl on one component \u2014 Reactive Forms support must be a separate CVA adapter entry point",
+    "CSS `overlay` property unsupported in Firefox and Safari (73.5% global) — exit-animation top-layer demotion is the go/no-go risk",
+    "Angular forbids implementing both ControlValueAccessor and FormValueControl on one component — Reactive Forms support must be a separate CVA adapter entry point",
     "Nx lags Angular majors by 4-8 weeks; Nx free remote cache deprecated over CVE-2025-36852 (CREEP), whose threat model is an OSS repo taking fork PRs",
     "ng-packagr generates the exports map with no wildcard subpath, so internal paths are unimportable by default",
     "CORRECTED 2026-08-28 (Spike B): ng-packagr emits no shared CHUNK files, but it does NOT duplicate either - each secondary FESM keeps a bare unresolved package-name import and the shared code lives once in the primary FESM, so deduplication is deferred to the consumer's bundler. The outcome that matters (no duplication) holds.",
@@ -126,7 +126,10 @@
     "Spike B (OBSERVED): @nx/angular 23.1.1 routes through @angular/build, not the deprecated @angular-devkit/build-angular - both library and app builds succeed with that package removed from disk.",
     "Spike B (OBSERVED): Nx 23's default TypeScript setup (project references) is REFUSED by @nx/angular generators per angular/angular#37276 - TEKAD must scaffold on the legacy tsconfig.base.json + paths setup.",
     "Spike B (OBSERVED): create-nx-workspace --preset=angular-monorepo now resolves to a fixed GitHub template and ignores --appName/--ssr/--routing - not usable as TEKAD's scaffold.",
-    "Spike B (OBSERVED): @nx/angular 23.1.1 pins Angular ~22.0.4 and installed 22.0.6; the P0/P1 gates were measured against 22.1.4, so Phase 1 must pin Angular explicitly after scaffolding."
+    "Spike B (OBSERVED): @nx/angular 23.1.1 pins Angular ~22.0.4 and installed 22.0.6; the P0/P1 gates were measured against 22.1.4, so Phase 1 must pin Angular explicitly after scaffolding.",
+    "Phase 8 (OBSERVED): a green unit suite is not evidence. Deleting the one line that makes a repeated live-region announcement audible left 9 of the announcer's 11 tests passing. Only 2 caught it - tools/verify-mutation.mjs now pairs each plausible defect with the test that must catch it.",
+    "Phase 8 (OBSERVED): @angular/build:unit-test REFUSES a @nx/angular:package build target - every TEKAD library. @nx/angular:unit-test works and delegates to the same executeUnitTestBuilder after patchBuilderContext, so ADR-011's Vitest decision stands and only the executor name changes.",
+    "Phase 8 (OBSERVED): the unit-test DOM is jsdom with NO showPopover, dialog.showModal, inert, element.animate, getAnimations or matchMedia. TransitionEvent is present. The overlay lifecycle proof therefore CANNOT move into the unit runner as 12-overlay-foundation.md promised."
   ],
   "prototypes": {
     "P0_overlay": {
@@ -397,7 +400,7 @@
     "gatesAddedInPhase2": [
       "verify-package-format.mjs - CI gate 9; partial compilation, exports map, sideEffects, ESM, types, no internal or wildcard path, no exact external peer pin, publish safety",
       "verify-treeshaking.mjs - CI gate 11",
-      "verify-entrypoint-boundaries.mjs - replaces ng-packagr\u2019s internal crash with a readable error (Spike B item)"
+      "verify-entrypoint-boundaries.mjs - replaces ng-packagr’s internal crash with a readable error (Spike B item)"
     ],
     "spikeBItemsClosed": [
       "entry-point boundary lint - DONE as a gate script; a custom ESLint plugin would mean publishing a package to hold one rule before TEKAD has a component (CLAUDE.md rule 9)",
@@ -546,7 +549,7 @@
       "valueModelBound": false,
       "renderedInstead": "\"\" where the field held \"changed-both\"",
       "positiveControl": "a signal-forms-only control bound correctly (\"changed-signal\"), so the probe was measuring something",
-      "mechanism": "FormField.\u0275ngControlCreate resolves if(controlValueAccessor) ... else if(customControl) ... - no branch rejects a host satisfying both"
+      "mechanism": "FormField.ɵngControlCreate resolves if(controlValueAccessor) ... else if(customControl) ... - no branch rejects a host satisfying both"
     },
     "whyWorseThanAProhibition": "a prohibition fails at the moment the mistake is made. This compiles, boots, renders, and passes any test that checks the control appears, while the value silently never binds - the failure mode that reaches production.",
     "adrHandling": "a DATED CORRECTION appended to ADR-013, not a superseding ADR, because the decision is unchanged - only its stated reason was wrong",
@@ -570,5 +573,91 @@
       "a tree-shaking scenario proving @tekad/forms/compat does not reach a signal-forms-only consumer"
     ],
     "watchdog": "tools/verify-forms-assumptions.mjs re-runs the measurement every build. If a future Angular starts REJECTING the combination it fails, and the correction should be revisited."
+  },
+  "phase8": {
+    "doc": "docs/architecture/14-testing-infrastructure.md",
+    "adrHandling": "a DATED CORRECTION appended to ADR-011, not a superseding ADR - Vitest is still the runner; two mechanical claims around it were wrong and one consequence was unforeseen",
+    "headline": "The suites went green immediately. The phase's real work was establishing that green means something.",
+    "runner": {
+      "executor": "@nx/angular:unit-test - NOT @angular/build:unit-test, which ADR-011 named",
+      "whyTheAdrsNameFails": "'The buildTarget is configured to use @nx/angular:package, which is not supported' - that is every library in this repo",
+      "howTheWorkingOneWorks": "calls patchBuilderContext(builderContext, buildTarget) then delegates to the same executeUnitTestBuilder from @angular/build, so Vitest and the runner semantics ADR-011 chose are unchanged",
+      "runnerVersion": "vitest 4.1.11",
+      "includeGlobBase": "the project SOURCE ROOT, not the project root. Secondary entry points live outside src/, so they need an explicit ../a11y/**/*.spec.ts - ../**/*.spec.ts was MEASURED pulling another package's specs into the build."
+    },
+    "unitTestDom": {
+      "engine": "jsdom",
+      "absent": [
+        "showPopover",
+        "popover attribute",
+        "dialog.showModal",
+        "inert",
+        "checkVisibility",
+        "element.animate",
+        "getAnimations",
+        "matchMedia"
+      ],
+      "present": [
+        "TransitionEvent"
+      ],
+      "consequence": "12-overlay-foundation.md promised the 33-assertion lifecycle proof would move here 'unchanged'. It cannot. jsdom carries the EVENT that ends a deferred close and none of the STATE a deferred close exists to manage; a spec written against a real element here would be a double wearing a real element's name - worse than an honest double, because it would read as browser-backed.",
+      "gate": "packages/overlay/src/lib/unit-test-dom.spec.ts asserts each absence, so a jsdom upgrade that lands showPopover FAILS and says the double may be retirable. Same arrangement as ADR-005's assumptions gate.",
+      "divisionPhase9Inherits": "logic, ordering, lifecycle and DOM structure in jsdom; top layer, focus, inert, animation, media queries and computed style in a real browser via the Playwright gates"
+    },
+    "theFinding": {
+      "what": "9 of the live-announcer's 11 browser tests still pass when its central behaviour is deleted",
+      "behaviourDeleted": "clearing the region before setting it, so the change is observable - without it a repeated message is silently dropped",
+      "whichTwoCaught": [
+        "the one that watches with a MutationObserver and requires the region to have passed through empty",
+        "the one that requires the clear to be synchronous while the set is not"
+      ],
+      "whyItMatters": "'the text is right' and 'the text was observed to change' are different claims, and only the second is why the code is shaped this way. Nothing in the toolchain knew the difference; 9 tests looked exactly as authoritative as the 2 that mattered."
+    },
+    "gatesAddedInPhase8": [
+      "tools/verify-mutation.mjs + tools/mutants.json + tools/lib/mutation.mjs + mutation.test.mjs - CI gate 18",
+      "tools/verify-test-discovery.mjs + tools/lib/test-discovery.mjs + test-discovery.test.mjs - CI gate 19"
+    ],
+    "mutationGate": {
+      "principle": "every gate in tools/ ships a self-test proving it fails when it should. Unit tests had no equivalent and need one MORE - a broken gate fails loudly on its fixture, whereas a unit test that has stopped asserting anything simply stays green.",
+      "mutants": 7,
+      "allCaught": true,
+      "whyNamedTests": "'the run went red' is not evidence. A mutant that fails to compile fails everything, and a renamed test leaves the run red for a reason nobody chose.",
+      "threeRejectedFailureShapes": [
+        "the mutant SURVIVED - everything passed, so nothing covers the behaviour",
+        "the mutant BROKE THE BUILD - zero tests ran, so redness is guaranteed and meaningless",
+        "the NAMED TEST IS GONE - something unrelated failed instead, which is the exact decay the gate exists to catch"
+      ],
+      "deliberatelyNot": "a mutation-testing framework. No operator library, no generated mutants, no score - those produce hundreds of mostly-equivalent mutants and a percentage nobody acts on. A hand-written manifest of plausible defects clears CLAUDE.md rule 9 on both counts.",
+      "safety": "the ONLY tool in TEKAD that edits source files. Restores in a finally, on SIGINT/SIGTERM and again on exit, then re-reads each file to confirm; exits non-zero naming the file if it cannot."
+    },
+    "discoveryGate": {
+      "why": "the ../** leak failed the build LOUDLY. The same slip in the other direction - a new entry point no glob happens to match - produces a green run of a suite that never executed and says nothing at all.",
+      "method": "asks the executor what it discovered (nx test <p> --listTests) rather than re-implementing the glob semantics, because modelling the executor's behaviour a second time is how the original mistake was made",
+      "check": "an EQUALITY in both directions - discovered must be exactly the spec files on disk under that package",
+      "orphanRule": "a package with no behaviour worth testing needs no test target (@tekad/theme is a constant and a type), but spec files with NO test target are a failure - someone wrote those and nothing has ever run them"
+    },
+    "tests": {
+      "unitTests": 27,
+      "byProject": {
+        "core": 15,
+        "button": 5,
+        "overlay": 7
+      },
+      "gateSelfTestsAdded": 22,
+      "noTestTarget": "@tekad/theme - a constant and a type"
+    },
+    "exampleOfIntendedShape": "packages/button/src/lib/tekad-button.spec.ts does not assert type=\"button\" as an attribute. It puts the button in a <form>, clicks it, and requires the form not to submit - with a companion test proving the environment DOES implement implicit submission, so a passing negative means something.",
+    "notBuilt": {
+      "sizeLimitBudgets": "ADR-011 specifies size-limit 13.x with @size-limit/esbuild. Deferred: needs components to measure. TekadButton is a packaging fixture and a budget set against it would baseline something about to be deleted.",
+      "forcedColorsSnapshots": "deferred - same reason",
+      "ssrHydrationTestPerPackage": "deferred - same reason",
+      "axeOnEveryExample": "deferred - there are no examples yet",
+      "whatDoesExist": "the theme CSS budget (Phase 4) and the tree-shaking probe (Phase 2) - the two budgets that could exist without components are gates already"
+    },
+    "stillUnverified": [
+      "no screen reader has been run - neither the unit tests nor the browser gates prove a user hears anything; what they prove is that the DOM presents the change a screen reader is specified to act on",
+      "Firefox/Gecko, real Safari, mobile virtual keyboards",
+      "prefers-reduced-motion in WebKit - and now known to be unreachable in the unit runner too, since jsdom has no matchMedia"
+    ]
   }
 }

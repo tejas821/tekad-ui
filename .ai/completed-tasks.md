@@ -210,3 +210,40 @@ Not done, intentionally: `@tekad/forms`. The contract is Angular's, and the CVA
 adapter belongs with the Phase 9 slice that gives it something to adapt.
 Phase 8 (testing infrastructure) next — several stopgap browser drivers move
 into it.
+
+## Phase 8 — Testing infrastructure (2026-08-29)
+
+- [x] **Wired Vitest, and found ADR-011 names an executor that cannot run this
+      workspace.** `@angular/build:unit-test` refuses a `@nx/angular:package`
+      build target — every library here. `@nx/angular:unit-test` works, and
+      works by delegating to the same `executeUnitTestBuilder`, so the decision
+      stands and only the name moves.
+- [x] **Measured the unit-test DOM before trusting it.** jsdom, with no
+      `showPopover`, `dialog.showModal`, `inert`, Web Animations or
+      `matchMedia`. The overlay lifecycle proof therefore cannot move here as
+      Phase 6 promised, and `unit-test-dom.spec.ts` asserts each absence so a
+      jsdom upgrade fails and says the double may be retirable.
+- [x] **Found that a green suite is not evidence.** Deleting the one line that
+      makes a repeated live-region announcement audible left 9 of the
+      announcer's 11 tests passing. Only 2 caught it.
+- [x] `verify-mutation.mjs` — pairs each plausible defect with the test that
+      must catch it and requires *that named test* to fail. Seven mutants, all
+      caught. Rejects three ways a red run can be meaningless: a surviving
+      mutant, a mutant that broke the build, and a named test that no longer
+      exists.
+- [x] `verify-test-discovery.mjs` — asserts that what the executor discovers is
+      exactly the specs on disk, by asking it (`--listTests`) rather than
+      modelling the globs a second time. Found because `../**/*.spec.ts` was
+      measured reaching into a sibling package.
+- [x] 27 unit tests across `core`, `button` and `overlay`; 22 new gate
+      self-tests; a dated correction on ADR-011.
+
+Not done, intentionally: `size-limit` per-entry budgets, forced-colors
+snapshots, the SSR/hydration test per package, and `axe` on every example. All
+four need components to measure, and `TekadButton` is a packaging fixture — a
+budget set against it would baseline something about to be deleted. Phase 9
+(first vertical slice) is the first phase with anything real to measure, and
+inherits all four along with ADR-013's CVA adapter.
+
+Still unverified, stated again because a testing phase is exactly where it
+would be tempting to imply otherwise: **no screen reader has been run.**
