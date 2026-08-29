@@ -15,16 +15,24 @@
     "**/*.test.ts",
     "tools/boundary-fixtures/**",
 
-    // The Playwright drivers below are excluded from checkJs, NOT from lint.
+    // TEST DRIVERS AND DOUBLES — excluded from checkJs, NOT from lint.
     //
-    // The bodies passed to page.evaluate() are serialised and executed inside
-    // the BROWSER, against a window this process never sees. Type-checking them
-    // here would mean declaring page-context globals on Node's Window type,
-    // which is not merely ceremony — it is a false statement about what this
-    // file's runtime provides. Their assertions are verified by running against
-    // a real browser, which is a stronger check than tsc could offer. They join
-    // the real suite in Phase 8 (ADR-011, Vitest).
+    // The Playwright drivers pass bodies to page.evaluate() that are serialised
+    // and executed inside the BROWSER, against a window this process never
+    // sees. Type-checking them here would mean declaring page-context globals
+    // on Node's Window type — not merely ceremony, but a false statement about
+    // what this file's runtime provides.
+    //
+    // The overlay lifecycle proof carries a DOM test double that deliberately
+    // implements a loose subset of the real interfaces. Typing it fully would
+    // mean either claiming it is an HTMLElement (it is not) or wrapping a
+    // stand-in in more type ceremony than the thing it stands in for.
+    //
+    // All three are verified by RUNNING — against a real browser, or against
+    // the built package — which is a stronger check than tsc could offer here.
+    // They join the real suite in Phase 8 (ADR-011, Vitest).
     "tools/verify-live-announcer.mjs",
-    "tools/verify-treeshaking.mjs"
+    "tools/verify-treeshaking.mjs",
+    "tools/verify-overlay-lifecycle.test.mjs"
   ]
 }

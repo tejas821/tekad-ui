@@ -63,6 +63,7 @@ const ENTRY_POINTS = {
   '@tekad/core/a11y/live-announcer':
     'packages/core/a11y/live-announcer/src/tekad-core-a11y-live-announcer.ts',
   '@tekad/button': 'packages/button/src/tekad-button.ts',
+  '@tekad/overlay': 'packages/overlay/src/tekad-overlay.ts',
 };
 
 /**
@@ -131,7 +132,12 @@ el.id = uniqueId('probe');
 document.body.appendChild(el);
 `,
     mustInclude: ['@tekad/core/primitives/identity'],
-    mustExclude: ['@tekad/core', '@tekad/button', '@tekad/core/a11y/live-announcer'],
+    mustExclude: [
+      '@tekad/core',
+      '@tekad/button',
+      '@tekad/core/a11y/live-announcer',
+      '@tekad/overlay',
+    ],
   },
   {
     name: 'the same app that DOES inject it',
