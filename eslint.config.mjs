@@ -131,7 +131,22 @@ export default tseslint.config(
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
-      globals: { process: 'readonly', console: 'readonly', URL: 'readonly' },
+      /*
+       * The Node globals these build scripts actually use. Listed explicitly
+       * rather than pulled from a `globals` package: the list is short, it
+       * documents what the tooling layer depends on, and an unexpected name
+       * appearing here is a signal worth seeing in review.
+       */
+      globals: {
+        process: 'readonly',
+        console: 'readonly',
+        Buffer: 'readonly',
+        URL: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+      },
     },
     rules: {
       'no-unused-vars': [

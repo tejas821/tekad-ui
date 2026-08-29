@@ -64,6 +64,15 @@ jobs:
       - name: Entry-point boundaries
         run: pnpm run verify:entrypoints
 
+      # ADR-007 decision 6 — contrast is a BUILD-TIME assertion, not a review
+      # habit. Every semantic pair is checked in both schemes, because checking
+      # a palette once in light mode and deriving dark by inverting the ramp is
+      # exactly how a pair that cleared 4.5:1 on white ends up at 3.9:1 on
+      # near-black with nobody noticing. Also verifies the committed token
+      # output is current.
+      - name: Colour contrast (WCAG 2.2 AA)
+        run: pnpm run verify:contrast
+
       # Gate 2
       - name: Format check
         run: pnpm run format:check
@@ -101,6 +110,13 @@ jobs:
       # probe that has stopped measuring anything fails rather than passes.
       - name: Tree-shaking probe
         run: pnpm run verify:treeshaking
+
+      # The one numeric budget that exists before Phase 9, because ADR-007
+      # already states it: ~2 KB gzip for the theme sheet, ~1 KB for the
+      # light-dark() fallback. Growth here is almost always a variant axis that
+      # has become a selector.
+      - name: Theme CSS budget
+        run: pnpm run verify:css-budget
 
   # Gates 12 and 13 run separately so a vulnerability or licence finding is
   # legible on its own rather than buried in a build log.

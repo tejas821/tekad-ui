@@ -1,0 +1,32 @@
+{
+  "name": "theme",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/theme/src",
+  "prefix": "tk",
+  "projectType": "library",
+  "tags": ["layer:foundation"],
+  "targets": {
+    "tokens": {
+      "executor": "nx:run-commands",
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/tokens/**/*",
+        "{workspaceRoot}/tools/build-tokens.mjs",
+        "{workspaceRoot}/tools/lib/color.mjs"
+      ],
+      "outputs": ["{projectRoot}/styles/tekad.css", "{projectRoot}/tokens.json"],
+      "options": { "command": "node tools/build-tokens.mjs" }
+    },
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/packages/theme"],
+      "dependsOn": ["tokens"],
+      "options": {
+        "project": "packages/theme/ng-package.json",
+        "tsConfig": "packages/theme/tsconfig.lib.json"
+      },
+      "configurations": { "production": {}, "development": {} },
+      "defaultConfiguration": "production"
+    }
+  }
+}
