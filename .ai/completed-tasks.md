@@ -170,3 +170,22 @@ forced-colors substitutes, typography. Phase 5 (accessibility foundation) next.
 Not done, intentionally: focus trap (Phase 6, with the floating layer),
 directionality (CDK ships it). Phase 6 (overlay foundation) next — it is the one
 phase whose evidence already exists, from P0.
+
+## Phase 6 — Overlay foundation (2026-08-29)
+
+- [x] `@tekad/overlay` — P0's deferred-close primitive ported to TypeScript
+      under strict settings, building clean.
+- [x] The candidate's harness scaffolding (16 counters, two growing arrays per
+      instance) replaced by an optional diagnostics sink.
+- [x] 33 assertions against the **built** package, covering the whole §H5
+      contract.
+- [x] **The control is stronger than P0's record**: the pre-fix ordering does
+      not re-enter once, it recurses without bound. Test caps the depth only so
+      it can observe the recursion instead of dying of it.
+- [x] Found a defect in the test rather than the code, and corrected it to
+      measure the thing a leak would actually look like.
+- [x] Narrowed the focus-trap requirement: `showModal()` already provides it at
+      96.1%, so only the `position: fixed` fallback path needs a bespoke one.
+
+Not done, intentionally: Floating UI positioning, the dismissal dispatcher, the
+focus trap. Each waits for a call site. Phase 7 (forms foundation) next.

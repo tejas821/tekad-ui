@@ -4,17 +4,17 @@
   "masterPromptVersion": "1.0",
   "updated": "2026-08-29",
   "phase": {
-    "current": "5 - accessibility foundation COMPLETE",
-    "next": "Phase 6 - overlay foundation (ADR-010), which the P0 evidence already gates",
+    "current": "6 - overlay foundation COMPLETE",
+    "next": "Phase 7 - forms foundation (ADR-013, Signal Forms native + a separate CVA adapter entry point)",
     "codeWritten": true
   },
   "repository": {
     "root": "ui-library",
-    "vcs": "git, branch main, 7 commits",
+    "vcs": "git, branch main, 9 commits",
     "hasPackageJson": true,
     "hasWorkspace": true,
     "hasCI": true,
-    "sourceCode": "3 packages, 2 probe apps, 14 CI gates"
+    "sourceCode": "4 packages (@tekad/core, @tekad/button, @tekad/theme, @tekad/overlay), 2 probe apps, 15 CI gates"
   },
   "platformBaseline": {
     "verifiedOn": "2026-08-26",
@@ -508,6 +508,28 @@
     "notBuilt": [
       "focus trap - genuinely absent from Aria and genuinely needed, but P0 settled that the substrate is native inert + top layer, so it belongs to Phase 6",
       "directionality - CDK ships it and CDK is already a peer via Aria's exact pin. KEEP before BUILD."
+    ]
+  },
+  "phase6": {
+    "doc": "docs/architecture/12-overlay-foundation.md",
+    "package": "@tekad/overlay (layer:foundation) - the deferred-close top-layer primitive",
+    "evidenceOrigin": "the only phase whose evidence predates the code: P0 measured this primitive across 13 lifecycle cases in Chromium and WebKitGTK",
+    "changeFromP0Candidate": "P0's 16-counter stats object and two growing event arrays were harness scaffolding; replaced by an optional diagnostics SINK - tests attach one, production attaches nothing and pays nothing",
+    "proof": {
+      "assertions": 33,
+      "runsAgainst": "the BUILT package, because a partial-compiled FESM is what a consumer receives",
+      "evidenceClass": "DEFENSIVE / SIMULATED - no browser was ever observed delivering toggle synchronously and none is claimed to",
+      "controlFinding": "the pre-fix ordering does not merely re-enter once - uncapped it dies with RangeError: Maximum call stack size exceeded, recursing WITHOUT BOUND, because the state is never terminal when the nested handler checks it. P0 recorded it as \"could re-enter cleanup\"; this is stronger.",
+      "testDefectFound": "the first listener-balance assertion failed at 3 vs 1 because it measured MID-CLOSE, when two transition listeners are legitimately outstanding. The test was wrong, not the code. The corrected assertion checks the count does not GROW with cycle count."
+    },
+    "notBuilt": {
+      "positioning": "Floating UI waits for a component that needs positioning. 6.4 KB gzip against ADR-010's 10 KB budget; the budget is measurable the moment there is something to measure.",
+      "dismissalDispatcher": "exists for nested portalled submenus and tooltips. There are none.",
+      "focusTrap": "NARROWER than ADR-010 implies. showModal() already grants inert, aria-modal, Escape and focus restore at 96.1%, and non-modal popovers should not trap focus at all - so a bespoke trap is needed ONLY on the position:fixed fallback path, and that should be confirmed against a real fallback before building for it."
+    },
+    "permanentSequencingConstraints": [
+      "showModal() force-closes auto popovers",
+      "showPopover() throws InvalidStateError if called re-entrantly from beforetoggle"
     ]
   }
 }
