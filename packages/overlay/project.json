@@ -13,8 +13,20 @@
         "project": "packages/overlay/ng-package.json",
         "tsConfig": "packages/overlay/tsconfig.lib.json"
       },
-      "configurations": { "production": {}, "development": {} },
+      "configurations": {
+        "production": {},
+        "development": {}
+      },
       "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nx/angular:unit-test",
+      "options": {
+        "buildTarget": "overlay:build",
+        "tsConfig": "packages/overlay/tsconfig.spec.json",
+        "runner": "vitest",
+        "include": ["**/*.spec.ts"]
+      }
     }
   }
 }

@@ -111,6 +111,27 @@ jobs:
       - name: Test
         run: pnpm exec nx affected -t test --parallel=3
 
+      # `nx affected -t test` above runs the suites that exist. This asserts
+      # that the suites that exist are the ones on disk. `@nx/angular:unit-test`
+      # discovers specs by glob against the project SOURCE ROOT, so a secondary
+      # entry point added outside those patterns is skipped in silence and the
+      # run stays green. Measured both ways: an over-broad `../**` pulled one
+      # package's specs into another's build (loud), and the opposite slip says
+      # nothing at all.
+      - name: Every spec is actually run
+        run: pnpm run verify:test-discovery
+
+      # And that the suites are load-bearing. Deleting the one line that makes a
+      # repeated live-region announcement audible still leaves nine of the
+      # announcer's eleven tests green — "the suite passes" was never the
+      # interesting fact. Each mutant is a plausible defect paired with the test
+      # that must catch it; a surviving mutant fails the build.
+      #
+      # NOT run under `affected`: it edits source files, and the set it edits is
+      # its manifest's, not the diff's.
+      - name: Tests fail when the code is wrong
+        run: pnpm run verify:mutation
+
       - name: Build
         run: pnpm exec nx affected -t build --parallel=3
 

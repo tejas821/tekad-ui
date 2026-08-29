@@ -1,0 +1,107 @@
+{
+  "$comment": [
+    "Mutants for tools/verify-mutation.mjs. Each entry is a defect a person",
+    "could plausibly write, paired with the test(s) that must catch it.",
+    "",
+    "`find` and `replace` are arrays of source lines, joined with \\n. Whitespace",
+    "is significant — the anchor must match the file exactly, and must match it",
+    "exactly once.",
+    "",
+    "Adding a mutant is how you assert that a piece of behaviour is genuinely",
+    "covered. Removing one because it fails is how the gate stops meaning",
+    "anything; fix the test instead."
+  ],
+  "mutants": [
+    {
+      "id": "announcer/assign-directly",
+      "why": "A live region only announces when its content CHANGES. Setting textContent directly makes a repeated message silent — the single most common way this class of service is subtly broken.",
+      "project": "core",
+      "file": "packages/core/a11y/live-announcer/src/lib/live-announcer.ts",
+      "find": [
+        "    region.textContent = '';",
+        "    if (this.#pending !== null) clearTimeout(this.#pending);",
+        "    this.#pending = setTimeout(() => {",
+        "      region.textContent = text;",
+        "      this.#pending = null;",
+        "    });"
+      ],
+      "replace": ["    region.textContent = text;"],
+      "expectFailing": [
+        "is OBSERVED to change when the same message is announced twice",
+        "empties the region synchronously, before the text arrives"
+      ]
+    },
+    {
+      "id": "announcer/eager-regions",
+      "why": "Creating the regions in the constructor rather than on first use. Costs every app that never announces, and on the server produces a node the client then has to reconcile — a hydration mismatch.",
+      "project": "core",
+      "file": "packages/core/a11y/live-announcer/src/lib/live-announcer.ts",
+      "find": ["    inject(DestroyRef).onDestroy(() => this.#teardown());"],
+      "replace": [
+        "    inject(DestroyRef).onDestroy(() => this.#teardown());",
+        "    if (this.#isBrowser) this.#ensureRegions();"
+      ],
+      "expectFailing": [
+        "creates nothing until something is announced",
+        "ignores an empty or whitespace-only message, and stays inert doing it"
+      ]
+    },
+    {
+      "id": "announcer/leak-regions",
+      "why": "Teardown that empties the regions but never removes them. Each destroyed injector leaves two nodes in the accessibility tree; nothing visibly breaks until a screen reader is reading a page with dozens of them.",
+      "project": "core",
+      "file": "packages/core/a11y/live-announcer/src/lib/live-announcer.ts",
+      "find": ["    this.#regions?.polite.remove();", "    this.#regions?.assertive.remove();", ""],
+      "replace": [""],
+      "expectFailing": ["removes its regions when the injector is destroyed"]
+    },
+    {
+      "id": "announcer/no-server-guard",
+      "why": "Announcing on the server. There is no DOM to announce into, and the attempt either throws during SSR or emits markup the client never expects.",
+      "project": "core",
+      "file": "packages/core/a11y/live-announcer/src/lib/live-announcer.ts",
+      "find": ["    if (!this.#isBrowser) return;", ""],
+      "replace": [""],
+      "expectFailing": ["touches no DOM"]
+    },
+    {
+      "id": "announcer/clear-does-not-cancel",
+      "why": "clear() that empties the regions but leaves the pending timeout armed. The message lands a task later, so a view torn down mid-announcement still gets read out, describing something that is gone.",
+      "project": "core",
+      "file": "packages/core/a11y/live-announcer/src/lib/live-announcer.ts",
+      "find": [
+        "    if (this.#pending !== null) {",
+        "      clearTimeout(this.#pending);",
+        "      this.#pending = null;",
+        "    }",
+        "    if (this.#regions) {"
+      ],
+      "replace": ["    if (this.#regions) {"],
+      "expectFailing": ["does not announce a message that clear() overtook"]
+    },
+    {
+      "id": "announcer/shared-region",
+      "why": "One region with a flipped aria-live attribute instead of two. Politeness is read when a region is first encountered, so the flip is unreliable and an assertive message can be delivered politely — or not at all.",
+      "project": "core",
+      "file": "packages/core/a11y/live-announcer/src/lib/live-announcer.ts",
+      "find": [
+        "      polite: this.#createRegion('polite'),",
+        "      assertive: this.#createRegion('assertive'),"
+      ],
+      "replace": [
+        "      polite: this.#createRegion('polite'),",
+        "      assertive: this.#createRegion('polite'),"
+      ],
+      "expectFailing": ["routes politeness to separate regions"]
+    },
+    {
+      "id": "identity/non-unique",
+      "why": "uniqueId returning a constant suffix. Duplicate ids silently break every aria-labelledby and aria-describedby that points at one — the label resolves to whichever element the browser found first.",
+      "project": "core",
+      "file": "packages/core/primitives/identity/src/lib/unique-id.ts",
+      "find": ["  return `${prefix}-${++counter}`;"],
+      "replace": ["  return `${prefix}-1`;"],
+      "expectFailing": ["never returns the same id twice"]
+    }
+  ]
+}
