@@ -2,7 +2,7 @@
   "name": "@tekad/source",
   "version": "0.0.0",
   "private": true,
-  "description": "TEKAD \u2014 an Angular-22-first open-source UI ecosystem. Workspace root; not published.",
+  "description": "TEKAD — an Angular-22-first open-source UI ecosystem. Workspace root; not published.",
   "license": "Apache-2.0",
   "packageManager": "pnpm@11.24.0",
   "engines": {
@@ -19,9 +19,9 @@
     "test": "nx run-many -t test",
     "graph": "nx graph",
     "verify:no-webpack-builder": "node tools/verify-no-webpack-builder.mjs",
-    "verify": "pnpm run format:check && pnpm run verify:no-webpack-builder && pnpm run verify:deps && pnpm run verify:entrypoints && pnpm run verify:aria && pnpm run verify:forms-contracts && pnpm run verify:contrast && pnpm run verify:gates && pnpm run lint && pnpm run typecheck",
+    "verify": "pnpm run format:check && pnpm run verify:no-webpack-builder && pnpm run verify:deps && pnpm run verify:entrypoints && pnpm run verify:aria && pnpm run verify:forms-contracts && pnpm run verify:contrast && pnpm run verify:gates && pnpm run test && pnpm run verify:test-discovery && pnpm run lint && pnpm run typecheck",
     "verify:deps": "node tools/verify-dependency-policy.mjs",
-    "verify:gates": "node tools/verify-no-webpack-builder.test.mjs && node tools/verify-dependency-policy.test.mjs && node tools/verify-licences.test.mjs && node tools/verify-audit.test.mjs && node tools/verify-package-format.test.mjs && node tools/verify-entrypoint-boundaries.test.mjs && node tools/verify-reactive-rules.test.mjs && node tools/lib/color.test.mjs && node tools/verify-contrast.test.mjs && node tools/verify-forms-contracts.test.mjs && node tools/verify-boundaries.test.mjs",
+    "verify:gates": "node tools/verify-no-webpack-builder.test.mjs && node tools/verify-dependency-policy.test.mjs && node tools/verify-licences.test.mjs && node tools/verify-audit.test.mjs && node tools/verify-package-format.test.mjs && node tools/verify-entrypoint-boundaries.test.mjs && node tools/verify-reactive-rules.test.mjs && node tools/lib/color.test.mjs && node tools/verify-contrast.test.mjs && node tools/verify-forms-contracts.test.mjs && node tools/verify-boundaries.test.mjs && node tools/lib/mutation.test.mjs && node tools/lib/test-discovery.test.mjs",
     "verify:licences": "pnpm licenses list --prod --json > .nx/lic-prod.json && pnpm licenses list --json > .nx/lic-all.json && node tools/verify-licences.mjs .nx/lic-prod.json .nx/lic-all.json",
     "verify:audit": "pnpm audit --prod --audit-level=high --json > .nx/audit-prod.json || true; pnpm audit --audit-level=high --json > .nx/audit-all.json || true; node tools/verify-audit.mjs .nx/audit-prod.json .nx/audit-all.json",
     "verify:entrypoints": "node tools/verify-entrypoint-boundaries.mjs",
@@ -35,7 +35,9 @@
     "verify:a11y": "nx build a11y-probe && node tools/verify-live-announcer.mjs",
     "verify:overlay": "nx build overlay && node tools/verify-overlay-lifecycle.test.mjs",
     "verify:forms": "nx build forms-probe && node tools/verify-forms-assumptions.mjs",
-    "verify:forms-contracts": "node tools/verify-forms-contracts.mjs"
+    "verify:forms-contracts": "node tools/verify-forms-contracts.mjs",
+    "verify:test-discovery": "node tools/verify-test-discovery.mjs",
+    "verify:mutation": "node tools/verify-mutation.mjs"
   },
   "devDependencies": {
     "@angular-devkit/core": "22.1.6",
@@ -54,16 +56,19 @@
     "@nx/workspace": "23.1.1",
     "@schematics/angular": "22.1.6",
     "@types/node": "24.10.1",
+    "@vitest/coverage-v8": "^4.1.11",
     "angular-eslint": "22.1.0",
     "eslint": "10.9.1",
     "eslint-config-prettier": "10.1.8",
+    "jsdom": "^30.0.1",
     "jsonc-eslint-parser": "2.4.2",
     "ng-packagr": "22.1.1",
     "nx": "23.1.1",
     "playwright": "^1.62.1",
     "prettier": "3.9.6",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.68.0"
+    "typescript-eslint": "8.68.0",
+    "vitest": "^4.1.11"
   },
   "dependencies": {
     "@angular/common": "22.1.4",
