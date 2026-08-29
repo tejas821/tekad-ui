@@ -106,6 +106,25 @@ importers:
         specifier: 8.68.0
         version: 8.68.0(eslint@10.9.1(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
 
+  packages/button:
+    dependencies:
+      '@angular/core':
+        specifier: ^22.1.0
+        version: 22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@tekad/core':
+        specifier: workspace:*
+        version: link:../core
+
+  packages/core:
+    dependencies:
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+
 packages:
 
   '@ampproject/remapping@2.3.0':

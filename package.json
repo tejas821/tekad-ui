@@ -19,11 +19,14 @@
     "test": "nx run-many -t test",
     "graph": "nx graph",
     "verify:no-webpack-builder": "node tools/verify-no-webpack-builder.mjs",
-    "verify": "pnpm run format:check && pnpm run verify:no-webpack-builder && pnpm run verify:deps && pnpm run verify:gates && pnpm run lint && pnpm run typecheck",
+    "verify": "pnpm run format:check && pnpm run verify:no-webpack-builder && pnpm run verify:deps && pnpm run verify:entrypoints && pnpm run verify:gates && pnpm run lint && pnpm run typecheck",
     "verify:deps": "node tools/verify-dependency-policy.mjs",
-    "verify:gates": "node tools/verify-no-webpack-builder.test.mjs && node tools/verify-dependency-policy.test.mjs && node tools/verify-licences.test.mjs && node tools/verify-audit.test.mjs && node tools/verify-boundaries.test.mjs",
+    "verify:gates": "node tools/verify-no-webpack-builder.test.mjs && node tools/verify-dependency-policy.test.mjs && node tools/verify-licences.test.mjs && node tools/verify-audit.test.mjs && node tools/verify-package-format.test.mjs && node tools/verify-entrypoint-boundaries.test.mjs && node tools/verify-boundaries.test.mjs",
     "verify:licences": "pnpm licenses list --prod --json > .nx/lic-prod.json && pnpm licenses list --json > .nx/lic-all.json && node tools/verify-licences.mjs .nx/lic-prod.json .nx/lic-all.json",
-    "verify:audit": "pnpm audit --prod --audit-level=high --json > .nx/audit-prod.json || true; pnpm audit --audit-level=high --json > .nx/audit-all.json || true; node tools/verify-audit.mjs .nx/audit-prod.json .nx/audit-all.json"
+    "verify:audit": "pnpm audit --prod --audit-level=high --json > .nx/audit-prod.json || true; pnpm audit --audit-level=high --json > .nx/audit-all.json || true; node tools/verify-audit.mjs .nx/audit-prod.json .nx/audit-all.json",
+    "verify:entrypoints": "node tools/verify-entrypoint-boundaries.mjs",
+    "verify:packages": "nx run-many -t build && node tools/verify-package-format.mjs",
+    "verify:treeshaking": "node tools/verify-treeshaking.mjs"
   },
   "devDependencies": {
     "@angular/build": "22.1.6",

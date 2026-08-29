@@ -1,0 +1,24 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "../../out-tsc/button",
+    "declaration": true,
+    "declarationMap": true,
+    "types": []
+  },
+  "angularCompilerOptions": {
+    "// compilationMode": [
+      "REQUIRED. ng-packagr reads 'tsConfig.options.compilationMode || full',",
+      "so omitting this silently produces a FULL-compiled library. The Angular",
+      "Package Format requires PARTIAL for anything published: full compilation",
+      "bakes the current Angular version's instruction set into the output, so",
+      "the package breaks on a later Angular that changed those internals.",
+      "ng-packagr notices and injects a prepublishOnly script that aborts the",
+      "publish — which is a good backstop, but it fails at the last possible",
+      "moment. tools/verify-package-format.mjs asserts it at build time instead."
+    ],
+    "compilationMode": "partial"
+  },
+  "include": ["**/src/**/*.ts"],
+  "exclude": ["**/*.spec.ts", "**/*.test.ts"]
+}

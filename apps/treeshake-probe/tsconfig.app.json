@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "types": [],
+    "paths": {
+      "@tekad/core": ["../../dist/packages/core"],
+      "@tekad/core/primitives/identity": ["../../dist/packages/core/primitives/identity"],
+      "@tekad/button": ["../../dist/packages/button"]
+    }
+  },
+  "include": ["src/**/*.ts"]
+}

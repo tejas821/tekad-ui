@@ -26,7 +26,10 @@
     "paths": {
       "@tekad/boundary-fixture-foundation": ["./tools/boundary-fixtures/foundation/src/index.ts"],
       "@tekad/boundary-fixture-component": ["./tools/boundary-fixtures/component/src/index.ts"],
-      "@tekad/boundary-fixture-charts": ["./tools/boundary-fixtures/charts/src/index.ts"]
+      "@tekad/boundary-fixture-charts": ["./tools/boundary-fixtures/charts/src/index.ts"],
+      "@tekad/core": ["./packages/core/src/index.ts"],
+      "@tekad/core/primitives/identity": ["./packages/core/primitives/identity/src/index.ts"],
+      "@tekad/button": ["./packages/button/src/index.ts"]
     }
   },
   "angularCompilerOptions": {
