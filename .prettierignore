@@ -5,3 +5,10 @@ coverage
 .nx
 pnpm-lock.yaml
 docs/research/prototypes
+
+# GENERATED — tools/build-tokens.mjs owns the formatting of these files.
+# Letting prettier reformat them would put it in a fight with the generator:
+# `pnpm run tokens:check` compares byte-for-byte against what the generator
+# emits, so a prettier pass would make the build permanently "out of date".
+packages/theme/styles/tekad.css
+packages/theme/tokens.json

@@ -1,0 +1,153 @@
+{
+  "$comment": [
+    "TIER 2 — semantic tokens. ADR-007 decision 2: this is the ONLY tier emitted",
+    "into the global sheet, and its names are the public, semver-stable contract.",
+    "Renaming one of these is a breaking change for every consumer.",
+    "",
+    "Each colour entry names a primitive tone for the light scheme and one for",
+    "the dark scheme; the generator emits a single declaration using light-dark()",
+    "so a scheme flip costs one attribute rather than a re-declared token block.",
+    "",
+    "`contrastWith` is not documentation. tools/verify-contrast.mjs reads it and",
+    "fails the build if the pair misses its WCAG 2.2 AA threshold in EITHER",
+    "scheme. Deleting a contrastWith entry to make the build pass removes the",
+    "guarantee, which is why the gate also asserts that every on-* token has one."
+  ],
+  "color": {
+    "surface": {
+      "light": "neutral.100",
+      "dark": "neutral.10",
+      "$description": "The default page background."
+    },
+    "on-surface": {
+      "light": "neutral.10",
+      "dark": "neutral.95",
+      "contrastWith": "surface",
+      "level": "normalText",
+      "$description": "Body text on the default background."
+    },
+    "surface-variant": {
+      "light": "neutral.95",
+      "dark": "neutral.20",
+      "$description": "A recessed or grouped background: table headers, wells, disabled fields."
+    },
+    "on-surface-variant": {
+      "light": "neutral.30",
+      "dark": "neutral.80",
+      "contrastWith": "surface-variant",
+      "level": "normalText",
+      "$description": "Secondary text. Still body text, so still 4.5:1 — 'secondary' is not a licence to be unreadable."
+    },
+    "primary": {
+      "light": "brand.40",
+      "dark": "brand.80",
+      "$description": "The main action colour."
+    },
+    "on-primary": {
+      "light": "brand.100",
+      "dark": "brand.20",
+      "contrastWith": "primary",
+      "level": "normalText",
+      "$description": "Text and icons on a filled primary surface."
+    },
+    "primary-container": {
+      "light": "brand.90",
+      "dark": "brand.30",
+      "$description": "A tinted primary background: selected rows, soft badges."
+    },
+    "on-primary-container": {
+      "light": "brand.20",
+      "dark": "brand.90",
+      "contrastWith": "primary-container",
+      "level": "normalText"
+    },
+    "danger": { "light": "danger.40", "dark": "danger.80" },
+    "on-danger": {
+      "light": "danger.100",
+      "dark": "danger.20",
+      "contrastWith": "danger",
+      "level": "normalText"
+    },
+    "danger-container": { "light": "danger.90", "dark": "danger.30" },
+    "on-danger-container": {
+      "light": "danger.20",
+      "dark": "danger.90",
+      "contrastWith": "danger-container",
+      "level": "normalText"
+    },
+    "success": { "light": "success.40", "dark": "success.80" },
+    "on-success": {
+      "light": "success.100",
+      "dark": "success.20",
+      "contrastWith": "success",
+      "level": "normalText"
+    },
+    "success-container": { "light": "success.90", "dark": "success.30" },
+    "on-success-container": {
+      "light": "success.20",
+      "dark": "success.90",
+      "contrastWith": "success-container",
+      "level": "normalText"
+    },
+    "warning": { "light": "warning.40", "dark": "warning.80" },
+    "on-warning": {
+      "light": "warning.100",
+      "dark": "warning.20",
+      "contrastWith": "warning",
+      "level": "normalText"
+    },
+    "warning-container": { "light": "warning.90", "dark": "warning.30" },
+    "on-warning-container": {
+      "light": "warning.20",
+      "dark": "warning.90",
+      "contrastWith": "warning-container",
+      "level": "normalText"
+    },
+    "outline": {
+      "light": "neutral.50",
+      "dark": "neutral.60",
+      "contrastWith": "surface",
+      "level": "nonText",
+      "$description": "A component boundary a user must be able to perceive: input borders, dividers that carry meaning. WCAG 1.4.11 non-text contrast, 3:1."
+    },
+    "outline-variant": {
+      "light": "neutral.90",
+      "dark": "neutral.30",
+      "$description": "A decorative separator carrying no information. Deliberately has NO contrastWith: holding a purely cosmetic hairline to 3:1 would force it to look like a border."
+    },
+    "focus-ring": {
+      "light": "brand.40",
+      "dark": "brand.80",
+      "contrastWith": "surface",
+      "level": "nonText",
+      "$description": "The focus indicator. WCAG 2.4.11/2.4.13 — it must be perceivable against the background it sits on."
+    }
+  },
+  "space": {
+    "$comment": "A 4px base step. Unitless multipliers would push arithmetic into every consumer; rem keeps it responsive to the user's font size.",
+    "0": "0",
+    "1": "0.25rem",
+    "2": "0.5rem",
+    "3": "0.75rem",
+    "4": "1rem",
+    "5": "1.5rem",
+    "6": "2rem",
+    "7": "3rem"
+  },
+  "radius": {
+    "none": "0",
+    "sm": "0.25rem",
+    "md": "0.5rem",
+    "lg": "1rem",
+    "full": "9999px"
+  },
+  "density": {
+    "$comment": [
+      "ADR-007's governing rule: never let a variant axis become a selector.",
+      "Density is therefore ONE multiplier that components multiply their own",
+      "spacing by, not a set of density-specific rules. Changing it re-renders",
+      "no CSS and adds no bytes."
+    ],
+    "scale": "1"
+  }
+}
