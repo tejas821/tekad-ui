@@ -5,7 +5,16 @@
   "prefix": "tk",
   "projectType": "application",
   "tags": ["layer:app"],
-  "implicitDependencies": ["core", "button", "checkbox", "forms", "input", "form-field"],
+  "implicitDependencies": [
+    "core",
+    "button",
+    "checkbox",
+    "forms",
+    "input",
+    "form-field",
+    "dialog",
+    "overlay"
+  ],
   "targets": {
     "build": {
       "executor": "@angular/build:application",

@@ -14,12 +14,13 @@
  * Nothing here is a demo. Each element exists because a gate asserts something
  * about it, and an element nothing asserts about should be deleted.
  */
-import { Component } from '@angular/core';
+import { Component, effect, signal } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { TekadButton } from '@tekad/button';
 import { TekadCheckbox } from '@tekad/checkbox';
 import { TekadInput } from '@tekad/input';
 import { TekadFieldError, TekadFieldHint, TekadFormField } from '@tekad/form-field';
+import { TekadDialog } from '@tekad/dialog';
 
 declare global {
   interface Window {
@@ -37,6 +38,7 @@ declare global {
     TekadFormField,
     TekadFieldHint,
     TekadFieldError,
+    TekadDialog,
   ],
   template: `
     <main>
@@ -77,6 +79,23 @@ declare global {
 
         <input tkInput data-probe="input-bare" />
       </section>
+
+      <section id="dialog">
+        <button tkButton data-probe="dialog-trigger" (click)="dialogOpen.set(true)">
+          Open dialog
+        </button>
+
+        <!--
+          Three focusable elements inside, so a Tab cycle is long enough that a
+          trap which only handles one wrap-around would be caught.
+        -->
+        <tk-dialog [(open)]="dialogOpen" heading="Delete this?">
+          <p>This cannot be undone.</p>
+          <input tkInput data-probe="dialog-input" />
+          <button tkButton appearance="outlined" data-probe="dialog-secondary">Keep</button>
+          <button tkButton data-probe="dialog-close" (click)="dialogOpen.set(false)">Delete</button>
+        </tk-dialog>
+      </section>
     </main>
   `,
   styles: `
@@ -97,7 +116,19 @@ declare global {
     }
   `,
 })
-export class SliceProbe {}
+export class SliceProbe {
+  readonly dialogOpen = signal(false);
+
+  constructor() {
+    // Mirrored onto the body so the gate can read the CONSUMER'S state, not
+    // the element's. The distinction is the point of the two-way model: the
+    // platform can close a dialog (Escape, a form method="dialog") and a
+    // consumer whose model was not told still believes it is open.
+    effect(() => {
+      document.body.setAttribute('data-dialog-open', String(this.dialogOpen()));
+    });
+  }
+}
 
 void bootstrapApplication(SliceProbe).then(() => {
   window.TEKAD_SLICE_READY = true;

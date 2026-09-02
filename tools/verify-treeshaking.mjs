@@ -73,6 +73,7 @@ const ENTRY_POINTS = {
     'packages/core/forms/field-context/src/tekad-core-forms-field-context.ts',
   '@tekad/input': 'packages/input/src/tekad-input.ts',
   '@tekad/form-field': 'packages/form-field/src/tekad-form-field.ts',
+  '@tekad/dialog': 'packages/dialog/src/tekad-dialog.ts',
 };
 
 /**

@@ -1,0 +1,50 @@
+<!--
+  A real <dialog>, opened with showModal().
+
+  That single call grants: the top layer, `aria-modal`, background inertness,
+  Escape-to-close, initial focus, focus containment, and focus restoration to
+  whatever was focused before. None of it is reimplemented here, which is why
+  none of it can be reimplemented wrongly.
+
+  `aria-labelledby` points at the visible heading rather than duplicating it in
+  an `aria-label`, so the accessible name is the text a sighted user reads.
+
+  ── About the (click) handler and the two rules disabled below ────────────
+
+  The rules ask for a keyboard equivalent and a focusable element. Both exist,
+  and neither is TEKAD's to provide: `showModal()` makes Escape dismiss the
+  dialog, in the engine, and the same call gives the dialog its own focus
+  handling. A keydown handler here would be a second, worse implementation of a
+  key the platform already owns; a `tabindex` would insert a stop into a focus
+  order the platform is managing. `tools/verify-dialog-behaviour.mjs` asserts
+  both platform behaviours, so this is a disable backed by a measurement rather
+  than by an assurance.
+
+  The handler exists only because `::backdrop` is a pseudo-element and cannot
+  take a listener — a click outside the dialog's box still targets the
+  `<dialog>` element itself, so comparing the target and the coordinates is the
+  only way to detect it.
+-->
+<!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
+<dialog
+  #dialog
+  class="tk-dialog"
+  [id]="resolvedId()"
+  [attr.aria-labelledby]="heading() ? headingId() : null"
+  (close)="onNativeClose()"
+  (click)="onDialogClick($event)"
+>
+  <!--
+    The inner element exists so a click on the dialog's padding is not read as
+    a backdrop click, and so the exit animation has something to transform that
+    is not the element the browser is managing in the top layer.
+  -->
+  <div class="tk-dialog__surface">
+    @if (heading()) {
+    <h2 class="tk-dialog__heading" [id]="headingId()">{{ heading() }}</h2>
+    }
+    <div class="tk-dialog__content">
+      <ng-content />
+    </div>
+  </div>
+</dialog>

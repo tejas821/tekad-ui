@@ -277,6 +277,7 @@ export default tseslint.config(
       'tools/verify-button-styling.mjs',
       'tools/verify-checkbox-behaviour.mjs',
       'tools/verify-form-field.mjs',
+      'tools/verify-dialog-behaviour.mjs',
       'tools/lib/probe-page.mjs',
       'tools/lib/ssr-parse-cost.mjs',
     ],
@@ -289,6 +290,9 @@ export default tseslint.config(
         HTMLElement: 'readonly',
         // Navigation timing, read inside page.evaluate() to measure parse cost.
         performance: 'readonly',
+        // Used to observe a state that exists for exactly one frame — the
+        // deferred close, mid-exit.
+        requestAnimationFrame: 'readonly',
       },
     },
   },
