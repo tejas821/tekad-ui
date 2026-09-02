@@ -19,7 +19,11 @@ import prettierConfig from 'eslint-config-prettier';
  * convenience.
  */
 export default tseslint.config(
-  { ignores: ['**/dist', '**/node_modules', '**/.nx', '**/coverage', '**/tmp'] },
+  // `out-tsc` is ngc's emit directory for the SSR probe. It is generated
+  // Angular output full of `ngDevMode` guards, gitignored, and never authored.
+  {
+    ignores: ['**/dist', '**/node_modules', '**/.nx', '**/coverage', '**/tmp', '**/out-tsc'],
+  },
 
   /* ----------------------------------------------------------------------- *
    * Layer graph. Dependencies flow DOWNWARD only.
@@ -270,6 +274,8 @@ export default tseslint.config(
       'tools/verify-live-announcer.mjs',
       'tools/verify-treeshaking.mjs',
       'tools/verify-forms-assumptions.mjs',
+      'tools/verify-button-styling.mjs',
+      'tools/lib/ssr-parse-cost.mjs',
     ],
     languageOptions: {
       globals: {
@@ -278,6 +284,8 @@ export default tseslint.config(
         getComputedStyle: 'readonly',
         MutationObserver: 'readonly',
         HTMLElement: 'readonly',
+        // Navigation timing, read inside page.evaluate() to measure parse cost.
+        performance: 'readonly',
       },
     },
   },

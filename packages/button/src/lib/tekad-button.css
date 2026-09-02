@@ -1,0 +1,228 @@
+/*
+ * TEKAD button.
+ *
+ * ── Why every selector here is :host, and not .tk-button ──────────────────
+ *
+ * This was written the obvious way first — `.tk-button { … }` — and it
+ * produced a button with none of its styles. `tools/verify-button-styling.mjs`
+ * caught it: 21px tall against a 44px floor, the UA's grey instead of the
+ * brand colour, the UA's 1px focus ring instead of TEKAD's.
+ *
+ * The reason is emulated encapsulation, and it is specific to a component
+ * whose selector decorates an element the consumer wrote:
+ *
+ *   Angular rewrites `.tk-button` to `.tk-button[_ngcontent-ng-cXXXX]` — the
+ *   attribute it stamps on elements *inside* this component's template. The
+ *   component's own host element gets `_nghost-ng-cXXXX` instead. A
+ *   `<button tkButton>` is the host, so the selector can never match it.
+ *
+ * `:host` compiles to `[_nghost-ng-cXXXX]`, which is the host element. Since
+ * `TekadButton`'s template is only `<ng-content />`, EVERY rule here is about
+ * the host, so every rule is `:host`.
+ *
+ * The class list is still on the element and still public — a consumer styling
+ * `.tk-button` from their own sheet works, and `:host(.tk-button--filled)` is
+ * how the variant is read back. The classes are the API; `:host` is the
+ * plumbing.
+ *
+ * ── Everything is inside @layer tekad.components (ADR-007 decision 1) ─────
+ *
+ * An unlayered consumer rule beats every layered rule regardless of
+ * specificity, so `.my-app button { background: red }` in a consumer's own
+ * stylesheet wins with no `!important` and no `::ng-deep`. That is the whole
+ * point of the layer, and it only works if nothing here escapes it. It is
+ * asserted in a real browser rather than assumed — the same gate proves an
+ * unlayered rule overrides this file.
+ *
+ * ── The component token tier (ADR-007 decision 2) ─────────────────────────
+ *
+ * `--tekad-button-*` is declared HERE, on the host, not in `:root`. Two
+ * consequences worth being explicit about:
+ *
+ *   1. An application that never uses a button pays nothing. Component tokens
+ *      in `:root` would be dead custom properties on every page.
+ *
+ *   2. It is the customisation surface. A destructive button is
+ *      `--tekad-button-background: var(--tekad-sys-color-danger)`, not a
+ *      `tone="danger"` input — so a consumer reaches colours TEKAD never
+ *      anticipated without waiting for a release. ADR-006 calls this tier 2,
+ *      and it is why `appearance` is the only visual input on the component.
+ *
+ * ── Logical properties only (ADR-007 decision 4) ──────────────────────────
+ *
+ * `padding-inline`, `min-block-size`, `border-*`. RTL then costs zero extra
+ * CSS, which is the point — a `direction` axis must never become a selector.
+ */
+@layer tekad.components {
+  :host {
+    /* Defaults, overridable per instance by a consumer. */
+    --tekad-button-background: transparent;
+    --tekad-button-foreground: var(--tekad-sys-color-primary);
+    --tekad-button-border-color: transparent;
+    --tekad-button-radius: var(--tekad-sys-radius-md);
+    --tekad-button-padding-inline: calc(1rem * var(--tekad-sys-density-scale, 1));
+    --tekad-button-padding-block: calc(0.5rem * var(--tekad-sys-density-scale, 1));
+    --tekad-button-min-size: calc(2.75rem * var(--tekad-sys-density-scale, 1));
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5ch;
+
+    /*
+     * 44px at density 1. WCAG 2.2 SC 2.5.8 Target Size (Minimum) asks 24px at
+     * AA and 44px at AAA, which is also Apple's and Google's touch guidance. A
+     * control that is hard to hit is not a styling preference, so this is a
+     * floor — min-block-size, not block-size, so content can still make it
+     * taller.
+     */
+    min-block-size: var(--tekad-button-min-size);
+
+    padding-inline: var(--tekad-button-padding-inline);
+    padding-block: var(--tekad-button-padding-block);
+    border: 1px solid var(--tekad-button-border-color);
+    border-radius: var(--tekad-button-radius);
+    background: var(--tekad-button-background);
+    color: var(--tekad-button-foreground);
+
+    font: inherit;
+    line-height: 1.25;
+    text-align: center;
+    cursor: pointer;
+
+    /*
+     * Opt-out rather than opt-in, but honouring the user's setting.
+     * `prefers-reduced-motion` is a user need, not a preference to be weighed
+     * against a design.
+     */
+    transition:
+      background-color 120ms ease-out,
+      border-color 120ms ease-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :host {
+      transition: none;
+    }
+  }
+
+  /*
+   * ── appearance ─────────────────────────────────────────────────────────
+   *
+   * A variant here is a class on the instance, which is a different thing from
+   * the axes ADR-007's governing rule forbids as selectors (theme, scheme,
+   * density, brand, direction). Those are global and would multiply the whole
+   * sheet; this one is per-instance and adds three declarations.
+   *
+   * Each appearance only re-points the component tokens. No appearance
+   * redeclares layout, so a fourth would be three lines rather than a block.
+   */
+  :host(.tk-button--filled) {
+    --tekad-button-background: var(--tekad-sys-color-primary);
+    --tekad-button-foreground: var(--tekad-sys-color-on-primary);
+    --tekad-button-border-color: transparent;
+  }
+
+  :host(.tk-button--outlined) {
+    --tekad-button-background: transparent;
+    --tekad-button-foreground: var(--tekad-sys-color-primary);
+    --tekad-button-border-color: var(--tekad-sys-color-outline);
+  }
+
+  :host(.tk-button--text) {
+    --tekad-button-background: transparent;
+    --tekad-button-foreground: var(--tekad-sys-color-primary);
+    --tekad-button-border-color: transparent;
+  }
+
+  /*
+   * ── focus ──────────────────────────────────────────────────────────────
+   *
+   * `outline`, deliberately, and NOT a box-shadow ring.
+   *
+   * ADR-007 decision 7: "Every box-shadow-drawn focus ring or elevation needs
+   * a `@media (forced-colors: active)` substitute." True — and the better move
+   * is not to incur the obligation. In forced-colors mode the UA keeps
+   * `outline` and paints it in the system highlight colour, while box-shadow is
+   * dropped entirely. A box-shadow ring needs a substitute precisely because it
+   * vanishes for the users who most need to see focus.
+   *
+   * `:focus-visible` rather than `:focus`, so a mouse click leaves no ring
+   * behind; `outline-offset` so the ring is legible against a filled
+   * background.
+   */
+  :host(:focus-visible) {
+    outline: 2px solid var(--tekad-sys-color-focus-ring);
+    outline-offset: 2px;
+  }
+
+  :host(:hover:not(:disabled)) {
+    /*
+     * color-mix rather than a hover token per appearance: one declaration
+     * covers all three, and it stays correct for a consumer who has overridden
+     * --tekad-button-background to something TEKAD never chose.
+     */
+    background: color-mix(
+      in oklab,
+      var(--tekad-button-background) 88%,
+      var(--tekad-sys-color-on-surface)
+    );
+  }
+
+  :host(:active:not(:disabled)) {
+    background: color-mix(
+      in oklab,
+      var(--tekad-button-background) 76%,
+      var(--tekad-sys-color-on-surface)
+    );
+  }
+
+  :host(:disabled) {
+    /*
+     * Opacity rather than a disabled colour pair: a disabled control is exempt
+     * from WCAG 1.4.3 contrast, and inventing on-disabled tokens would add two
+     * public token names and a contrast obligation for a state that has none.
+     */
+    opacity: 0.38;
+    cursor: not-allowed;
+  }
+
+  /*
+   * ── forced colours (ADR-007 decision 7) ─────────────────────────────────
+   *
+   * In forced-colors mode the UA replaces author colours with the user's system
+   * palette, mapping by ELEMENT SEMANTICS. Because this is a real `<button>` it
+   * is already mapped to ButtonFace/ButtonText with no help, and most of the
+   * block above simply stops applying — which is the desired outcome and the
+   * main reason the component decorates a native element instead of replacing
+   * it.
+   *
+   * What still needs saying: the borders, so an outlined or text button stays
+   * distinguishable; and the disabled state, because `opacity` is not
+   * forced-colors-aware.
+   */
+  @media (forced-colors: active) {
+    :host {
+      border-color: ButtonText;
+    }
+
+    :host(.tk-button--text) {
+      /* Without a border this is indistinguishable from surrounding text. */
+      border-color: ButtonText;
+    }
+
+    :host(:focus-visible) {
+      outline-color: Highlight;
+    }
+
+    :host(:disabled) {
+      /*
+       * A 38% ButtonText on Canvas can fall below the contrast the user chose.
+       * GrayText is the system colour that means exactly "disabled".
+       */
+      opacity: 1;
+      color: GrayText;
+      border-color: GrayText;
+    }
+  }
+}
