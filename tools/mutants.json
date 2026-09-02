@@ -218,6 +218,79 @@
       "find": ["    this.#control.disabledByForm.set(isDisabled);"],
       "replace": ["    void isDisabled;"],
       "expectFailing": ["routes a form disable to disabledByForm, not to the author input"]
+    },
+    {
+      "id": "form-field/describedby-empty-not-null",
+      "why": "Emitting aria-describedby=\"\" instead of omitting it. An empty IDREF list is a reference to a missing element rather than an absence, and some assistive technology reports it as an error.",
+      "project": "form-field",
+      "file": "packages/form-field/src/lib/tekad-form-field.ts",
+      "find": ["    return ids.length > 0 ? ids.join(' ') : null;"],
+      "replace": ["    return ids.join(' ');"],
+      "expectFailing": ["is ABSENT rather than empty when there is nothing to describe"]
+    },
+    {
+      "id": "form-field/hints-before-errors",
+      "why": "Announcing the hint before the error. Assistive technology reads aria-describedby in the order given, so a user who has just been told their input is wrong hears the advice before the reason.",
+      "project": "form-field",
+      "file": "packages/form-field/src/lib/tekad-form-field.ts",
+      "find": [
+        "    const ids = [",
+        "      ...this.errors().map((e) => e.resolvedId()),",
+        "      ...this.hints().map((h) => h.resolvedId()),",
+        "    ];"
+      ],
+      "replace": [
+        "    const ids = [",
+        "      ...this.hints().map((h) => h.resolvedId()),",
+        "      ...this.errors().map((e) => e.resolvedId()),",
+        "    ];"
+      ],
+      "expectFailing": ["announces the error BEFORE the hint, which is not the DOM order"]
+    },
+    {
+      "id": "form-field/label-for-ignores-control",
+      "why": "A label whose `for` names something the control does not have. It does not error; the label simply names nothing, and the field is unlabelled while looking perfectly correct.",
+      "project": "form-field",
+      "file": "packages/form-field/src/lib/tekad-form-field.ts",
+      "find": ["  protected readonly labelFor = computed(() => this.controlId());"],
+      "replace": ["  protected readonly labelFor = computed(() => this.labelId + '-control');"],
+      "expectFailing": ["points at the control the consumer actually rendered"]
+    },
+    {
+      "id": "form-field/invalid-ignores-errors",
+      "why": "invalid ignoring the error content. A field showing an error message does not mark its control aria-invalid, so the message is visible and the control claims to be fine.",
+      "project": "form-field",
+      "file": "packages/form-field/src/lib/tekad-form-field.ts",
+      "find": ["  readonly invalid = computed(() => this.errors().length > 0);"],
+      "replace": ["  readonly invalid = computed(() => false);"],
+      "expectFailing": ["marks the control when an error is present"]
+    },
+    {
+      "id": "input/derives-value-instead-of-reading-it",
+      "why": "Appending to the model instead of reading the element. Agrees with the box for simple typing and diverges permanently on a paste, an autofill, a selection replacement or an IME composition.",
+      "project": "input",
+      "file": "packages/input/src/lib/tekad-input.ts",
+      "find": ["    this.value.set(el.value);"],
+      "replace": ["    this.value.set(this.value() + (el.value.slice(-1) ?? ''));"],
+      "expectFailing": ["takes the new value FROM the element on input"]
+    },
+    {
+      "id": "input/never-announces-its-id",
+      "why": "The control not telling the field its id. <label for> then has nothing to point at, and the field is unlabelled with no error anywhere.",
+      "project": "input",
+      "file": "packages/input/src/lib/tekad-input.ts",
+      "find": ["    this.field?.setControlId(this.resolvedId());"],
+      "replace": ["    void this.resolvedId;"],
+      "expectFailing": ["announces its id, so the field's label resolves to it"]
+    },
+    {
+      "id": "input/aria-invalid-false-instead-of-absent",
+      "why": "Emitting aria-invalid=\"false\" on every valid control. Legal, and noise in the accessibility tree for every field in every form.",
+      "project": "input",
+      "file": "packages/input/src/lib/tekad-input.ts",
+      "find": ["    this.invalid() || this.field?.invalid() ? 'true' : null,"],
+      "replace": ["    this.invalid() || this.field?.invalid() ? 'true' : 'false',"],
+      "expectFailing": ["is ABSENT rather than \"false\" when valid"]
     }
   ],
   "$removed": [

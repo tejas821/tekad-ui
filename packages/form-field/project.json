@@ -1,0 +1,32 @@
+{
+  "name": "form-field",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/form-field/src",
+  "prefix": "tk",
+  "projectType": "library",
+  "tags": ["layer:component"],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/packages/form-field"],
+      "options": {
+        "project": "packages/form-field/ng-package.json",
+        "tsConfig": "packages/form-field/tsconfig.lib.json"
+      },
+      "configurations": {
+        "production": {},
+        "development": {}
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nx/angular:unit-test",
+      "options": {
+        "buildTarget": "form-field:build",
+        "tsConfig": "packages/form-field/tsconfig.spec.json",
+        "runner": "vitest",
+        "include": ["**/*.spec.ts"]
+      }
+    }
+  }
+}

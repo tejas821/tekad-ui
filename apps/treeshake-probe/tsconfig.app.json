@@ -10,7 +10,10 @@
       "@tekad/core/forms/model-control": ["../../dist/packages/core/forms/model-control"],
       "@tekad/checkbox": ["../../dist/packages/checkbox"],
       "@tekad/forms": ["../../dist/packages/forms"],
-      "@tekad/forms/compat": ["../../dist/packages/forms/compat"]
+      "@tekad/forms/compat": ["../../dist/packages/forms/compat"],
+      "@tekad/core/forms/field-context": ["../../dist/packages/core/forms/field-context"],
+      "@tekad/input": ["../../dist/packages/input"],
+      "@tekad/form-field": ["../../dist/packages/form-field"]
     }
   },
   "include": ["src/**/*.ts"]

@@ -1,0 +1,21 @@
+/*
+ * The hint owns its own styles, and they are `:host`.
+ *
+ * They were originally written in the FIELD's stylesheet, as
+ * `.tk-field-hint { … }`. That never applied, and the browser gate caught it:
+ * a `<tk-field-hint>` is PROJECTED content, so it carries the scoping
+ * attribute of the component that DECLARED it — the consumer's — not of the
+ * field it is projected into. The field's `.tk-field-hint[_ngcontent-field]`
+ * matched nothing.
+ *
+ * This is the same lesson as the button's `:host` rewrite, arriving from the
+ * other direction: a component styles ITS OWN host and its own template, and
+ * nothing else. Both failures were invisible to the unit suites.
+ */
+@layer tekad.components {
+  :host {
+    display: block;
+    color: var(--tekad-sys-color-on-surface-variant);
+    font-size: 0.875em;
+  }
+}

@@ -1,0 +1,30 @@
+<!--
+  The label is a real <label for>, not an aria-label.
+
+  A visible label that is also the accessible name is the whole point: WCAG 2.2
+  SC 2.5.3 (Label in Name) needs the accessible name to contain the visible
+  text, and an aria-label silently replaces it instead — which breaks speech
+  control for a user who says the words they can see.
+
+  `for` is bound to the id the CONTROL announced, so a consumer who set their
+  own id on the input keeps it.
+-->
+@if (label()) {
+<label class="tk-form-field__label" [id]="labelId" [attr.for]="labelFor()">{{ label() }}</label>
+}
+
+<div class="tk-form-field__control">
+  <ng-content />
+</div>
+
+<!--
+  Hint and error are projected into their own slot AFTER the control, so the
+  visual order is control-then-description. The ORDER THEY ARE ANNOUNCED IN is
+  a different question and is decided by describedBy(), which puts errors
+  first — a user who has just been told their input is wrong needs the reason
+  before the advice.
+-->
+<div class="tk-form-field__description">
+  <ng-content select="tk-field-error" />
+  <ng-content select="tk-field-hint" />
+</div>

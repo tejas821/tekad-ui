@@ -1,0 +1,27 @@
+/*
+ * The error owns its own styles, and they are `:host` — see the hint's
+ * stylesheet for why a projected element cannot be styled from the component
+ * it is projected into.
+ */
+@layer tekad.components {
+  :host {
+    display: block;
+    color: var(--tekad-sys-color-danger);
+    font-size: 0.875em;
+    font-weight: 500;
+  }
+
+  @media (forced-colors: active) {
+    :host {
+      /*
+       * The user's palette has no "danger" colour, so the error must not rely
+       * on being red — WCAG 1.4.1, colour is never the only means of conveying
+       * information. The text itself carries the meaning (aria-describedby
+       * points at it), the weight distinguishes it, and the input grows a
+       * dashed border.
+       */
+      color: CanvasText;
+      font-weight: 700;
+    }
+  }
+}

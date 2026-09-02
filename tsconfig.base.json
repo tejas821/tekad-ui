@@ -36,7 +36,10 @@
       "@tekad/core/forms/model-control": ["./packages/core/forms/model-control/src/index.ts"],
       "@tekad/checkbox": ["./packages/checkbox/src/index.ts"],
       "@tekad/forms": ["./packages/forms/src/index.ts"],
-      "@tekad/forms/compat": ["./packages/forms/compat/src/index.ts"]
+      "@tekad/forms/compat": ["./packages/forms/compat/src/index.ts"],
+      "@tekad/core/forms/field-context": ["./packages/core/forms/field-context/src/index.ts"],
+      "@tekad/input": ["./packages/input/src/index.ts"],
+      "@tekad/form-field": ["./packages/form-field/src/index.ts"]
     }
   },
   "angularCompilerOptions": {

@@ -1,0 +1,85 @@
+/*
+ * TEKAD text input.
+ *
+ * Every selector is `:host`, for the reason recorded in the button's
+ * stylesheet: this component decorates an element the consumer wrote, so that
+ * element is the HOST. Emulated encapsulation rewrites a class selector to
+ * `.tk-input[_ngcontent-…]`, an attribute stamped on elements INSIDE a
+ * template, and the host carries `_nghost-…` instead. A class selector here
+ * matches nothing at all, silently.
+ */
+@layer tekad.components {
+  :host {
+    --tekad-input-background: var(--tekad-sys-color-surface);
+    --tekad-input-foreground: var(--tekad-sys-color-on-surface);
+    --tekad-input-border-color: var(--tekad-sys-color-outline);
+    --tekad-input-radius: var(--tekad-sys-radius-md);
+    --tekad-input-padding-inline: calc(0.75rem * var(--tekad-sys-density-scale, 1));
+    --tekad-input-padding-block: calc(0.5rem * var(--tekad-sys-density-scale, 1));
+    --tekad-input-min-size: calc(2.75rem * var(--tekad-sys-density-scale, 1));
+
+    display: block;
+    inline-size: 100%;
+    /* WCAG 2.2 SC 2.5.8, and a floor rather than a fixed height. */
+    min-block-size: var(--tekad-input-min-size);
+    padding-inline: var(--tekad-input-padding-inline);
+    padding-block: var(--tekad-input-padding-block);
+
+    border: 1px solid var(--tekad-input-border-color);
+    border-radius: var(--tekad-input-radius);
+    background: var(--tekad-input-background);
+    color: var(--tekad-input-foreground);
+    font: inherit;
+  }
+
+  :host(:focus-visible) {
+    /* outline, not box-shadow: box-shadow is dropped in forced-colors mode,
+     * for exactly the users who most need to see focus. */
+    outline: 2px solid var(--tekad-sys-color-focus-ring);
+    outline-offset: 2px;
+  }
+
+  /*
+   * Keyed on aria-invalid, which the component already sets for assistive
+   * technology. A parallel `.tk-input--invalid` class would be a second source
+   * of truth for the same fact, and the two would drift.
+   */
+  :host([aria-invalid='true']) {
+    --tekad-input-border-color: var(--tekad-sys-color-danger);
+    border-width: 2px;
+  }
+
+  :host(:disabled) {
+    opacity: 0.38;
+    cursor: not-allowed;
+  }
+
+  :host(:read-only:not(:disabled)) {
+    --tekad-input-background: var(--tekad-sys-color-surface-variant);
+  }
+
+  @media (forced-colors: active) {
+    :host {
+      border-color: ButtonText;
+    }
+
+    :host(:focus-visible) {
+      outline-color: Highlight;
+    }
+
+    :host([aria-invalid='true']) {
+      /* Colour alone cannot carry the error in forced-colors mode: the user's
+       * palette has no "danger". The thicker border is the non-colour signal,
+       * and the error TEXT — which the field renders and aria-describedby
+       * points at — is what actually communicates it. */
+      border-style: dashed;
+      border-color: ButtonText;
+    }
+
+    :host(:disabled) {
+      opacity: 1;
+      color: GrayText;
+      border-color: GrayText;
+    }
+  }
+}
