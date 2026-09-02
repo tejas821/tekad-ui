@@ -1,0 +1,32 @@
+{
+  "name": "forms",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/forms/src",
+  "prefix": "tk",
+  "projectType": "library",
+  "tags": ["layer:foundation"],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/packages/forms"],
+      "options": {
+        "project": "packages/forms/ng-package.json",
+        "tsConfig": "packages/forms/tsconfig.lib.json"
+      },
+      "configurations": {
+        "production": {},
+        "development": {}
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nx/angular:unit-test",
+      "options": {
+        "buildTarget": "forms:build",
+        "tsConfig": "packages/forms/tsconfig.spec.json",
+        "runner": "vitest",
+        "include": ["**/*.spec.ts", "../compat/**/*.spec.ts"]
+      }
+    }
+  }
+}

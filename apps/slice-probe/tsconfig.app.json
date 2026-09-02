@@ -13,7 +13,9 @@
     "types": [],
     "paths": {
       "@tekad/button": ["../../dist/packages/button"],
-      "@tekad/core/primitives/identity": ["../../dist/packages/core/primitives/identity"]
+      "@tekad/core/primitives/identity": ["../../dist/packages/core/primitives/identity"],
+      "@tekad/core/forms/model-control": ["../../dist/packages/core/forms/model-control"],
+      "@tekad/checkbox": ["../../dist/packages/checkbox"]
     }
   },
   "include": ["src/**/*.ts"]

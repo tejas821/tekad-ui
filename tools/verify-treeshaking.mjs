@@ -64,6 +64,11 @@ const ENTRY_POINTS = {
     'packages/core/a11y/live-announcer/src/tekad-core-a11y-live-announcer.ts',
   '@tekad/button': 'packages/button/src/tekad-button.ts',
   '@tekad/overlay': 'packages/overlay/src/tekad-overlay.ts',
+  '@tekad/checkbox': 'packages/checkbox/src/tekad-checkbox.ts',
+  '@tekad/core/forms/model-control':
+    'packages/core/forms/model-control/src/tekad-core-forms-model-control.ts',
+  '@tekad/forms': 'packages/forms/src/tekad-forms.ts',
+  '@tekad/forms/compat': 'packages/forms/compat/src/tekad-forms-compat.ts',
 };
 
 /**
@@ -71,6 +76,76 @@ const ENTRY_POINTS = {
  * @type {Scenario[]}
  */
 const SCENARIOS = [
+  {
+    /*
+     * ADR-013's third obligation on Phase 9, in its own words: "a tree-shaking
+     * scenario, so `@tekad/forms/compat` is proved not to reach a consumer who
+     * only uses signal forms."
+     *
+     * It is not idle. The adapter pulls in `@angular/forms`'s
+     * `ControlValueAccessor` machinery, and the whole reason `[tkCompat]` is
+     * opt-in rather than matching `[formControl]` automatically is so that a
+     * signal-forms consumer never pays for it. That is a claim about the
+     * bundler, so it is measured rather than asserted.
+     */
+    name: 'a signal-forms control without the compat adapter',
+    why:
+      'ADR-013 ships Reactive Forms support as a SEPARATE entry point precisely so a ' +
+      'consumer using only signal forms does not pay for it. If @tekad/forms/compat ' +
+      'reached this bundle, the separation would be organisational rather than real.',
+    source: `import { bootstrapApplication } from '@angular/platform-browser';
+import { Component, signal } from '@angular/core';
+import { TekadCheckbox } from '@tekad/checkbox';
+
+@Component({
+  selector: 'tk-probe-root',
+  standalone: true,
+  imports: [TekadCheckbox],
+  template: \`<tk-checkbox [(checked)]="on">probe</tk-checkbox>\`,
+})
+class ProbeRoot {
+  readonly on = signal(false);
+}
+
+void bootstrapApplication(ProbeRoot);
+`,
+    // The checkbox provides TEKAD_MODEL_CONTROL, so the token's entry point is
+    // legitimately present — that is the seam, and it is tiny. The ADAPTER is
+    // what must not be here.
+    mustInclude: ['@tekad/checkbox', '@tekad/core/forms/model-control'],
+    mustExclude: ['@tekad/forms/compat', '@tekad/forms', '@tekad/button', '@tekad/core'],
+  },
+  {
+    /*
+     * The positive control for the scenario above. Without it, "compat is
+     * absent" would also be satisfied by a probe that had stopped resolving
+     * @tekad/forms/compat at all.
+     */
+    name: 'CONTROL: the compat adapter IS present when imported',
+    why:
+      'An absence proves nothing unless the same run shows the signal can register a ' +
+      'presence. This is the scenario that makes the one above mean something.',
+    source: `import { bootstrapApplication } from '@angular/platform-browser';
+import { Component } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { TekadCheckbox } from '@tekad/checkbox';
+import { TekadCompatAdapter } from '@tekad/forms/compat';
+
+@Component({
+  selector: 'tk-probe-root',
+  standalone: true,
+  imports: [ReactiveFormsModule, TekadCheckbox, TekadCompatAdapter],
+  template: \`<tk-checkbox tkCompat [formControl]="c">probe</tk-checkbox>\`,
+})
+class ProbeRoot {
+  readonly c = new FormControl(false);
+}
+
+void bootstrapApplication(ProbeRoot);
+`,
+    mustInclude: ['@tekad/forms/compat', '@tekad/checkbox', '@tekad/core/forms/model-control'],
+    mustExclude: ['@tekad/button'],
+  },
   {
     name: 'one secondary entry point only',
     why:

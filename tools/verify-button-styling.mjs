@@ -29,12 +29,11 @@
  *
  * Usage: node tools/verify-button-styling.mjs
  */
-import { chromium } from 'playwright';
-import { createServer } from 'node:http';
-import { readFileSync, existsSync } from 'node:fs';
-import { dirname, join, extname, resolve } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
+import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { contrastRatio, parseCssColor } from './lib/color.mjs';
+import { launch, ready, serve, style } from './lib/probe-page.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = join(ROOT, 'dist/apps/slice-probe/browser');
@@ -44,79 +43,15 @@ if (!existsSync(DIST)) {
   process.exit(1);
 }
 
-/** @type {Record<string, string>} */
-const MIME = {
-  '.html': 'text/html',
-  '.js': 'text/javascript',
-  '.mjs': 'text/javascript',
-  '.css': 'text/css',
-  '.map': 'application/json',
-};
-const server = createServer((req, res) => {
-  const name = (req.url ?? '/').split('?')[0]?.replace(/^\//, '') || 'index.html';
-  let file = join(DIST, name);
-  if (!existsSync(file)) file = join(DIST, 'index.html');
-  // Read BEFORE writing the head. A path that resolves to a directory throws
-  // EISDIR, and doing that after writeHead makes the catch block throw
-  // ERR_HTTP_HEADERS_SENT — which crashes the gate with an error about headers
-  // instead of the missing file it is actually about.
-  let body;
-  try {
-    body = readFileSync(file);
-  } catch {
-    res.writeHead(404);
-    res.end('not found');
-    return;
-  }
-  res.writeHead(200, { 'content-type': MIME[extname(file)] ?? 'application/octet-stream' });
-  res.end(body);
-});
-await new Promise((r) => server.listen(0, '127.0.0.1', () => r(undefined)));
-const addr = server.address();
-const URL_ = `http://127.0.0.1:${typeof addr === 'object' && addr ? addr.port : 0}/`;
-
-const exe = process.env['TEKAD_CHROMIUM'] ?? '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
-const browser = await chromium.launch(existsSync(exe) ? { executablePath: exe } : {});
+const server = await serve(DIST);
+const URL_ = server.url;
+const browser = await launch();
 
 let failed = 0;
 /** @param {string} name @param {boolean} pass @param {string} [detail] */
 function check(name, pass, detail) {
   console.log(`${pass ? '✓' : '✗'} ${name}${detail ? `  — ${detail}` : ''}`);
   if (!pass) failed++;
-}
-
-/**
- * The probe sets a flag once Angular has bootstrapped. Waiting on the flag
- * rather than on an element means a boot failure times out here instead of
- * producing a page full of confident measurements of nothing.
- *
- * @param {import('playwright').Page} page
- */
-function ready(page) {
-  return page.waitForFunction(
-    () => /** @type {Record<string, unknown>} */ (globalThis)['TEKAD_SLICE_READY'] === true,
-    null,
-    { timeout: 30000 },
-  );
-}
-
-/** @param {import('playwright').Page} page @param {string} probe @param {string[]} props */
-function style(page, probe, props) {
-  return page.evaluate(
-    ([p, ps]) => {
-      const el = /** @type {HTMLElement | null} */ (document.querySelector(`[data-probe="${p}"]`));
-      if (!el) return null;
-      const cs = getComputedStyle(el);
-      /** @type {Record<string, string>} */
-      const out = {};
-      for (const prop of ps ?? []) out[prop] = cs.getPropertyValue(prop);
-      const r = el.getBoundingClientRect();
-      out['__width'] = String(r.width);
-      out['__height'] = String(r.height);
-      return out;
-    },
-    [probe, props],
-  );
 }
 
 try {

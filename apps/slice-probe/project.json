@@ -5,7 +5,7 @@
   "prefix": "tk",
   "projectType": "application",
   "tags": ["layer:app"],
-  "implicitDependencies": ["button", "theme"],
+  "implicitDependencies": ["button", "checkbox", "theme"],
   "targets": {
     "build": {
       "executor": "@angular/build:application",
@@ -28,7 +28,10 @@
         ]
       },
       "defaultConfiguration": "production",
-      "configurations": { "production": {}, "development": {} }
+      "configurations": {
+        "production": {},
+        "development": {}
+      }
     }
   }
 }

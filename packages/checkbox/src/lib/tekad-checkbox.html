@@ -1,0 +1,26 @@
+<!--
+  The whole control is inside the <label>, so the projected text is the input's
+  accessible name BY CONTAINMENT. No for/id pair to drift, and clicking the text
+  toggles the box because the platform says so rather than because a handler
+  says so.
+
+  The visual box is a sibling <span> painted over the native input, not a
+  replacement for it. The input keeps its role, its mixed state, its Space
+  activation and its form participation; forced-colors mode restores its own
+  appearance and hides the span (see the stylesheet).
+-->
+<label class="tk-checkbox__label">
+  <input
+    #input
+    class="tk-checkbox__input"
+    type="checkbox"
+    [id]="inputId()"
+    [attr.name]="nameAttr()"
+    [checked]="checked()"
+    [disabled]="effectivelyDisabled()"
+    (change)="onChange($event)"
+    (blur)="onBlur()"
+  />
+  <span class="tk-checkbox__box" aria-hidden="true"></span>
+  <span class="tk-checkbox__text"><ng-content /></span>
+</label>

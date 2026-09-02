@@ -147,6 +147,84 @@
       "find": ["  protected readonly resolvedId = computed(() => this.id() ?? this.generatedId);"],
       "replace": ["  protected readonly resolvedId = computed(() => this.generatedId);"],
       "expectFailing": ["lets an explicit id win"]
+    },
+    {
+      "id": "checkbox/indeterminate-not-assigned",
+      "why": "Never assigning the indeterminate DOM property. It has no HTML attribute, so a template binding writes something the platform ignores: the checkbox renders as plain unchecked while every attribute-reading test agrees with itself.",
+      "project": "checkbox",
+      "file": "packages/checkbox/src/lib/tekad-checkbox.ts",
+      "find": ["      el.indeterminate = this.indeterminate();"],
+      "replace": ["      el.setAttribute('indeterminate', String(this.indeterminate()));"],
+      "expectFailing": ["sets the DOM property, which has no HTML attribute"]
+    },
+    {
+      "id": "checkbox/derives-checked-instead-of-reading-it",
+      "why": "Toggling the model instead of reading what the platform decided. It agrees with the element until one change event is missed or replayed, after which the box and the model disagree permanently and nothing says so.",
+      "project": "checkbox",
+      "file": "packages/checkbox/src/lib/tekad-checkbox.ts",
+      "find": ["    this.checked.set(el.checked);"],
+      "replace": ["    this.checked.set(!this.checked());"],
+      "expectFailing": ["takes the new state FROM the element, not from flipping the model"]
+    },
+    {
+      "id": "checkbox/ignores-form-disable",
+      "why": "effectivelyDisabled reading only the author's input. Reactive Forms' control.disable() then does nothing visible, and a disabled form stays interactive. (The catching test is in the checkbox's compat integration suite, because the two channels only disagree when a form is attached.)",
+      "project": "checkbox",
+      "file": "packages/checkbox/src/lib/tekad-checkbox.ts",
+      "find": [
+        "  readonly effectivelyDisabled = computed(() => this.disabled() || this.disabledByForm());"
+      ],
+      "replace": ["  readonly effectivelyDisabled = computed(() => this.disabled());"],
+      "expectFailing": ["disables the control when the form disables it"]
+    },
+    {
+      "id": "checkbox/renders-empty-name",
+      "why": "Rendering name=\"\" instead of omitting the attribute. A submitted field with an empty name is not the same as a field that does not submit.",
+      "project": "checkbox",
+      "file": "packages/checkbox/src/lib/tekad-checkbox.ts",
+      "find": ["  protected readonly nameAttr = computed(() => this.name() || null);"],
+      "replace": ["  protected readonly nameAttr = computed(() => this.name());"],
+      "expectFailing": ["is absent rather than empty when unset"]
+    },
+    {
+      "id": "compat/echo-reported-as-user-edit",
+      "why": "The classic hand-rolled-adapter bug: reporting every model change to the form, including the adapter's own writeValue. A signal effect is SCHEDULED, not inline, so the obvious boolean flag is already cleared when it runs. The form goes dirty the moment it is populated, and loops if anything reacts to valueChanges.",
+      "project": "forms",
+      "file": "packages/forms/compat/src/lib/compat-adapter.ts",
+      "find": [
+        "      // The echo of our own writeValue: swallowed exactly once.",
+        "      if (pending.has && Object.is(next, pending.value)) return;"
+      ],
+      "replace": ["      // (echo guard removed)"],
+      "expectFailing": ["does not mark the form dirty when the FORM set the value"]
+    },
+    {
+      "id": "compat/echo-swallowed-forever",
+      "why": "Remembering the form's value permanently instead of consuming the guard once. Looks correct until the user sets the same value the form last wrote, at which point a real edit silently disappears.",
+      "project": "forms",
+      "file": "packages/forms/compat/src/lib/compat-adapter.ts",
+      "find": [
+        "      const pending = untracked(() => this.#pendingFromForm);",
+        "      this.#pendingFromForm = { has: false, value: undefined };"
+      ],
+      "replace": ["      const pending = untracked(() => this.#pendingFromForm);"],
+      "expectFailing": ["still reports a user edit that happens to match an earlier form write"]
+    },
+    {
+      "id": "compat/disable-writes-the-wrong-channel",
+      "why": "setDisabledState writing nothing. Reactive Forms believes the control is disabled and the user can still click it.",
+      "project": "forms",
+      "file": "packages/forms/compat/src/lib/compat-adapter.ts",
+      "find": ["    this.#control.disabledByForm.set(isDisabled);"],
+      "replace": ["    void isDisabled;"],
+      "expectFailing": ["routes a form disable to disabledByForm, not to the author input"]
+    }
+  ],
+  "$removed": [
+    {
+      "id": "compat/reports-initial-value",
+      "removed": "2026-09-02",
+      "why": "NOT removed to make the gate pass. The gate showed the code it targeted was dead: Angular's setUpControl calls writeValue synchronously during the directive's first ngOnChanges, before any effect flushes, so the pending-value guard already covers the first run. The skip was deleted; a mutant describing code that no longer exists describes nothing."
     }
   ]
 }

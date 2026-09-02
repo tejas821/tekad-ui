@@ -17,6 +17,7 @@
 import { Component } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { TekadButton } from '@tekad/button';
+import { TekadCheckbox } from '@tekad/checkbox';
 
 declare global {
   interface Window {
@@ -27,7 +28,7 @@ declare global {
 @Component({
   selector: 'tk-slice-probe',
   standalone: true,
-  imports: [TekadButton],
+  imports: [TekadButton, TekadCheckbox],
   template: `
     <main>
       <section id="buttons">
@@ -45,6 +46,13 @@ declare global {
           literal, and one would end it.)
         -->
         <button tkButton class="consumer-override" data-probe="overridden">Overridden</button>
+      </section>
+
+      <section id="checkboxes">
+        <tk-checkbox data-probe="cb-unchecked">Unchecked</tk-checkbox>
+        <tk-checkbox data-probe="cb-checked" [checked]="true">Checked</tk-checkbox>
+        <tk-checkbox data-probe="cb-mixed" [indeterminate]="true">Mixed</tk-checkbox>
+        <tk-checkbox data-probe="cb-disabled" [disabled]="true">Disabled</tk-checkbox>
       </section>
     </main>
   `,
