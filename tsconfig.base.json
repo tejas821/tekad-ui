@@ -39,7 +39,8 @@
       "@tekad/forms/compat": ["./packages/forms/compat/src/index.ts"],
       "@tekad/core/forms/field-context": ["./packages/core/forms/field-context/src/index.ts"],
       "@tekad/input": ["./packages/input/src/index.ts"],
-      "@tekad/form-field": ["./packages/form-field/src/index.ts"]
+      "@tekad/form-field": ["./packages/form-field/src/index.ts"],
+      "@tekad/dialog": ["./packages/dialog/src/index.ts"]
     }
   },
   "angularCompilerOptions": {

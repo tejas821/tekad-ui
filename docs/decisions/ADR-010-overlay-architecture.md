@@ -208,3 +208,71 @@ invented by the primitive.
 Firefox/Gecko (whole matrix) · real Safari, macOS and iOS · screen readers ·
 `prefers-reduced-motion` in WebKit · synchronous `toggle` delivery · mobile
 virtual keyboard · `showModal()` force-closing `auto` popovers.
+## 2026-09-02 — measured: the platform supplies the focus trap, so TEKAD does not build one
+
+**The architecture is unchanged** — top-layer substrate, deferred close as the
+single exit path. One anticipated deliverable is now measured away.
+
+This ADR anticipated a bespoke focus trap. Phase 6 narrowed that on reading:
+`showModal()` "already grants `inert`, `aria-modal`, Escape and focus restore at
+96.1%, and non-modal popovers should not trap focus at all — so a bespoke trap
+is needed ONLY on the `position: fixed` fallback path, and that should be
+confirmed against a real fallback before building for it."
+
+Narrowed on reading is not measured. `@tekad/dialog` is the first real consumer
+of `@tekad/overlay`, and `tools/verify-dialog-behaviour.mjs` measures it.
+Chromium, against the built package:
+
+|                                     | Result                                                                            |
+| ----------------------------------- | --------------------------------------------------------------------------------- |
+| Is the dialog actually modal?       | **Yes** — `:modal` matches, so it is in the top layer.                            |
+| Can the background be focused?      | **No.** `focus()` on the trigger outside is refused; `showModal()` made it inert. |
+| Does Tab escape, across 12 presses? | **No.** Focus never reaches an interactive element outside.                       |
+| Shift+Tab, 6 presses?               | **No** escapes either.                                                            |
+| Does Escape close it?               | **Yes**, with TEKAD handling no key.                                              |
+| Does focus return to the trigger?   | **Yes**, unaided.                                                                 |
+
+**So TEKAD writes no focus trap for the modal path.** That is several hundred
+lines not written, which would have had to know about `inert`, shadow roots,
+`tabindex="-1"`, radio groups, `contenteditable`, iframes and the browser's own
+sequential focus navigation — and would have been wrong in some of them.
+
+### One thing the measurement corrected about itself
+
+The first version of the check asserted that focus never leaves the dialog, and
+it **failed**. The observed Chromium cycle is periodic with period 5:
+
+```
+dialog-secondary -> dialog-close -> body -> dialog -> dialog-input -> …
+```
+
+`document.body` is the wrap point. It is outside the dialog by any DOM test, it
+holds nothing, receives nothing, and the next Tab is back inside. "Focus
+escaped" would have been false; "focus stayed inside the dialog" would also
+have been false.
+
+What is true, and what the decision rests on, is that **focus never reaches an
+interactive element outside** — asserted as a category, and again by name
+against the specific controls sitting on the page. The assertion was wrong, not
+the platform, and the record says so.
+
+### The one thing TEKAD does supply
+
+The exit animation, because the platform genuinely cannot: an element leaves the
+top layer the instant `close()` is called, so a closing transition plays on
+something no longer on top of anything. `@tekad/overlay`'s deferred close holds
+it there, and this is the first time that primitive has driven a real element in
+a real top layer rather than the DOM double it was proved against.
+
+Measured in the same run: one frame after the close is requested, the element
+still has `open` and carries `closing`; it closes afterwards, the class is
+cleaned up rather than left on the node (the leak P0's second-order review
+found), and focus returns to the trigger.
+
+### Still unverified
+
+Firefox/Gecko and real Safari, as everywhere else in this project — every number
+above is Chromium. **The `position: fixed` fallback path remains unbuilt and
+unmeasured**, and this correction says nothing about it: it is where a bespoke
+trap may still be needed, and confirming that still requires a real fallback to
+confirm it against.

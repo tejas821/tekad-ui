@@ -16,6 +16,9 @@ components themselves are the least interesting part of this phase.
 | `@tekad/checkbox`                 | `FormCheckboxControl` — a `checked` model, no `value`. Native input, painted box, `indeterminate`. |
 | `@tekad/core/forms/model-control` | The token a control provides so the adapter can reach it.                                          |
 | `@tekad/forms/compat`             | ADR-013's Reactive Forms adapter, owed to this phase since Phase 7.                                |
+| `@tekad/input`                    | `FormValueControl<string>` — the other half of Angular's split. Decorates a native `<input>`.      |
+| `@tekad/form-field`               | Label, hint and error, wired to the control by ARIA IDREF. Not layout.                             |
+| `@tekad/dialog`                   | A native `<dialog>` driven by `@tekad/overlay`'s deferred close — that primitive's first consumer. |
 
 Preceded by the measurement ADR-007 required before any of it —
 `docs/architecture/15-ssr-encapsulation.md`.
@@ -79,6 +82,64 @@ Split in two, which is better than the version that failed:
   control, real adapter, real `FormControl`, with a signal-forms sibling of the
   same component on the same page.
 
+### 4. The field's parts could not be styled by the field
+
+Same family as the button, arriving from the other direction. The hint and error
+styles were written in the FIELD's stylesheet, as `.tk-field-hint` and
+`.tk-field-error`. They never applied.
+
+Those elements are **projected content**: they carry the scoping attribute of
+the component that _declared_ them — the consumer's — not of the one they are
+projected into. `.tk-field-error[_ngcontent-field]` matched nothing, the error
+text inherited body colour instead of `danger`, and nothing anywhere said so.
+
+Each part owns its own stylesheet now, all `:host`. Stated as a rule: **a
+component styles its own host and its own template, and nothing else.** Both
+violations of it this phase were invisible to the unit suites and both were
+caught on a browser gate's first run.
+
+The fix then exposed a real gap in an existing gate. `verify-contrast.mjs`
+checks declared token _pairs_ — `on-danger` against `danger`, a filled danger
+surface. The error text is `danger` used as text on `surface`, which is a
+different pair and is not in the token manifest at all. A component reaching for
+a token in a combination nobody declared is how a build-time contrast gate gets
+bypassed with nobody bypassing it. Now measured from what the engine painted:
+9.88:1.
+
+## The dialog, and ADR-010's open question
+
+`@tekad/overlay` had no consumer. A foundation package nothing uses is exactly
+what CLAUDE.md rule 9 warns about, and Phase 6 had explicitly left the focus-trap
+decision waiting on "a real fallback to confirm against".
+
+ADR-010 anticipated a bespoke focus trap. Measured in Chromium:
+
+|                                | Result                                           |
+| ------------------------------ | ------------------------------------------------ |
+| Is it actually modal?          | `:modal` matches — it is in the top layer.       |
+| Can the background be focused? | No. `focus()` on the outside trigger is refused. |
+| Does Tab escape, 12 presses?   | No interactive element outside is ever reached.  |
+| Shift+Tab, 6 presses?          | No.                                              |
+| Escape?                        | Closes it, with TEKAD handling no key.           |
+| Focus restore?                 | Returns to the trigger, unaided.                 |
+
+**So TEKAD writes no focus trap.** ADR-010 has a dated correction.
+
+The check corrected itself on the way. Its first version asserted focus never
+leaves the dialog, and failed: Chromium's cycle is periodic with period 5 and
+passes through `document.body` as the wrap point. Body is outside the dialog by
+any DOM test and is also not a control — it holds nothing and the next Tab is
+back inside. "Focus escaped" was false; "focus stayed inside" was also false.
+The true claim, and the one the decision rests on, is that focus never reaches an
+_interactive_ element outside. The assertion was wrong, not the platform.
+
+What TEKAD does supply is the exit animation, because the platform cannot: an
+element leaves the top layer the instant `close()` is called. One frame after the
+close is requested the element still has `open` and carries `closing`; it closes
+afterwards, and the class is cleaned up rather than left on the node — the leak
+P0's second-order review found, now asserted against a real element rather than
+a double.
+
 ## The forms adapter, and the subtlety it turned on
 
 ADR-013 required this to be a separate class. Its stated reason was wrong —
@@ -134,6 +195,11 @@ at.
 checkbox and caught in the compat integration suite, because the two channels
 only disagree when a form is attached.
 
+**A mutant that broke the build.** The dialog's heading-id mutant did not
+compile, and the gate refused to count it — "the run went red" is guaranteed for
+a mutant that fails to compile and says nothing about the suite. Rewritten to be
+a plausible defect (a constant id rather than a derived one), it was caught.
+
 **Dead code.** The adapter had a "skip the first effect run" guard, written for
 a good reason. Removing it broke nothing: Angular's `setUpControl` calls
 `writeValue` synchronously during the directive's first `ngOnChanges`, before
@@ -160,10 +226,13 @@ a gate pass is how the gate stops meaning anything, and this was the opposite.
   not.
 - **An SSR/hydration test per package.** The SSR probe measures encapsulation
   cost, which is not the same as proving these components hydrate.
-- **Input, form field, label, dialog, select, table foundation** — the rest of
-  the roadmap's slice. Dialog is reachable now (`showModal` centres itself);
-  select needs positioning, which Phase 6 deliberately deferred until a
-  component demanded it.
+- **Select and the table foundation** — the rest of the roadmap's slice. Select
+  needs positioning, which Phase 6 deferred until a component demanded it; it is
+  the first that does, so Floating UI is now a real decision rather than a
+  speculative one (ADR-010 budgets 10 KB gzip against its measured 6.4 KB).
+- **The `position: fixed` overlay fallback.** ADR-010's correction is explicit
+  that it says nothing about that path, which remains unbuilt and unmeasured
+  and is where a bespoke focus trap may still be needed.
 
 ## Still unverified
 
@@ -178,3 +247,13 @@ type="checkbox">` that stays in the accessibility tree, a real `<button>`,
 - **Firefox/Gecko and real Safari.** Every browser number here is Chromium.
 - **Parse cost**, from Phase 9's own SSR measurement: too noisy to conclude
   anything.
+
+## State at the end of Phase 9
+
+|                     |                                                                              |
+| ------------------- | ---------------------------------------------------------------------------- |
+| Packages            | 9 — core, theme, overlay, button, checkbox, input, form-field, forms, dialog |
+| Unit tests          | 102                                                                          |
+| Mutants, all caught | 28                                                                           |
+| Browser gates       | 4, over one shared probe app                                                 |
+| CI gates            | 22                                                                           |

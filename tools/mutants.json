@@ -291,6 +291,33 @@
       "find": ["    this.invalid() || this.field?.invalid() ? 'true' : null,"],
       "replace": ["    this.invalid() || this.field?.invalid() ? 'true' : 'false',"],
       "expectFailing": ["is ABSENT rather than \"false\" when valid"]
+    },
+    {
+      "id": "dialog/labelledby-always-emitted",
+      "why": "aria-labelledby pointing at a heading that was never rendered. The dialog claims an accessible name and resolves to nothing, which is announced exactly like an unlabelled dialog but is far harder to spot.",
+      "project": "dialog",
+      "file": "packages/dialog/src/lib/tekad-dialog.html",
+      "find": ["  [attr.aria-labelledby]=\"heading() ? headingId() : null\""],
+      "replace": ["  [attr.aria-labelledby]=\"headingId()\""],
+      "expectFailing": ["omits aria-labelledby entirely when there is no heading"]
+    },
+    {
+      "id": "dialog/heading-id-not-derived",
+      "why": "A heading id that is a constant rather than derived from the dialog's. It resolves for one dialog on a page and collides for two, and it stops resolving at all the moment a consumer supplies their own id — because only one of the pair would change.",
+      "project": "dialog",
+      "file": "packages/dialog/src/lib/tekad-dialog.ts",
+      "find": ["  protected readonly headingId = computed(() => `${this.resolvedId()}-heading`);"],
+      "replace": ["  protected readonly headingId = computed(() => 'tk-dialog-heading');"],
+      "expectFailing": ["derives the heading id from the dialog id, so both stay in step"]
+    },
+    {
+      "id": "dialog/explicit-id-ignored",
+      "why": "A generated id always winning. Any aria-controls or aria-haspopup a consumer wrote against their own id points at nothing, and IDREFs fail silently.",
+      "project": "dialog",
+      "file": "packages/dialog/src/lib/tekad-dialog.ts",
+      "find": ["  protected readonly resolvedId = computed(() => this.id() ?? this.generatedId);"],
+      "replace": ["  protected readonly resolvedId = computed(() => this.generatedId);"],
+      "expectFailing": ["lets an explicit id win"]
     }
   ],
   "$removed": [

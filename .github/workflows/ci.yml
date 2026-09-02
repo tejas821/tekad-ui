@@ -182,6 +182,15 @@ jobs:
       # `_nghost-…` instead, so for a component that decorates an element the
       # consumer wrote, not one rule matched. The unit suite was green; the
       # button was 21px tall and wearing the UA's default grey.
+      # Four gates: button, checkbox, input+field, dialog. Between them they
+      # cover everything jsdom cannot host — computed colour, layout, focus,
+      # cascade layers, forced colours, the top layer.
+      #
+      # The dialog gate answers an ADR-010 question that had been open since
+      # Phase 6: showModal() supplies the focus trap, the background inertness,
+      # aria-modal, Escape and focus restoration, so TEKAD writes none of it.
+      # Measured — Tab pressed 12 times, Shift+Tab 6, focus followed the whole
+      # way — rather than inferred from a support table.
       - name: Slice components in a real browser
         run: pnpm run verify:slice
 

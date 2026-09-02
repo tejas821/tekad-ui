@@ -18,7 +18,9 @@
       "@tekad/checkbox": ["../../dist/packages/checkbox"],
       "@tekad/core/forms/field-context": ["../../dist/packages/core/forms/field-context"],
       "@tekad/input": ["../../dist/packages/input"],
-      "@tekad/form-field": ["../../dist/packages/form-field"]
+      "@tekad/form-field": ["../../dist/packages/form-field"],
+      "@tekad/overlay": ["../../dist/packages/overlay"],
+      "@tekad/dialog": ["../../dist/packages/dialog"]
     }
   },
   "include": ["src/**/*.ts"]
