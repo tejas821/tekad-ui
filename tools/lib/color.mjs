@@ -138,6 +138,35 @@ export function hexToRgb(hex) {
   ];
 }
 
+/**
+ * Parse the colour syntax a BROWSER hands back from `getComputedStyle`, which
+ * is not the syntax anyone writes.
+ *
+ * Whatever an author declares — a hex, a named colour, `color-mix()`,
+ * `light-dark()`, an OKLCH triplet — computed style resolves it to `rgb(r, g,
+ * b)` or `rgba(r, g, b, a)`. That is the point: it is the value the engine
+ * actually painted, after the cascade, after `color-scheme`, after everything.
+ * Measuring contrast from it is a materially stronger claim than measuring the
+ * token pair the build computed, because it catches a variant that re-points a
+ * token to the wrong partner.
+ *
+ * Returns `null` rather than throwing on anything else. `transparent` resolves
+ * to `rgba(0, 0, 0, 0)` and IS parsed — the alpha is dropped, so a caller
+ * measuring contrast against a transparent background gets a number about
+ * black, which is wrong. Callers must reject fully transparent backgrounds
+ * themselves; there is no colour to compare against and no sensible default.
+ *
+ * @param {string} css a computed-style colour value
+ * @returns {[number, number, number] | null} rgb 0–255
+ */
+export function parseCssColor(css) {
+  const m = /^rgba?\(\s*([\d.]+)[\s,]+([\d.]+)[\s,]+([\d.]+)/.exec((css ?? '').trim());
+  if (!m) return null;
+  const rgb = [Number(m[1]), Number(m[2]), Number(m[3])];
+  if (rgb.some((v) => !Number.isFinite(v) || v < 0 || v > 255)) return null;
+  return /** @type {[number, number, number]} */ (rgb);
+}
+
 /* --------------------------------------------------------------------------
  * WCAG 2.x contrast
  *

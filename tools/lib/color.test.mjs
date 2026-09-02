@@ -18,10 +18,12 @@ import {
   fitToSrgbGamut,
   maxChromaInGamut,
   contrastRatioHex,
+  contrastRatio,
   relativeLuminance,
   hexToRgb,
   srgbChannelToLinear,
   linearToSrgbChannel,
+  parseCssColor,
 } from './color.mjs';
 
 let failed = 0;
@@ -167,6 +169,45 @@ eq('the fitted result is in gamut', oklchToSrgb(fitted.l, fitted.c, fitted.h).in
 const untouched = fitToSrgbGamut(0.6, 0.05, 264);
 eq('an in-gamut colour is not clamped', untouched.clamped, false);
 eq('an in-gamut colour keeps its chroma', untouched.c, 0.05);
+
+/* --------------------------------------------------------------------------
+ * parseCssColor — reading what a browser painted, not what an author wrote.
+ *
+ * Added in Phase 9 so verify-button-styling.mjs can measure the contrast of a
+ * REAL rendered button rather than a token pair. Computed style is the only
+ * place the cascade, `color-scheme`, `light-dark()` and `color-mix()` have all
+ * been resolved, and it always answers in rgb()/rgba() whatever the author
+ * wrote.
+ * ------------------------------------------------------------------------ */
+console.log('\n— parseCssColor —');
+eq('the rgb() form computed style returns', parseCssColor('rgb(1, 2, 3)'), [1, 2, 3]);
+eq('rgba(), with the alpha dropped', parseCssColor('rgba(10, 20, 30, 0.5)'), [10, 20, 30]);
+eq('the space-separated form some engines emit', parseCssColor('rgb(4 5 6 / 0.2)'), [4, 5, 6]);
+eq('surrounding whitespace is tolerated', parseCssColor('  rgb(7,8,9) '), [7, 8, 9]);
+// `transparent` computes to rgba(0,0,0,0). Parsing it as black is correct and
+// useless: a caller measuring contrast against it gets a number about black.
+// Rejecting transparency is the CALLER's job, and this pins that contract so
+// nobody later "fixes" it into returning null and breaks a caller that relies
+// on the parse succeeding.
+eq(
+  'transparent parses as black — the caller must reject it',
+  parseCssColor('rgba(0, 0, 0, 0)'),
+  [0, 0, 0],
+);
+eq('a hex is refused (computed style never returns one)', parseCssColor('#fff'), null);
+eq('a system keyword is refused', parseCssColor('ButtonText'), null);
+eq('the empty string is refused', parseCssColor(''), null);
+eq('nonsense is refused rather than throwing', parseCssColor('rgb(oops)'), null);
+eq('an out-of-range channel is refused', parseCssColor('rgb(300, 0, 0)'), null);
+
+// End to end, because the parts being right does not mean the chain is.
+{
+  const white = parseCssColor('rgb(255, 255, 255)');
+  const brand = parseCssColor('rgb(34, 66, 141)');
+  const ratio = white && brand ? contrastRatio(white, brand) : 0;
+  near('a parsed pair feeds contrastRatio and clears AA', ratio >= 4.5 ? 1 : 0, 1, 0);
+  console.log(`    (${ratio.toFixed(2)}:1 — white on the light-scheme primary)`);
+}
 
 if (failed > 0) {
   console.error(

@@ -1,0 +1,25 @@
+{
+  "name": "ssr-probe",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/ssr-probe/src",
+  "prefix": "tk",
+  "projectType": "application",
+  "tags": ["layer:app"],
+  "targets": {
+    "render": {
+      "executor": "nx:run-commands",
+      "cache": true,
+      "inputs": ["{projectRoot}/**/*"],
+      "outputs": ["{workspaceRoot}/dist/ssr-probe"],
+      "options": {
+        "parallel": false,
+        "commands": [
+          "rm -rf out-tsc/ssr-probe",
+          "ngc -p apps/ssr-probe/tsconfig.app.json",
+          "node -e \"require('fs').writeFileSync('out-tsc/ssr-probe/package.json','{\\\"type\\\":\\\"module\\\"}')\"",
+          "node out-tsc/ssr-probe/render.js"
+        ]
+      }
+    }
+  }
+}

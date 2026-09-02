@@ -1,0 +1,26 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "../../out-tsc/ssr-probe",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "rootDir": "src",
+    "target": "es2022",
+    "types": ["node"],
+    "noEmit": false,
+    "declaration": false
+  },
+  "angularCompilerOptions": {
+    "// compilationMode": [
+      "FULL, deliberately, and this is the one place in the repo where that is",
+      "correct. Every package uses 'partial' because a published library must",
+      "not bake Angular's private instruction set into its output. This is not",
+      "a published library — it is a probe whose whole purpose is to measure",
+      "what the FINAL AOT output emits into SSR HTML, so it must be compiled",
+      "the way a consumer's application compiles it."
+    ],
+    "compilationMode": "full",
+    "strictTemplates": true
+  },
+  "include": ["src/**/*.ts"]
+}

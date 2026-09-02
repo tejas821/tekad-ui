@@ -1,0 +1,20 @@
+{
+  // Paths resolve against dist/, not src/. The probe must exercise what a
+  // CONSUMER receives — the partial-compiled FESM with its exports map — not
+  // the TypeScript the package is written in. A styling bug that only appears
+  // after ng-packagr has processed the component's styleUrl would be invisible
+  // to a source-path build.
+  //
+  // Written as real JSONC comments rather than "// key" entries: @angular/build
+  // validates compilerOptions against the known set and rejects unknown keys,
+  // where ng-packagr's tsconfig read does not.
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "types": [],
+    "paths": {
+      "@tekad/button": ["../../dist/packages/button"],
+      "@tekad/core/primitives/identity": ["../../dist/packages/core/primitives/identity"]
+    }
+  },
+  "include": ["src/**/*.ts"]
+}

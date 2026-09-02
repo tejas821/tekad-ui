@@ -155,12 +155,35 @@ jobs:
       - name: Theme CSS budget
         run: pnpm run verify:css-budget
 
+      # ADR-007's closing obligation: "Emulated-encapsulation SSR cost must be
+      # measured before Phase 9." It was, and the answer inverted the
+      # assumption — the `_ngcontent` attribute costs +87.7% raw and NOTHING
+      # after compression (gzip is 4.8% smaller with it than without). The cost
+      # is the component instance: a component per cell is +51% brotli. This
+      # gate holds both numbers to a budget, and enforces the ShadowDom ban
+      # that ADR-007 decision 8 rests the whole ARIA IDREF model on.
+      - name: SSR encapsulation cost
+        run: pnpm run verify:ssr
+
       # Accessibility verified BEHAVIOURALLY in a real browser, not by counting
       # attributes (CLAUDE.md Definition of Done). A live region that is
       # display:none is removed from the accessibility tree and announces
       # nothing — only a real layout can tell you it is still rendered.
       - name: Live announcer contract
         run: pnpm run verify:a11y
+
+      # The Phase 9 slice, in a real browser. Everything jsdom cannot host:
+      # computed colour, layout, focus, cascade layers, forced colours.
+      #
+      # This gate has already earned its place. Written the obvious way, the
+      # button's CSS used `.tk-button` selectors — which Angular rewrites to
+      # `.tk-button[_ngcontent-…]`, an attribute stamped on elements INSIDE a
+      # component's template. The component's own host element carries
+      # `_nghost-…` instead, so for a component that decorates an element the
+      # consumer wrote, not one rule matched. The unit suite was green; the
+      # button was 21px tall and wearing the UA's default grey.
+      - name: Button rendering, layers and forced colours
+        run: pnpm run verify:button
 
       # The deferred-close state machine, proved deterministically against the
       # BUILT package. EVIDENCE CLASS: DEFENSIVE / SIMULATED — no browser was

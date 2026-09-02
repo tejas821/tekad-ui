@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>TEKAD slice probe</title>
+    <!--
+      The theme sheet is linked FIRST and deliberately.
+
+      @layer order is fixed by first appearance. This sheet's opening statement
+      is the layer declaration, so linking it before Angular boots is what
+      establishes tekad.reset < tekad.base < tekad.components < tekad.utilities.
+      A component style block that arrived first would establish the order
+      itself, from a file that names only one layer.
+
+      Whether that ordering actually survives is measured, not assumed —
+      tools/verify-button-styling.mjs asserts an unlayered consumer rule beats
+      a layered TEKAD rule of higher specificity.
+    -->
+    <link rel="stylesheet" href="tekad.css" />
+    <style>
+      /*
+       * The consumer's own stylesheet, unlayered — exactly what an application
+       * author writes. ADR-007 decision 1 promises this wins over TEKAD's
+       * layered rules with no !important and no ::ng-deep, DESPITE the TEKAD
+       * selector being more specific. The probe applies it via a class so the
+       * measurement is opt-in per button.
+       */
+      .consumer-override {
+        background: rgb(1, 2, 3);
+      }
+    </style>
+  </head>
+  <body>
+    <tk-slice-probe></tk-slice-probe>
+  </body>
+</html>

@@ -102,6 +102,51 @@
       "find": ["  return `${prefix}-${++counter}`;"],
       "replace": ["  return `${prefix}-1`;"],
       "expectFailing": ["never returns the same id twice"]
+    },
+    {
+      "id": "button/type-defaults-to-submit",
+      "why": "The `type` default set to submit — or simply omitted, which means the same thing inside a form. A \"Cancel\" button then submits the form, and nothing reveals it until the button is placed in a form, possibly months later.",
+      "project": "button",
+      "file": "packages/button/src/lib/tekad-button.ts",
+      "find": ["  readonly type = input<'button' | 'submit' | 'reset'>('button');"],
+      "replace": ["  readonly type = input<'button' | 'submit' | 'reset'>('submit');"],
+      "expectFailing": [
+        "renders type=\"button\"",
+        "does not submit the form it sits in — which is why the default exists"
+      ]
+    },
+    {
+      "id": "button/loses-base-class",
+      "why": "The variant class without the base class. Every layout declaration lives on .tk-button and the variant only re-points tokens, so the button loses its size, padding, focus ring and hit target while still looking like it has a variant applied.",
+      "project": "button",
+      "file": "packages/button/src/lib/tekad-button.ts",
+      "find": [
+        "  protected readonly classes = computed(() => `tk-button tk-button--${this.appearance()}`);"
+      ],
+      "replace": [
+        "  protected readonly classes = computed(() => `tk-button--${this.appearance()}`);"
+      ],
+      "expectFailing": ["carries the base class as well as the variant"]
+    },
+    {
+      "id": "button/appearance-input-ignored",
+      "why": "The class string hard-coded instead of computed from the input. The default appearance still renders correctly, so every test that only checks the default passes — and the input silently does nothing.",
+      "project": "button",
+      "file": "packages/button/src/lib/tekad-button.ts",
+      "find": [
+        "  protected readonly classes = computed(() => `tk-button tk-button--${this.appearance()}`);"
+      ],
+      "replace": ["  protected readonly classes = computed(() => 'tk-button tk-button--filled');"],
+      "expectFailing": ["swaps the variant class when the input changes, leaving no stale one"]
+    },
+    {
+      "id": "button/explicit-id-ignored",
+      "why": "A generated id always winning. Any aria-labelledby or popovertarget a consumer wrote against their own id points at nothing — and IDREFs fail silently, so the control renders looking correct and unlabelled.",
+      "project": "button",
+      "file": "packages/button/src/lib/tekad-button.ts",
+      "find": ["  protected readonly resolvedId = computed(() => this.id() ?? this.generatedId);"],
+      "replace": ["  protected readonly resolvedId = computed(() => this.generatedId);"],
+      "expectFailing": ["lets an explicit id win"]
     }
   ]
 }

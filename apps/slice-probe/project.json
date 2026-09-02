@@ -1,0 +1,34 @@
+{
+  "name": "slice-probe",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/slice-probe/src",
+  "prefix": "tk",
+  "projectType": "application",
+  "tags": ["layer:app"],
+  "implicitDependencies": ["button", "theme"],
+  "targets": {
+    "build": {
+      "executor": "@angular/build:application",
+      "outputs": ["{options.outputPath}"],
+      "dependsOn": ["^build"],
+      "options": {
+        "outputPath": "dist/apps/slice-probe",
+        "browser": "apps/slice-probe/src/main.ts",
+        "index": "apps/slice-probe/src/index.html",
+        "tsConfig": "apps/slice-probe/tsconfig.app.json",
+        "optimization": false,
+        "sourceMap": true,
+        "outputHashing": "none",
+        "assets": [
+          {
+            "input": "packages/theme/styles",
+            "glob": "tekad.css",
+            "output": "."
+          }
+        ]
+      },
+      "defaultConfiguration": "production",
+      "configurations": { "production": {}, "development": {} }
+    }
+  }
+}
