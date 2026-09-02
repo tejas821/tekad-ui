@@ -276,6 +276,7 @@ export default tseslint.config(
       'tools/verify-forms-assumptions.mjs',
       'tools/verify-button-styling.mjs',
       'tools/verify-checkbox-behaviour.mjs',
+      'tools/verify-form-field.mjs',
       'tools/lib/probe-page.mjs',
       'tools/lib/ssr-parse-cost.mjs',
     ],

@@ -15,7 +15,10 @@
       "@tekad/button": ["../../dist/packages/button"],
       "@tekad/core/primitives/identity": ["../../dist/packages/core/primitives/identity"],
       "@tekad/core/forms/model-control": ["../../dist/packages/core/forms/model-control"],
-      "@tekad/checkbox": ["../../dist/packages/checkbox"]
+      "@tekad/checkbox": ["../../dist/packages/checkbox"],
+      "@tekad/core/forms/field-context": ["../../dist/packages/core/forms/field-context"],
+      "@tekad/input": ["../../dist/packages/input"],
+      "@tekad/form-field": ["../../dist/packages/form-field"]
     }
   },
   "include": ["src/**/*.ts"]

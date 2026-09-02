@@ -18,6 +18,8 @@ import { Component } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { TekadButton } from '@tekad/button';
 import { TekadCheckbox } from '@tekad/checkbox';
+import { TekadInput } from '@tekad/input';
+import { TekadFieldError, TekadFieldHint, TekadFormField } from '@tekad/form-field';
 
 declare global {
   interface Window {
@@ -28,7 +30,14 @@ declare global {
 @Component({
   selector: 'tk-slice-probe',
   standalone: true,
-  imports: [TekadButton, TekadCheckbox],
+  imports: [
+    TekadButton,
+    TekadCheckbox,
+    TekadInput,
+    TekadFormField,
+    TekadFieldHint,
+    TekadFieldError,
+  ],
   template: `
     <main>
       <section id="buttons">
@@ -54,6 +63,20 @@ declare global {
         <tk-checkbox data-probe="cb-mixed" [indeterminate]="true">Mixed</tk-checkbox>
         <tk-checkbox data-probe="cb-disabled" [disabled]="true">Disabled</tk-checkbox>
       </section>
+
+      <section id="fields">
+        <tk-form-field data-probe="field-ok" label="Email">
+          <input tkInput data-probe="input-ok" />
+          <tk-field-hint>We will not share it.</tk-field-hint>
+        </tk-form-field>
+
+        <tk-form-field data-probe="field-bad" label="Postcode">
+          <input tkInput data-probe="input-bad" />
+          <tk-field-error>Enter a valid postcode.</tk-field-error>
+        </tk-form-field>
+
+        <input tkInput data-probe="input-bare" />
+      </section>
     </main>
   `,
   styles: `
@@ -67,6 +90,10 @@ declare global {
       gap: 1rem;
       align-items: flex-start;
       flex-wrap: wrap;
+    }
+    /* The fields need real width for the input's block-size to be meaningful. */
+    #fields > * {
+      inline-size: 18rem;
     }
   `,
 })
