@@ -32,7 +32,11 @@
       "@tekad/button": ["./packages/button/src/index.ts"],
       "@tekad/theme": ["./packages/theme/src/index.ts"],
       "@tekad/core/a11y/live-announcer": ["./packages/core/a11y/live-announcer/src/index.ts"],
-      "@tekad/overlay": ["./packages/overlay/src/index.ts"]
+      "@tekad/overlay": ["./packages/overlay/src/index.ts"],
+      "@tekad/core/forms/model-control": ["./packages/core/forms/model-control/src/index.ts"],
+      "@tekad/checkbox": ["./packages/checkbox/src/index.ts"],
+      "@tekad/forms": ["./packages/forms/src/index.ts"],
+      "@tekad/forms/compat": ["./packages/forms/compat/src/index.ts"]
     }
   },
   "angularCompilerOptions": {

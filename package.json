@@ -40,7 +40,9 @@
     "verify:mutation": "node tools/verify-mutation.mjs",
     "ssr:render": "nx render ssr-probe",
     "verify:ssr": "nx render ssr-probe && node tools/verify-ssr-encapsulation.mjs",
-    "verify:button": "nx build slice-probe && node tools/verify-button-styling.mjs"
+    "verify:button": "nx build slice-probe && node tools/verify-button-styling.mjs",
+    "verify:checkbox": "nx build slice-probe && node tools/verify-checkbox-behaviour.mjs",
+    "verify:slice": "nx build slice-probe && node tools/verify-button-styling.mjs && node tools/verify-checkbox-behaviour.mjs"
   },
   "devDependencies": {
     "@angular-devkit/core": "22.1.6",

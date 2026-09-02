@@ -1,0 +1,208 @@
+/*
+ * TEKAD checkbox.
+ *
+ * ── The shape of the problem ──────────────────────────────────────────────
+ *
+ * A native `<input type="checkbox">` is barely styleable, and a `<div
+ * role="checkbox">` gives up the platform's role, its mixed state, its Space
+ * activation, its form participation and — the one that is hardest to get back
+ * — its forced-colors mapping, which the UA does by ELEMENT SEMANTICS
+ * (ADR-007 decision 7).
+ *
+ * So the native input stays, and a `<span>` is painted over it. The input is
+ * made transparent rather than hidden: `display: none`, `visibility: hidden`
+ * and the `hidden` attribute each remove it from the accessibility tree, which
+ * is the single most common way a "custom checkbox" ends up announcing nothing.
+ * It keeps its size and its position and remains the thing that is focused,
+ * clicked and read.
+ *
+ * ── And why forced colours hands it all back ──────────────────────────────
+ *
+ * In forced-colors mode the painted span is guesswork: TEKAD does not know the
+ * user's palette, and a hand-drawn box in system colours is at best a worse
+ * copy of the one the UA already draws. So the span is removed and the input's
+ * own appearance is restored. The control becomes the platform checkbox,
+ * which is exactly right for a user who has asked the platform to decide.
+ *
+ * `tools/verify-checkbox-behaviour.mjs` asserts both halves in a real browser,
+ * because the whole design rests on which element the accessibility tree and
+ * the forced-colors engine are looking at.
+ */
+@layer tekad.components {
+  :host {
+    --tekad-checkbox-size: calc(1.25rem * var(--tekad-sys-density-scale, 1));
+    --tekad-checkbox-gap: 0.625rem;
+    --tekad-checkbox-radius: var(--tekad-sys-radius-sm);
+    --tekad-checkbox-border-color: var(--tekad-sys-color-outline);
+    --tekad-checkbox-background: transparent;
+    --tekad-checkbox-mark-color: var(--tekad-sys-color-on-primary);
+    --tekad-checkbox-min-target: calc(2.75rem * var(--tekad-sys-density-scale, 1));
+
+    display: inline-block;
+    color: var(--tekad-sys-color-on-surface);
+  }
+
+  .tk-checkbox__label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--tekad-checkbox-gap);
+
+    /*
+     * WCAG 2.2 SC 2.5.8. The BOX is 20px; the label is the target, and it is
+     * the label that must clear the floor. Padding rather than a min-height on
+     * the box, so a long label stays a comfortable target along its whole
+     * length instead of only where the box is.
+     */
+    min-block-size: var(--tekad-checkbox-min-target);
+    padding-block: 0.5rem;
+
+    cursor: pointer;
+  }
+
+  .tk-checkbox__input {
+    /*
+     * Sized and positioned exactly over the painted box, and transparent.
+     *
+     * NOT display:none, NOT visibility:hidden, NOT the hidden attribute, NOT
+     * width:0 — each of those removes the input from the accessibility tree or
+     * from hit-testing, and this element is the control.
+     */
+    appearance: none;
+    margin: 0;
+    inline-size: var(--tekad-checkbox-size);
+    block-size: var(--tekad-checkbox-size);
+    flex: none;
+    cursor: inherit;
+
+    /* Draw the box on the input itself, so :checked and :indeterminate style
+     * it without a sibling selector that breaks if the markup is reordered. */
+    border: 2px solid var(--tekad-checkbox-border-color);
+    border-radius: var(--tekad-checkbox-radius);
+    background: var(--tekad-checkbox-background);
+    transition:
+      background-color 120ms ease-out,
+      border-color 120ms ease-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tk-checkbox__input {
+      transition: none;
+    }
+  }
+
+  /*
+   * The span carries the mark. It is aria-hidden and purely decorative — the
+   * state is on the input, where assistive technology reads it.
+   */
+  .tk-checkbox__box {
+    position: relative;
+    /* It sits in the flex row after the input, so it is pulled back over it. */
+    margin-inline-start: calc(-1 * var(--tekad-checkbox-size));
+    inline-size: var(--tekad-checkbox-size);
+    block-size: var(--tekad-checkbox-size);
+    flex: none;
+    pointer-events: none;
+    display: grid;
+    place-items: center;
+    color: var(--tekad-checkbox-mark-color);
+  }
+
+  .tk-checkbox__box::before {
+    /* The tick, drawn as a rotated rectangle rather than a glyph: a glyph
+     * depends on a font the consumer may not have, and an SVG would need an
+     * extra request or a data URI in the CSS. */
+    content: '';
+    inline-size: 0.3em;
+    block-size: 0.6em;
+    border-inline-end: 2px solid currentcolor;
+    border-block-end: 2px solid currentcolor;
+    rotate: 45deg;
+    translate: 0 -0.1em;
+    opacity: 0;
+  }
+
+  .tk-checkbox__input:checked + .tk-checkbox__box::before {
+    opacity: 1;
+  }
+
+  .tk-checkbox__input:indeterminate + .tk-checkbox__box::before {
+    /* A dash, not a tick: mixed is a third state, not a weaker yes. */
+    inline-size: 0.6em;
+    block-size: 0;
+    border-inline-end: 0;
+    border-block-end: 2px solid currentcolor;
+    rotate: none;
+    translate: none;
+    opacity: 1;
+  }
+
+  .tk-checkbox__input:checked,
+  .tk-checkbox__input:indeterminate {
+    --tekad-checkbox-background: var(--tekad-sys-color-primary);
+    --tekad-checkbox-border-color: var(--tekad-sys-color-primary);
+  }
+
+  .tk-checkbox__input:focus-visible {
+    /* outline, not box-shadow — box-shadow is dropped in forced-colors mode,
+     * for exactly the users who most need to see focus (ADR-007 decision 7). */
+    outline: 2px solid var(--tekad-sys-color-focus-ring);
+    outline-offset: 2px;
+  }
+
+  .tk-checkbox__input:disabled {
+    cursor: not-allowed;
+  }
+
+  .tk-checkbox__label:has(.tk-checkbox__input:disabled) {
+    /*
+     * Applied to the LABEL so the text dims with the box. A disabled control is
+     * exempt from WCAG 1.4.3, so this needs no on-disabled token pair and no
+     * contrast obligation.
+     */
+    opacity: 0.38;
+    cursor: not-allowed;
+  }
+
+  .tk-checkbox__text:empty {
+    /* An icon-only checkbox is labelled from outside; the gap should not
+     * survive as dead space. */
+    display: none;
+  }
+
+  /*
+   * ── forced colours ─────────────────────────────────────────────────────
+   *
+   * Hand the control back to the platform. The painted span is guesswork about
+   * a palette TEKAD cannot see, so it goes; `appearance: auto` restores the
+   * UA's own checkbox, which already draws checked, indeterminate, disabled
+   * and focus in the user's colours.
+   *
+   * This is the payoff for keeping a real input. A div-with-a-role has nothing
+   * to restore.
+   */
+  @media (forced-colors: active) {
+    .tk-checkbox__input {
+      appearance: auto;
+      border: none;
+      background: none;
+      /* The UA's checkbox has its own metrics; forcing ours distorts it. */
+      inline-size: auto;
+      block-size: auto;
+    }
+
+    .tk-checkbox__box {
+      display: none;
+    }
+
+    .tk-checkbox__label:has(.tk-checkbox__input:disabled) {
+      /* opacity is not forced-colors-aware and can drop the label below the
+       * contrast the user chose. GrayText is the system colour for disabled. */
+      opacity: 1;
+      color: GrayText;
+    }
+
+    .tk-checkbox__input:focus-visible {
+      outline-color: Highlight;
+    }
+  }
+}

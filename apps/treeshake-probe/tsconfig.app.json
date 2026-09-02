@@ -6,7 +6,11 @@
       "@tekad/core": ["../../dist/packages/core"],
       "@tekad/core/primitives/identity": ["../../dist/packages/core/primitives/identity"],
       "@tekad/button": ["../../dist/packages/button"],
-      "@tekad/core/a11y/live-announcer": ["../../dist/packages/core/a11y/live-announcer"]
+      "@tekad/core/a11y/live-announcer": ["../../dist/packages/core/a11y/live-announcer"],
+      "@tekad/core/forms/model-control": ["../../dist/packages/core/forms/model-control"],
+      "@tekad/checkbox": ["../../dist/packages/checkbox"],
+      "@tekad/forms": ["../../dist/packages/forms"],
+      "@tekad/forms/compat": ["../../dist/packages/forms/compat"]
     }
   },
   "include": ["src/**/*.ts"]

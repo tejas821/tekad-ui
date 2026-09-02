@@ -175,15 +175,15 @@ jobs:
       # The Phase 9 slice, in a real browser. Everything jsdom cannot host:
       # computed colour, layout, focus, cascade layers, forced colours.
       #
-      # This gate has already earned its place. Written the obvious way, the
+      # These gates have already earned their place. Written the obvious way, the
       # button's CSS used `.tk-button` selectors — which Angular rewrites to
       # `.tk-button[_ngcontent-…]`, an attribute stamped on elements INSIDE a
       # component's template. The component's own host element carries
       # `_nghost-…` instead, so for a component that decorates an element the
       # consumer wrote, not one rule matched. The unit suite was green; the
       # button was 21px tall and wearing the UA's default grey.
-      - name: Button rendering, layers and forced colours
-        run: pnpm run verify:button
+      - name: Slice components in a real browser
+        run: pnpm run verify:slice
 
       # The deferred-close state machine, proved deterministically against the
       # BUILT package. EVIDENCE CLASS: DEFENSIVE / SIMULATED — no browser was
