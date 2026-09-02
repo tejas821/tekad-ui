@@ -1,78 +1,85 @@
-# Current task — Phase 9: the first vertical slice
+# Current task — Phase 9 remainder, then Phase 10
 
-Phases 0–8 are complete. Phase 8's record is
-`docs/architecture/14-testing-infrastructure.md`; the phase-by-phase state is in
+Phases 0–9 are complete in substance. Phase 9's record is
+`docs/architecture/16-first-slice.md`, preceded by
+`docs/architecture/15-ssr-encapsulation.md`; the phase-by-phase state is in
 `.ai/state.json`.
 
-## What Phase 9 is
+## What Phase 9 delivered
 
-The first real component, built end to end: pattern behaviour, styling from the
-Phase 4 tokens, accessibility verified behaviourally, SSR, tests, budgets, and a
-docs example. Everything before this built foundations and proved them; this is
-the first thing a consumer would actually import.
+Nine packages: `core`, `theme`, `overlay`, `button`, `checkbox`, `input`,
+`form-field`, `forms` (with `compat`), `dialog`. 102 unit tests, 28 mutants,
+four browser gates, 22 CI gates.
 
-## What earlier phases owe it
+Four foundation problems surfaced, none of which a unit suite could have found.
+They are worth reading before writing another component, because each is a rule:
 
-**From ADR-013 / Phase 7 — the CVA adapter.** `@tekad/forms/compat`, built
-against the slice's real controls rather than designed against nothing. ADR-013
-is explicit that it is public API: its own tests, SSR obligations and
-accessibility obligations, plus a tree-shaking scenario proving it does not
-reach a consumer who only uses signal forms.
+1. **A component decorating an element the consumer wrote must style it with
+   `:host`.** Angular rewrites `.tk-button` to `.tk-button[_ngcontent-…]`, an
+   attribute stamped on elements *inside* a template; the host carries
+   `_nghost-…`. Not one rule matched, the unit suite was green, and the button
+   was 21px tall in the user agent's default grey.
 
-A control must never implement both forms contracts.
-`tools/verify-forms-contracts.mjs` is the only thing that catches it — Angular
-does not. Measured in 22.1.4: it accepts the component, silently prefers the
-`ControlValueAccessor`, and the signal-forms value model never binds.
+2. **Projected content cannot be styled from the component it is projected
+   into.** It carries the scoping attribute of the component that *declared* it.
+   The field's error text was not red and nothing said so. The rule: a component
+   styles its own host and its own template, and nothing else.
 
-**From ADR-011 / Phase 8 — the four budgets that needed something to measure.**
+3. **A foundation package's spec must not reach for a component.** The boundary
+   rule refused it and was right — an adapter that must work with any control
+   had a suite encoding one component's behaviour as correct.
 
-- `size-limit` 13.x with `@size-limit/esbuild`, per-entry budgets and PR
-  comments. `source-map-explorer` and `bundlesize` are unmaintained and must
-  never be CI gates.
-- Forced-colors visual snapshots per component, both system themes.
-- An SSR/hydration test per package.
-- `axe` on every example.
+4. **`@layer` had never been tested** despite being load-bearing since Phase 4.
 
-**From Phase 2 — a tree-shaking scenario per hazard.** The probe covers the
-current graph only. Every new DI token evaluated at import time, module-level
-side effect, or `providedIn: 'root'` service needs its own scenario, with a
-positive control.
+## What Phase 9 still owes
 
-**From Phase 6 — the three things the overlay deliberately does not have.**
-Floating UI positioning (6.4 KB gzip against ADR-010's 10 KB budget), the
-dismissal dispatcher, and a focus trap. Each waits for a call site. The focus
-trap is narrower than ADR-010 implies: `showModal()` already grants `inert`,
-`aria-modal`, Escape and focus restore at 96.1%, and a non-modal popover should
-not trap focus at all — so a bespoke trap is needed only on the `position:
-fixed` fallback path, and that should be confirmed against a real fallback
-first.
+- **`size-limit` per-entry budgets** (ADR-011), with `@size-limit/esbuild`.
+  Now measurable: there are real components. `source-map-explorer` and
+  `bundlesize` are unmaintained and must never be CI gates.
+- **`axe` on every example**, and **forced-colors visual snapshots**. The
+  forced-colors *behaviour* is asserted for every component built; the snapshots
+  are not.
+- **An SSR/hydration test per package.** The SSR probe measures encapsulation
+  cost, which is not the same as proving these components hydrate.
+- **Select**, which needs positioning. Phase 6 deferred Floating UI until a
+  component demanded it; this is the first that does, so the decision is now
+  real rather than speculative — 6.4 KB gzip against ADR-010's 10 KB budget.
+- **The table foundation**, carrying ADR-014's constraint from Phase 9's own
+  measurement: **a cell is not a component**.
+- **The `position: fixed` overlay fallback.** ADR-010's correction is explicit
+  that it says nothing about that path, and it is where a bespoke focus trap may
+  still be needed.
 
-**From Spike B — a TEKAD secondary-entry-point generator.** The stock
-`@nx/angular` one emits a flat, one-level entry point containing an NgModule:
-wrong on both counts.
+## Older debts, still open
 
-**From ADR-012 — the packed-tarball import probe.** The fourth boundary layer,
-and the only check that sees what a consumer actually receives.
+- **A TEKAD secondary-entry-point generator** (Spike B). The stock
+  `@nx/angular` one emits a flat, one-level entry point containing an NgModule.
+  Seven entry points have now been hand-written; the eighth should not be.
+- **The packed-tarball import probe** (ADR-012's fourth boundary layer) — the
+  only check that sees what a consumer actually receives.
+- **A tree-shaking scenario per hazard.** Nine scenarios cover the current
+  graph. Every new DI token evaluated at import time, module-level side effect,
+  or `providedIn: 'root'` service needs its own, with a positive control.
 
-## How tests are expected to be written here
+## How components are expected to be written here
 
-Phase 8 established the shape, and the reason is worth restating: the
-live-announcer suite went green while nine of its eleven tests were indifferent
-to the behaviour they existed to protect.
-
-- Assert **behaviour**, not end state, wherever the two differ. `TekadButton`'s
-  `type` default is not checked as an attribute — the button is put in a
-  `<form>`, clicked, and the form required not to submit, with a companion test
-  proving the environment *does* implement implicit submission.
-- Logic, ordering and DOM structure in jsdom via `nx test`. Top layer, focus,
-  `inert`, animation, media queries and computed style in a real browser — jsdom
-  has none of them.
-- Every new piece of load-bearing behaviour gets **a mutant in
-  `tools/mutants.json`**. That is how the suite is shown to be load-bearing
-  rather than merely green. Removing a mutant because it fails is how the gate
-  stops meaning anything; fix the test instead.
-- Accessibility is verified behaviourally, never by attribute-counting
-  (CLAUDE.md Definition of Done).
+- Build on the native element. `<button tkButton>`, `input[tkInput]`, a real
+  `<input type="checkbox">` inside the checkbox, a real `<dialog>`. Forced
+  colours map by element semantics; the platform's keyboard behaviour, form
+  participation and focus handling are already correct; and `showModal()` alone
+  supplies the focus trap, inertness, `aria-modal`, Escape and focus restore
+  that ADR-010 expected TEKAD to build.
+- **Assert behaviour, not attributes.** The type default is tested by putting a
+  button in a form and requiring it not to submit. Every IDREF is tested by
+  *resolving* it — an attribute holding a plausible id that nothing points at
+  passes an existence check and is exactly the failure being guarded against.
+- **Logic in jsdom, the platform in a real browser.** jsdom has no layout, no
+  top layer, no `inert`, no animations and no `matchMedia`.
+- **Every piece of load-bearing behaviour gets a mutant** in
+  `tools/mutants.json`. Removing a mutant because it fails is how the gate stops
+  meaning anything; fix the test. Removing one because the code it targets is
+  gone is different, and `$removed` records why.
+- Accessibility is verified behaviourally, never by attribute-counting.
 
 ## Publish gate — independent of all the above
 
@@ -84,13 +91,14 @@ stays uncommitted and every package keeps `private: true` until then.
 ## Local setup still owed
 
 `node_modules` was never written over the device bridge. Run `corepack enable
-pnpm && pnpm install` in the repo; the lockfile is committed and CI installs
-frozen. `_to_delete/` can be removed by hand — the bridge cannot unlink files.
+pnpm && pnpm install`; the lockfile is committed and CI installs frozen.
+`_to_delete/` can be removed by hand — the bridge cannot unlink files, and git
+leaves lock files there on every commit.
 
 ## Tracked, not blocking
 
-Firefox/Gecko and real Safari for P0 and P1; **screen-reader validation, which
-nothing in this project has ever done**; `prefers-reduced-motion` in WebKit —
-now known to be unreachable in the unit runner too, since jsdom has no
-`matchMedia`; synchronous `toggle` delivery; and the Angular Language Service
-template path (Spike A Q2).
+Firefox/Gecko and real Safari — **every browser number in this project is
+Chromium**. **No screen reader has been run at any point**; what is proved is
+that the DOM presents what assistive technology is specified to act on.
+`prefers-reduced-motion` in WebKit. Parse cost, measured and too noisy to
+conclude anything. The Angular Language Service template path (Spike A Q2).

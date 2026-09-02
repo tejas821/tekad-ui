@@ -2,19 +2,19 @@
   "project": "TEKAD",
   "brandVersion": "0.0.0-pre",
   "masterPromptVersion": "1.0",
-  "updated": "2026-08-29",
+  "updated": "2026-09-02",
   "phase": {
-    "current": "8 - testing infrastructure COMPLETE",
-    "next": "Phase 9 - first vertical slice. It owes: the CVA adapter (ADR-013), size-limit per-entry budgets, forced-colors snapshots, an SSR/hydration test per package, and axe on every example - all four deferred from Phase 8 because they need components to measure.",
+    "current": "9 - first vertical slice COMPLETE (button, checkbox, input, form field, dialog, forms/compat)",
+    "next": "Phase 9 remainder then Phase 10. Owed: select (needs positioning - Floating UI is now a real decision, not a speculative one), the table foundation, size-limit per-entry budgets, axe on every example, forced-colors snapshots, an SSR/hydration test per package.",
     "codeWritten": true
   },
   "repository": {
     "root": "ui-library",
-    "vcs": "git, branch main, 14 commits",
+    "vcs": "git, branch main, 18 commits",
     "hasPackageJson": true,
     "hasWorkspace": true,
     "hasCI": true,
-    "sourceCode": "4 packages, 3 probe apps, 19 CI gates, 27 unit tests"
+    "sourceCode": "9 packages, 5 probe apps, 22 CI gates, 102 unit tests, 28 mutants"
   },
   "platformBaseline": {
     "verifiedOn": "2026-08-26",
@@ -62,9 +62,9 @@
   "blockers": [
     "PUBLISH GATE: npm scope availability, placeholder registration, professional trademark clearance - see ADR-016. LICENSE is not committed and every package carries private:true until this passes.",
     "Cross-engine and AT validation for P0 overlay and P1 grid - tracked, not blocking implementation",
-    "Tree-shaking is proved for the CURRENT graph only. Add a probe scenario whenever a DI token, a module-level side effect or a providedIn:'root' service is introduced.",
     "A TEKAD secondary-entry-point generator is still owed; the stock one emits the wrong shape.",
-    "The packed-tarball import probe (ADR-012's fourth boundary layer) is not built yet - it is the only check that sees what a consumer actually receives."
+    "The packed-tarball import probe (ADR-012's fourth boundary layer) is not built yet - it is the only check that sees what a consumer actually receives.",
+    "Tree-shaking is proved for the CURRENT graph only (9 scenarios incl. two for @tekad/forms/compat with a positive control). Add a scenario whenever a DI token, a module-level side effect or a providedIn:'root' service is introduced."
   ],
   "invariants": [
     "Signals canonical; RxJS is an adapter at the public boundary only",
@@ -129,7 +129,12 @@
     "Spike B (OBSERVED): @nx/angular 23.1.1 pins Angular ~22.0.4 and installed 22.0.6; the P0/P1 gates were measured against 22.1.4, so Phase 1 must pin Angular explicitly after scaffolding.",
     "Phase 8 (OBSERVED): a green unit suite is not evidence. Deleting the one line that makes a repeated live-region announcement audible left 9 of the announcer's 11 tests passing. Only 2 caught it - tools/verify-mutation.mjs now pairs each plausible defect with the test that must catch it.",
     "Phase 8 (OBSERVED): @angular/build:unit-test REFUSES a @nx/angular:package build target - every TEKAD library. @nx/angular:unit-test works and delegates to the same executeUnitTestBuilder after patchBuilderContext, so ADR-011's Vitest decision stands and only the executor name changes.",
-    "Phase 8 (OBSERVED): the unit-test DOM is jsdom with NO showPopover, dialog.showModal, inert, element.animate, getAnimations or matchMedia. TransitionEvent is present. The overlay lifecycle proof therefore CANNOT move into the unit runner as 12-overlay-foundation.md promised."
+    "Phase 8 (OBSERVED): the unit-test DOM is jsdom with NO showPopover, dialog.showModal, inert, element.animate, getAnimations or matchMedia. TransitionEvent is present. The overlay lifecycle proof therefore CANNOT move into the unit runner as 12-overlay-foundation.md promised.",
+    "Phase 9 (OBSERVED): emulated encapsulation costs +87.7% RAW SSR HTML and NOTHING compressed - gzip is 4.8% SMALLER with it than without, because the scoping attribute is the same 27 bytes 9,005 times and lengthens the unit the compressor back-references. The cost is the COMPONENT INSTANCE: a component per cell is +51% brotli and 2.8x the elements. ADR-014 inherits it - a table cell is not a component.",
+    "Phase 9 (OBSERVED): a component whose selector decorates an element the consumer wrote must style it with :host. Angular rewrites .tk-button to .tk-button[_ngcontent-...], the attribute stamped on elements INSIDE a template; the host carries _nghost-... instead, so not one rule matched. The unit suite was green and the button was 21px tall in the UA's default grey.",
+    "Phase 9 (OBSERVED): projected content carries the scoping attribute of the component that DECLARED it, not of the one it is projected into. The form field's .tk-field-error rule never applied and the error text was not red. Rule: a component styles its own host and its own template, and nothing else.",
+    "Phase 9 (OBSERVED): @layer works. ADR-007 decision 1 had been load-bearing since Phase 4 with nothing checking it. Measured in Chromium against the built package: the order statement survives, component rules land inside tekad.components, and an unlayered consumer rule beats them with no !important.",
+    "Phase 9 (OBSERVED): showModal() supplies the focus trap, background inertness, aria-modal, Escape and focus restoration. Tab across 12 presses never reaches an interactive element outside the dialog; Shift+Tab across 6 does not either. ADR-010's bespoke focus trap is not built - for the MODAL path. The position:fixed fallback remains unmeasured."
   ],
   "prototypes": {
     "P0_overlay": {
@@ -658,6 +663,109 @@
       "no screen reader has been run - neither the unit tests nor the browser gates prove a user hears anything; what they prove is that the DOM presents the change a screen reader is specified to act on",
       "Firefox/Gecko, real Safari, mobile virtual keyboards",
       "prefers-reduced-motion in WebKit - and now known to be unreachable in the unit runner too, since jsdom has no matchMedia"
+    ]
+  },
+  "phase9": {
+    "docs": [
+      "docs/architecture/15-ssr-encapsulation.md",
+      "docs/architecture/16-first-slice.md"
+    ],
+    "roadmapInstruction": "prove the architecture, not fill a catalogue - if any of those hurts here, fix the foundation before adding components",
+    "headline": "Four things hurt. All four were foundation problems, all four were found by a gate rather than by review, and none of them could have been found by a unit suite.",
+    "precondition": {
+      "owedBy": "ADR-007 Consequences: 'emulated-encapsulation SSR cost must be measured before Phase 9'",
+      "measured": "1,000 x 8 table (~9,000 elements), AOT full mode, renderApplication, three shapes differing in one thing each",
+      "result": {
+        "emulatedVsNone": "raw +87.7%, gzip -4.8%, brotli +10.8%",
+        "perCellVsNone": "raw +471.9%, gzip +17.4%, brotli +51.0%"
+      },
+      "theSurprise": "emulated encapsulation adds a quarter of a megabyte of raw HTML and, after gzip, the document is SMALLER than the unencapsulated one",
+      "whereTheCostActuallyIs": "the component instance, not the attribute. per-cell differs from emulated by one decision.",
+      "parseCost": "MEASURED AND UNVERIFIED - none vs emulated are 2 ms apart against 202 ms of noise; even emulated vs per-cell does not separate. An earlier run appeared to show emulated parsing FASTER; that was noise, and it did not get written down only because the gate prints the spread beside the median.",
+      "decision": "ViewEncapsulation.Emulated everywhere, by measurement rather than inertia. None would globalise every TEKAD class name irreversibly for a saving that does not survive compression. ShadowDom stays banned (ARIA IDREFs do not cross a shadow boundary; they resolve to nothing) and is now ENFORCED, which nothing was doing.",
+      "consequenceForADR014": "a table cell is not a component"
+    },
+    "packagesAdded": {
+      "@tekad/checkbox": "FormCheckboxControl - a checked model, no value. Native input, box painted over it, indeterminate as a DOM property.",
+      "@tekad/input": "FormValueControl<string> - the other half of Angular's split. Decorates a native <input>.",
+      "@tekad/form-field": "label, hint, error - entirely ARIA IDREF wiring, not layout",
+      "@tekad/dialog": "native <dialog> + showModal(), driven by @tekad/overlay's deferred close - that primitive's first consumer",
+      "@tekad/forms/compat": "ADR-013's Reactive Forms adapter",
+      "@tekad/core/forms/model-control": "the token a control provides so the adapter can reach it",
+      "@tekad/core/forms/field-context": "the token a field provides so a control can read its description"
+    },
+    "theFourThatHurt": [
+      "A component decorating an element the consumer wrote must style it with :host - a class selector is rewritten to [_ngcontent-...] and the host carries [_nghost-...]. Unit suite green, button 21px tall.",
+      "@layer had never been tested despite being load-bearing since Phase 4. It works, and now there is evidence.",
+      "A foundation package's spec imported a component; the boundary rule refused it and was right. Split into a stub-driven adapter suite and an integration suite on the component side - better than the version that failed.",
+      "Projected content cannot be styled from the component it is projected into. The error text was not red and nothing said so."
+    ],
+    "formsAdapter": {
+      "shape": "a separate directive reached through TEKAD_MODEL_CONTROL, opt-in via [tkCompat]",
+      "whyOptIn": [
+        "tree-shaking - proved with a positive control",
+        "once the directive is on a host the CVA wins and the signal contract on that element is dead; making that implicit would silently switch which form system a control belongs to"
+      ],
+      "disabledChannels": "disabledByForm is separate from the author's disabled input - different owners, and [disabled]=false must not fight control.disable() every change detection. The control reads effectivelyDisabled, the OR.",
+      "touchChannel": "the control's OWN touch OutputRef, the same one the signal-forms contract requires. The first version had the adapter REASSIGN a method on the injected control, which breaks the moment two things want to listen.",
+      "theEcho": "the hardest three lines. A signal effect is SCHEDULED, not inline, so the obvious `#writing = true` flag is already cleared when the effect runs - it then reports the form's own value back as a user edit and the form goes dirty the moment it is populated. The guard must survive until the effect runs AND be consumed exactly once, or a user edit returning to the form's value silently disappears. Both halves have a mutant.",
+      "teardownBug": "Angular calls registerOnTouched again during teardown, when the view is destroyed - subscribing or calling DestroyRef.onDestroy there throws NG0911. Found by the directive's own spec, in the cleanup phase rather than in an assertion."
+    },
+    "dialogAndADR010": {
+      "question": "ADR-010 anticipated a bespoke focus trap; Phase 6 narrowed it on reading and said it needed confirming against a real fallback",
+      "measured": {
+        "modal": ":modal matches",
+        "backgroundFocusable": false,
+        "tabEscapes12": 0,
+        "shiftTabEscapes6": 0,
+        "escapeCloses": true,
+        "focusRestores": true
+      },
+      "decision": "TEKAD writes NO focus trap for the modal path",
+      "theSelfCorrection": "the first version of the check asserted focus never LEAVES the dialog and failed. Chromium's cycle is periodic with period 5 and passes through document.body as the wrap point. body is outside the dialog by any DOM test and is also not a control. 'Focus escaped' was false; 'focus stayed inside' was also false. The true claim is that focus never reaches an INTERACTIVE element outside. The assertion was wrong, not the platform.",
+      "whatTEKADDoesSupply": "the exit animation - an element leaves the top layer the instant close() is called, so a closing transition plays on something no longer on top of anything",
+      "stillUnmeasured": "the position:fixed fallback path, which is where a bespoke trap may still be needed"
+    },
+    "gatesAddedInPhase9": [
+      "tools/verify-ssr-encapsulation.mjs (+ ssr-size.mjs, encapsulation-policy.mjs, ssr-parse-cost.mjs, ssr-size.test.mjs) - CI gate 20",
+      "tools/verify-button-styling.mjs - CI gate 21 (part)",
+      "tools/verify-checkbox-behaviour.mjs, verify-form-field.mjs, verify-dialog-behaviour.mjs - CI gate 21",
+      "tools/lib/probe-page.mjs - the shared browser-probe harness",
+      "parseCssColor added to tools/lib/color.mjs, so contrast is measured from what the browser PAINTED rather than from the token pair the build computed"
+    ],
+    "contrastGapFound": "verify-contrast.mjs checks declared token PAIRS - on-danger against danger, a filled surface. The field error is `danger` used as TEXT on `surface`, a pair not in the manifest at all. A component reaching for a token in a combination nobody declared is how a build-time contrast gate is bypassed with nobody bypassing it. Now measured from the rendered colour: 9.88:1.",
+    "whatTheMutationGateFound": [
+      "a test too weak to distinguish reading the element from toggling the model - one change event from false lands on true either way",
+      "a mutant pointed at the wrong suite - the disable path is edited in the checkbox and caught in the compat integration suite",
+      "DEAD CODE - the adapter's first-run guard; removing it broke nothing because setUpControl calls writeValue before any effect flushes. Deleted, with mutants.json recording WHY the mutant went.",
+      "a mutant that did not compile - refused, because 'the run went red' is guaranteed for a build break and says nothing about the suite"
+    ],
+    "designChoicesWorthKeeping": [
+      "no `tone` input on the button - a destructive button sets --tekad-button-background, which reaches colours TEKAD never anticipated without waiting for a release (ADR-006 tier 2)",
+      "no [invalid] input on the form field - it had no use rendering a <tk-field-error> did not cover, and a field marked invalid with nothing to say tells a user to fix something without telling them what",
+      "errors announced BEFORE hints in aria-describedby, which is not the DOM order - assistive technology reads the list in order, and a user just told their input is wrong needs the reason before the advice",
+      "aria-describedby and aria-invalid are ABSENT rather than empty/false - an empty IDREF list is a reference to a missing element",
+      "outline, never box-shadow, for focus rings - box-shadow is dropped in forced-colors mode, for exactly the users who most need to see focus"
+    ],
+    "tests": {
+      "unitTests": 102,
+      "mutants": 28,
+      "browserGates": 4,
+      "packages": 9
+    },
+    "stillOwed": [
+      "size-limit per-entry budgets (ADR-011) - now measurable, there are real components",
+      "axe on every example",
+      "forced-colors visual snapshots",
+      "an SSR/hydration test per package - the SSR probe measures encapsulation cost, which is not the same as proving these components hydrate",
+      "select (needs positioning; Floating UI is now a real decision, 6.4 KB gzip against ADR-010's 10 KB budget)",
+      "the table foundation"
+    ],
+    "stillUnverified": [
+      "no screen reader has been run - what is proved is that the DOM presents what assistive technology is specified to act on",
+      "Firefox/Gecko and real Safari - every browser number in this phase is Chromium",
+      "parse cost - too noisy to conclude anything",
+      "the position:fixed overlay fallback"
     ]
   }
 }

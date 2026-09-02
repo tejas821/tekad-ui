@@ -247,3 +247,34 @@ inherits all four along with ADR-013's CVA adapter.
 
 Still unverified, stated again because a testing phase is exactly where it
 would be tempting to imply otherwise: **no screen reader has been run.**
+
+## Phase 9 — First vertical slice (2026-09-02)
+
+- [x] **Discharged ADR-007's precondition before writing a component.** The SSR
+      encapsulation cost was measured, and the assumption behind the obligation
+      did not survive: the `_ngcontent` attribute costs +87.7% raw and nothing
+      compressed. The cost is the component instance — a component per cell is
+      +51% brotli. ADR-014 inherits it: a table cell is not a component.
+- [x] `@tekad/button` made real; `@tekad/checkbox`, `@tekad/input`,
+      `@tekad/form-field` and `@tekad/dialog` built.
+- [x] **ADR-013's CVA adapter**, owed to this phase since Phase 7, with the
+      token that makes the separation workable and a tree-shaking scenario
+      proving it never reaches a signal-forms-only consumer.
+- [x] **ADR-010's focus trap, measured away.** `showModal()` supplies the trap,
+      the inertness, `aria-modal`, Escape and focus restoration. TEKAD writes
+      none of it.
+- [x] **`@layer` finally has evidence** — load-bearing since Phase 4 with
+      nothing checking it.
+- [x] Four browser gates over one shared probe app; 102 unit tests; 28 mutants,
+      all caught.
+
+Four foundation problems surfaced, none of which a unit suite could have found:
+a component decorating a consumer's element must style it with `:host`;
+projected content cannot be styled from the component it is projected into; a
+foundation package's spec reached for a component; and `@layer` was unverified.
+All four were caught by a gate on its first run.
+
+Not done, intentionally: `size-limit` budgets, `axe`, forced-colors snapshots
+and per-package SSR tests — all now measurable and none built. Select and the
+table foundation remain. **No screen reader has been run**, and every browser
+number in this phase is Chromium.
