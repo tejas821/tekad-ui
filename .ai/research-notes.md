@@ -7,6 +7,7 @@ Evidence gathered so far. Every claim carries a source and a type.
 ---
 
 ## Angular v22 platform baseline
+
 Source: https://angular.dev/reference/versions — primary — accessed 2026-08-26
 
 - FACT — Angular v22.0.x supports Node `^22.22.3 || ^24.15.0 || ^26.0.0`.
@@ -18,6 +19,7 @@ Source: https://angular.dev/reference/versions — primary — accessed 2026-08-
   exactly; widening them without testing would be an unverified claim.
 
 ## Angular v22 release
+
 Source: https://blog.angular.dev/announcing-angular-v22-c52bb83a4664 — primary — accessed 2026-08-26
 
 - FACT — `OnPush` is now the default change-detection strategy for new
@@ -35,6 +37,7 @@ Source: https://blog.angular.dev/announcing-angular-v22-c52bb83a4664 — primary
 - INFERENCE — Do not build any tooling on webpack builders.
 
 ## Angular Aria — the most consequential finding
+
 Source: https://angular.dev/guide/aria/overview — primary — accessed 2026-08-26
 
 - FACT — `@angular/aria` is "a collection of headless, accessible directives
@@ -56,6 +59,7 @@ Source: https://angular.dev/guide/aria/overview — primary — accessed 2026-08
 - → ADR-005 (Proposed — blocked on research)
 
 ## Session workspace tooling
+
 Detected in the session's Linux workspace VM, not the founder's macOS machine.
 
 - FACT — node v22.23.2, npm 10.9.8, git 2.34.1; pnpm, yarn and `ng` absent.
@@ -80,5 +84,6 @@ Detected in the session's Linux workspace VM, not the founder's macOS machine.
 10. Contributor IP model: DCO vs CLA — **unresearched**.
 
 ## Discipline
+
 Do not re-derive these findings each session. Add to this file; do not rewrite
 it. If a finding is superseded, mark it and cite the newer source.

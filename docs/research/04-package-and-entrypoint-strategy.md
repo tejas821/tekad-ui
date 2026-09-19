@@ -58,16 +58,16 @@ stable home. Retrofitting it later is a breaking change for every consumer.
 
 ## Monorepo tooling — measured comparison
 
-| Criterion | Nx 23.1 | Angular CLI + pnpm + Changesets | Turborepo + ng-packagr |
-|---|---|---|---|
-| Angular v22 alignment | 7 | **10** | 8 |
-| Library-build support | 9 | 8 | 7 |
-| Boundary enforcement | **9** | 7 | 6 |
-| Release support | **10** | 8 | 8 |
-| CI cost | 6 | 5 | 8 |
-| Lock-in | 6 | **10** | 9 |
-| Maintainability | 8 | 7 | 6 |
-| **Total** | **55** | **55** | 52 |
+| Criterion             | Nx 23.1 | Angular CLI + pnpm + Changesets | Turborepo + ng-packagr |
+| --------------------- | ------- | ------------------------------- | ---------------------- |
+| Angular v22 alignment | 7       | **10**                          | 8                      |
+| Library-build support | 9       | 8                               | 7                      |
+| Boundary enforcement  | **9**   | 7                               | 6                      |
+| Release support       | **10**  | 8                               | 8                      |
+| CI cost               | 6       | 5                               | 8                      |
+| Lock-in               | 6       | **10**                          | 9                      |
+| Maintainability       | 8       | 7                               | 6                      |
+| **Total**             | **55**  | **55**                          | 52                     |
 
 ### The two facts that decide it
 
@@ -79,7 +79,7 @@ stable home. Retrofitting it later is a breaking change for every consumer.
    commercially licensed**, withdrawn over **CVE-2025-36852 (CREEP)**: a PR can
    modify the CI workflow to build a malicious artifact, and because the
    workflow is not part of the cache key, the cache is poisoned for later
-   legitimate builds. An OSS repo taking fork PRs *is* that threat model.
+   legitimate builds. An OSS repo taking fork PRs _is_ that threat model.
 
 ### Decision
 
@@ -91,6 +91,7 @@ release orchestration — reinventing a worse Nx. Nx ships all three plus
 repo-side and mechanically reversible.
 
 **Take Nx — with two conditions:**
+
 - Accept a 4–8 week lag on every Angular major. If TEKAD's positioning is
   "day-one support for every Angular release", that promise is incompatible
   with Nx; take Angular CLI + pnpm + Changesets + Turborepo instead.
@@ -147,7 +148,7 @@ CI gates.
 
 **Nx Release** has the most complete multi-package story:
 `projectsRelationship: "independent"`, per-project tags and changelogs,
-`updateDependents`. **Changesets 3.0.1** is the better *open-source* ritual —
+`updateDependents`. **Changesets 3.0.1** is the better _open-source_ ritual —
 contributors declare intent in a markdown file in the PR — and is tool-neutral.
 Lerna 10 is maintained by the Nx team and depends on Nx; it is not an
 independent choice.

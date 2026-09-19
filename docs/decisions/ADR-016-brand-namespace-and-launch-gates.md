@@ -4,10 +4,12 @@
 **Evidence:** `docs/research/15-trademark-brand-research.md`. **Not legal advice.**
 
 ## Context
+
 Preliminary conflict research only. No official trademark register — IP India,
 USPTO, EUIPO/TMview, WIPO — was reachable by automated research.
 
 ## Findings
+
 - **npm:** no published package under `tekad`, `tekad-ui`, `tekadui`, `@tekad`
   or `@tekad-ui`. But scope **reservation** is not publicly detectable.
 - **GitHub:** `github.com/tekad` **exists** as a dormant, empty user account.
@@ -20,6 +22,7 @@ USPTO, EUIPO/TMview, WIPO — was reachable by automated research.
   `.com`, `.org`, `.id`, `.co.id` resolve. RDAP was blocked — not authoritative.
 
 ## Decision — namespace
+
 **`@tekad/*`**, matching the ecosystem convention where the scope is the
 project and the package is the module. `@tekad-ui/core` stutters the category
 and forecloses non-UI expansion (CLI, ESLint plugin, schematics).
@@ -27,6 +30,7 @@ and forecloses non-UI expansion (CLI, ESLint plugin, schematics).
 with the free `github.com/tekad-ui` and `tekadui.dev`.
 
 ## Publish gates — all must pass before anything is published
+
 1. `npm org ls tekad` authenticated, or a throwaway `@tekad/probe` publish, to
    settle scope availability. Note the correlation risk: the same person may
    hold both `github.com/tekad` and the npm scope.
@@ -40,6 +44,7 @@ with the free `github.com/tekad-ui` and `tekadui.dev`.
    Attorney question list in `docs/research/15-trademark-brand-research.md`.
 
 ## Risk classification
+
 npm LOWER APPARENT CONFLICT · GitHub POTENTIAL CONFLICT · existing software use
 POTENTIAL CONFLICT · **trademark REQUIRES PROFESSIONAL SEARCH** · domains
 POTENTIAL CONFLICT.

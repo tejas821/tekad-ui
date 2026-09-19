@@ -28,6 +28,7 @@ The purpose is to learn engineering patterns and independently design TEKAD.
 For every library:
 
 ### Repository
+
 - monorepo or multi-repo
 - workspace tooling
 - folder structure
@@ -37,6 +38,7 @@ For every library:
 - docs tooling
 
 ### Package architecture
+
 - primary package
 - secondary entry points
 - package-per-domain
@@ -49,6 +51,7 @@ For every library:
 - side effects
 
 ### Runtime architecture
+
 - change detection
 - Signals
 - RxJS
@@ -62,6 +65,7 @@ For every library:
 - DOM utilities
 
 ### Component architecture
+
 - standalone
 - modules
 - composition
@@ -74,6 +78,7 @@ For every library:
 - provider configuration
 
 ### Styling
+
 - CSS
 - SCSS
 - CSS variables
@@ -85,6 +90,7 @@ For every library:
 - runtime styling
 
 ### Accessibility
+
 - CDK usage
 - ARIA
 - keyboard navigation
@@ -93,6 +99,7 @@ For every library:
 - accessibility testing
 
 ### SSR/hydration
+
 - browser API strategy
 - hydration behavior
 - IDs
@@ -101,6 +108,7 @@ For every library:
 - browser-only services
 
 ### Performance
+
 - bundle size
 - dependency size
 - initialization
@@ -112,6 +120,7 @@ For every library:
 - CSS size
 
 ### Developer experience
+
 - installation
 - imports
 - auto configuration
@@ -122,6 +131,7 @@ For every library:
 - forms integration
 
 ### Governance
+
 - releases
 - versioning
 - support
@@ -130,6 +140,7 @@ For every library:
 - maintenance activity
 
 ### License/IP
+
 - software license
 - commercial restrictions
 - attribution
@@ -145,8 +156,8 @@ Create:
 
 Use a table:
 
-| Library | Architecture | Packaging | Reactive Model | Styling | A11y | SSR | Performance | DX | License | Key Strength | Key Weakness | TEKAD Lesson |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Library | Architecture | Packaging | Reactive Model | Styling | A11y | SSR | Performance | DX  | License | Key Strength | Key Weakness | TEKAD Lesson |
+| ------- | ------------ | --------- | -------------- | ------- | ---- | --- | ----------- | --- | ------- | ------------ | ------------ | ------------ |
 
 Then provide:
 

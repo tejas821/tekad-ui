@@ -49,23 +49,23 @@ See ADR-002, ADR-003.
 
 ## 3. Consumer tiers
 
-| Tier | Needs | TEKAD answer |
-|---|---|---|
+| Tier     | Needs                  | TEKAD answer                       |
+| -------- | ---------------------- | ---------------------------------- |
 | Beginner | install → import → use | Component layer, sensible defaults |
-| Advanced | control the markup | Pattern layer + content projection |
-| Expert | control the behaviour | Primitive/headless layer |
+| Advanced | control the markup     | Pattern layer + content projection |
+| Expert   | control the behaviour  | Primitive/headless layer           |
 
 A developer must **never** have to assemble primitives to render a standard
 button, input, dialog or table.
 
 ## 4. Platform baseline (verified 2026-08-26)
 
-| Item | Value | Source |
-|---|---|---|
-| Angular | v22.0.x | angular.dev/reference/versions |
-| Node | `^22.22.3 \|\| ^24.15.0 \|\| ^26.0.0` | angular.dev/reference/versions |
-| TypeScript | `>=6.0.0 <6.1.0` | angular.dev/reference/versions |
-| RxJS | `^6.5.3 \|\| ^7.4.0` | angular.dev/reference/versions |
+| Item       | Value                                 | Source                         |
+| ---------- | ------------------------------------- | ------------------------------ |
+| Angular    | v22.0.x                               | angular.dev/reference/versions |
+| Node       | `^22.22.3 \|\| ^24.15.0 \|\| ^26.0.0` | angular.dev/reference/versions |
+| TypeScript | `>=6.0.0 <6.1.0`                      | angular.dev/reference/versions |
+| RxJS       | `^6.5.3 \|\| ^7.4.0`                  | angular.dev/reference/versions |
 
 Angular v22 facts that shape TEKAD:
 
@@ -93,5 +93,5 @@ Angular v22 facts that shape TEKAD:
 ## 6. What TEKAD deliberately does not own
 
 Chart engines, rich-text engines, date/time arithmetic beyond what the
-platform provides, icon *content* at scale, and any behaviour Angular itself
+platform provides, icon _content_ at scale, and any behaviour Angular itself
 already ships well. See ADR-008 and `03-dependency-policy.md`.

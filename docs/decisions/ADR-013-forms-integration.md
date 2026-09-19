@@ -4,10 +4,12 @@
 **Evidence:** `docs/research/20-forms-strategy.md`
 
 ## Context
+
 Signal Forms are stable in v22 with Material and Aria integration. Reactive
 Forms are not deprecated, and enterprise adoption depends on them.
 
 ## Decision
+
 Every TEKAD control implements **`FormValueControl`** (a `value` model signal,
 no `checked`) or **`FormCheckboxControl`** (a `checked`, no `value`), emits a
 `touch` output on blur, and keeps validation in the schema, not the control.
@@ -19,10 +21,12 @@ ships as a **separate thin CVA adapter** in its own entry point
 are documented as the alternative route.
 
 ## Alternatives
+
 CVA-native with a Signal-Forms adapter — rejected, inverts the framework's
 direction and ADR-002. Dual implementation — **forbidden by Angular**.
 
 ## Consequences
+
 The compat adapter is public API with its own tests and SSR/a11y obligations,
 and must be in the Phase 9 slice — discovering this constraint late would be
 expensive.
@@ -35,18 +39,18 @@ expensive.
 correction makes the decision more important rather than less — so this is a
 dated correction, not a superseding ADR.
 
-This ADR says: *"Angular explicitly forbids implementing both
-`ControlValueAccessor` and `FormValueControl` on the same component."*
+This ADR says: _"Angular explicitly forbids implementing both
+`ControlValueAccessor` and `FormValueControl` on the same component."_
 
 Measured against `@angular/forms` **22.1.4**, in a real browser, with a
 signal-forms-only control in the same page as a passing control:
 
-| | Result |
-|---|---|
-| Did Angular reject a component implementing both? | **No.** Zero boot errors, zero console errors. It rendered. |
-| Which contract did it use? | The **`ControlValueAccessor`**. `writeValue` was called twice, with the correct value. |
-| Did the `FormValueControl` value model bind? | **No.** The control rendered `""` where the field held `"changed-both"`. |
-| Control: did a signal-forms-only control bind? | **Yes** — `"changed-signal"`. So the probe was measuring something. |
+|                                                   | Result                                                                                 |
+| ------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| Did Angular reject a component implementing both? | **No.** Zero boot errors, zero console errors. It rendered.                            |
+| Which contract did it use?                        | The **`ControlValueAccessor`**. `writeValue` was called twice, with the correct value. |
+| Did the `FormValueControl` value model bind?      | **No.** The control rendered `""` where the field held `"changed-both"`.               |
+| Control: did a signal-forms-only control bind?    | **Yes** — `"changed-signal"`. So the probe was measuring something.                    |
 
 The mechanism is `FormField.ɵngControlCreate`:
 

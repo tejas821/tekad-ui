@@ -4,6 +4,7 @@
 **Evidence:** `docs/research/11-table-data-grid-strategy.md`
 
 ## Decision
+
 **Composable primitives plus a grid layer — four strictly one-directional
 layers:** L0 row model (zero DOM) → L1 column model (zero DOM) → L2
 interaction & a11y (wraps `@angular/aria` Grid) → L3 rendering (the only DOM
@@ -34,11 +35,13 @@ selection, expansion, edit buffers and `aria-rowindex` simultaneously.
 **DOM order must equal visual order** — no node pooling.
 
 ## Alternatives
+
 Table only — cedes the flagship claim; the alternative for users is AG Grid at
 a measured 247.6 KB gzip minimum. Two parallel components — duplicates row
 model, selection and a11y code and guarantees divergence.
 
 ## Consequences
+
 Deferred to v2+: variable row heights, column virtualization, grouping and
 aggregation, editable cells, cell-range selection, tree/master-detail,
 column drag-reorder.
@@ -71,7 +74,7 @@ from an issue report. Owning the L3 rendering layer is validated.
 Angular resolves directive DI by the template's **declaration site**, not its
 DOM insertion point. Templates declared outside the grid fail with `GRID`
 missing (the row cannot find the grid); content projection and `cdk-table` fail
-with `GRID_ROW` missing (cells cannot find their row). The *same*
+with `GRID_ROW` missing (cells cannot find their row). The _same_
 `ngTemplateOutlet` mechanism **passes** when the template is declared inside
 the row — so template outlets are not the problem, declaration site is.
 
@@ -86,8 +89,8 @@ cover this path specifically.
 
 **Corollary:** TEKAD's cell API is **template-based, not
 content-projection-based**. A projected `<td ngGridCell>` is declared in the
-consumer's template and cannot be repaired by an injector. Column *definition*
-components may use projection; cell *rendering* may not.
+consumer's template and cannot be repaired by an injector. Column _definition_
+components may use projection; cell _rendering_ may not.
 
 ### Limitations
 

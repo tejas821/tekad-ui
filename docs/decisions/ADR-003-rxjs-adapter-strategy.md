@@ -3,10 +3,12 @@
 **Status:** Accepted · **Date:** 2026-08-26
 
 ## Context
+
 ADR-002 makes signals canonical. RxJS must remain first-class for consumers
 and for the problems it is genuinely best at, without becoming a second store.
 
 ## Decision
+
 RxJS appears in two places only:
 
 1. **At the public boundary, as an adapter.** Where an Observable surface adds
@@ -23,14 +25,17 @@ the boundary, into canonical signal state.
 the pipeline needs operators.
 
 ## Alternatives
+
 Observables everywhere (rejected — ADR-002); no Observable surface at all
 (rejected — cuts off a large share of the Angular ecosystem).
 
 ## Reason
+
 One source of truth, two consumption models, with the conversion cost paid
 exactly once at a well-defined edge.
 
 ## Consequences
+
 Every Observable in a public API must be traceable to a canonical signal.
 An internal `Subject` holding state is a review blocker; a `Subject`
 modelling an event stream is fine.

@@ -4,10 +4,12 @@
 **Evidence:** `docs/research/07-css-theme-design-token-strategy.md`
 
 ## Context
+
 Theming architecture determines CSS size, specificity pain, dark-mode cost,
 branding effort and SSR safety, and is expensive to change late.
 
 ## Decision
+
 1. **Cascade layers.** All TEKAD CSS lives inside
    `@layer tekad.reset, tekad.base, tekad.components, tekad.utilities;`,
    declared once as the first statement of the global sheet. Unlayered
@@ -42,6 +44,7 @@ direction) become a selector. That is the mechanism behind Material's 7.4 KB
 M3 theme versus ~108 KB for the M2 per-component approach.
 
 ## Alternatives
+
 Per-component compiled theme CSS — rejected, size scales as a product rather
 than a sum. Class-based dark mode — rejected, requires re-declaring the token
 block under a descendant selector and nests badly. Relative colour syntax or
@@ -49,10 +52,12 @@ block under a descendant selector and nests badly. Relative colour syntax or
 79.7%) and because CSS cannot assert a contrast ratio.
 
 ## Consequences
+
 Token names become public API with full compatibility obligations. Budget
 ~2 KB gzip for the theme sheet plus ~1 KB for the fallback. Emulated-
 encapsulation SSR cost must be measured before Phase 9 (a 1,000-row table pays
 one `_ngcontent` attribute per element).
+
 ## 2026-09-02 — obligation discharged: the SSR encapsulation cost is not where this ADR expected
 
 **Every decision above stands.** The Consequences section closed with an

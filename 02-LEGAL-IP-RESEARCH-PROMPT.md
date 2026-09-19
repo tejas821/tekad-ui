@@ -57,7 +57,7 @@ Do not give a definitive legal conclusion.
 Create a matrix:
 
 | Dependency | Version | License | Runtime/Core/Optional | Commercial Use | Attribution | NOTICE | Copyleft Risk | Patent Concern | Recommendation |
-|---|---|---|---|---|---|---|---|---|---|
+| ---------- | ------- | ------- | --------------------- | -------------- | ----------- | ------ | ------------- | -------------- | -------------- |
 
 Investigate all proposed core dependencies.
 

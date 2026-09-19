@@ -15,7 +15,7 @@ will then violate. Write it the day a second person gains merge rights.
 
 **Contributor Covenant 3.0** (released 2025-07-28, stewarded by the
 Organization for Ethical Source) — not 2.1. Adoption is real and ongoing
-(Hanami 2025-09, Django 2026-04). 3.0 *requires* a real reporting address and
+(Hanami 2025-09, Django 2026-04). 3.0 _requires_ a real reporting address and
 enforcement process; a solo maintainer names themselves and **also names one
 trusted outside person for conflicts involving the maintainer**. A CoC with an
 unfilled `[INSERT CONTACT METHOD]` placeholder is worse than none.
@@ -93,7 +93,7 @@ document is not. See `14-license-analysis.md`.
 2FA and disallow tokens." Passkey on the npm account. Any design storing a
 long-lived npm token in repo secrets is obsolete and actively worse.
 
-Provenance proves *which repo, which workflow, which commit* built the
+Provenance proves _which repo, which workflow, which commit_ built the
 tarball. It does not prove the code is good.
 
 ### Repository hardening
@@ -112,7 +112,7 @@ afternoon, higher tiers are not.
 
 ### Dependency intake
 
-**Run both:** Dependabot for *security alerts* only (free, native, no config),
+**Run both:** Dependabot for _security alerts_ only (free, native, no config),
 and **Renovate for version updates** — grouping (one PR for all `@angular/*`),
 automerge by update type, a dependency-dashboard issue as a single triage
 surface, and decisively **`minimumReleaseAge` cooldown**, so a compromised
@@ -127,7 +127,7 @@ scripts by default.
   verifiable claim worth advertising.
 - **Lockfile integrity** — commit `pnpm-lock.yaml`; CI uses
   `--frozen-lockfile`. It is what makes provenance meaningful.
-- **Scope squatting** — entry points are *paths*, so they cannot be confused,
+- **Scope squatting** — entry points are _paths_, so they cannot be confused,
   but **the scope itself and plausible unscoped names can be squatted**.
   Register the npm org/scope **before announcing the name anywhere public**,
   and publish placeholders for `tekad`, `tekad-ui`, `ngx-tekad`. Every future

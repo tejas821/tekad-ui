@@ -2,11 +2,11 @@
 
 Every exported symbol carries one of three classifications.
 
-| Class | Contract | Change policy |
-|---|---|---|
-| `PUBLIC` | Documented, tested, accessible, SSR-safe, stable name | Breaking change requires an ADR + deprecation cycle |
-| `INTERNAL` | Not exported from the package entry point | Changes freely |
-| `EXPERIMENTAL` | Exported, clearly marked, documented as unstable | May change in any release |
+| Class          | Contract                                              | Change policy                                       |
+| -------------- | ----------------------------------------------------- | --------------------------------------------------- |
+| `PUBLIC`       | Documented, tested, accessible, SSR-safe, stable name | Breaking change requires an ADR + deprecation cycle |
+| `INTERNAL`     | Not exported from the package entry point             | Changes freely                                      |
+| `EXPERIMENTAL` | Exported, clearly marked, documented as unstable      | May change in any release                           |
 
 Mark experimental APIs in source and in docs. An unmarked export is public.
 
@@ -25,17 +25,27 @@ Mark experimental APIs in source and in docs. An unmarked export is public.
 ## Anti-pattern (do not do this)
 
 ```html
-<tk-table showHeader showFooter enableSelection enableFilter enableSort
-          enableVirtualScroll compact dense bordered stickyHeader>
+<tk-table
+  showHeader
+  showFooter
+  enableSelection
+  enableFilter
+  enableSort
+  enableVirtualScroll
+  compact
+  dense
+  bordered
+  stickyHeader
+></tk-table>
 ```
 
 ## Direction
 
 ```html
 <tk-table>
-  <tk-table-toolbar/>
-  <tk-table-column/>
-  <tk-table-footer/>
+  <tk-table-toolbar />
+  <tk-table-column />
+  <tk-table-footer />
 </tk-table>
 ```
 

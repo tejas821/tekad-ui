@@ -93,7 +93,7 @@ edge side effects — focus, DOM writes, announcements. `toObservable` at the
 boundary, created lazily. Consumer Observables converted once with `toSignal`.
 `resource`/`httpResource` preferred where they fit.
 
-**One trap to audit for:** a library component that instantiates *consumer*
+**One trap to audit for:** a library component that instantiates _consumer_
 components via `ViewContainerRef` cannot safely be OnPush, because that breaks
 refresh for `Eager` children. `<ng-content>` projection is safe. Applies to
 dialog content, table cell components and overlay content specifically.
@@ -135,7 +135,7 @@ forced off and colours are mapped by **element semantics, not ARIA role** — so
 `@media (forced-colors: active)` substitute. Every component ships a
 forced-colors snapshot.
 
-**Contrast is a build-time assertion, not a hope.** OKLCH `L` is *not* WCAG
+**Contrast is a build-time assertion, not a hope.** OKLCH `L` is _not_ WCAG
 relative luminance. Generate tones in OKLCH, then compute WCAG contrast for
 every declared semantic pair in both schemes and **fail the build** below
 4.5:1 (body) / 3:1 (non-text). Consumer brand seeds run the same pipeline.
@@ -225,8 +225,7 @@ menus. Owning L3 costs ~2,000 lines.
 
 **Virtualization: `@tanstack/virtual-core`** (6.7 KB gzip, MIT, dynamic
 measurement, both axes) — `@angular/cdk/scrolling` ships **fixed-size only** in
-stable and its autosize strategy has been stuck in `cdk-experimental` since
-2024. Wrap it in a TEKAD signal adapter.
+stable and its autosize strategy has been stuck in `cdk-experimental` since 2024. Wrap it in a TEKAD signal adapter.
 
 **Required day one: `rowId: (row, index) => string`** — it feeds `@for` `track`,
 selection, expansion, edit buffers and `aria-rowindex` simultaneously.
@@ -246,16 +245,16 @@ navigation breaks even with correct `aria-rowindex`.
 
 ## APPROVED DEPENDENCIES
 
-| Package | Classification |
-|---|---|
-| `@angular/core`, `/common` | peer |
-| `@angular/cdk`, `@angular/aria` | peer |
-| `rxjs` (Apache-2.0) | peer |
-| `@angular/forms` | optional peer |
-| `tslib` (0BSD) | **runtime dependency** |
-| `@floating-ui/dom` (MIT) | **runtime dependency** |
-| `@tanstack/virtual-core` (MIT) | runtime dependency (table only) |
-| ng-packagr, TypeScript, Vitest | dev |
+| Package                         | Classification                  |
+| ------------------------------- | ------------------------------- |
+| `@angular/core`, `/common`      | peer                            |
+| `@angular/cdk`, `@angular/aria` | peer                            |
+| `rxjs` (Apache-2.0)             | peer                            |
+| `@angular/forms`                | optional peer                   |
+| `tslib` (0BSD)                  | **runtime dependency**          |
+| `@floating-ui/dom` (MIT)        | **runtime dependency**          |
+| `@tanstack/virtual-core` (MIT)  | runtime dependency (table only) |
+| ng-packagr, TypeScript, Vitest  | dev                             |
 
 ## OPTIONAL DEPENDENCIES
 
@@ -338,7 +337,7 @@ pattern `@angular/aria` already ships. A generic `BaseComponent`,
    letter away.
 2. **`github.com/tekad` exists** as a dormant, empty user account. `tekad-ui`
    and `tekadui` are free.
-3. **npm `@tekad` shows no published packages, but scope *reservation* is not
+3. **npm `@tekad` shows no published packages, but scope _reservation_ is not
    publicly detectable.** Run `npm org ls tekad` authenticated, or attempt a
    throwaway publish, before committing. The same person may hold both the
    GitHub account and the npm scope.

@@ -4,18 +4,18 @@ Research date 2026-08-26/27. Browser support verified against caniuse/MDN.
 
 ## Platform capabilities — verified
 
-| Feature | Support | Global |
-|---|---|---|
-| `@layer` | Chrome 99, FF 97, Safari 15.4 | **95.3%** |
-| Logical properties | Chrome 89, FF 66, Safari 15 | **96.4%** |
-| `@property` | Chrome 85, FF 128, Safari 16.4 | 94.2% |
-| `:has()` | Chrome 105, FF 121, Safari 15.4 | 94.1% |
-| `oklch()` | Chrome 111, FF 113, Safari 15.4 | 93.3% |
-| `color-mix()` | Chrome 111, FF 113, Safari 16.2 | 92.9% |
-| Relative colour syntax | Chrome 131, FF 133, Safari 18 | 91.1% |
-| `light-dark()` | Chrome 123, FF 120, Safari 17.5 | **88.8%** |
-| Container **style** queries | FF 151 full; others partial | **1.7% full** |
-| `contrast-color()` | Chrome 147, FF 146, Safari 26 | 79.7% |
+| Feature                     | Support                         | Global        |
+| --------------------------- | ------------------------------- | ------------- |
+| `@layer`                    | Chrome 99, FF 97, Safari 15.4   | **95.3%**     |
+| Logical properties          | Chrome 89, FF 66, Safari 15     | **96.4%**     |
+| `@property`                 | Chrome 85, FF 128, Safari 16.4  | 94.2%         |
+| `:has()`                    | Chrome 105, FF 121, Safari 15.4 | 94.1%         |
+| `oklch()`                   | Chrome 111, FF 113, Safari 15.4 | 93.3%         |
+| `color-mix()`               | Chrome 111, FF 113, Safari 16.2 | 92.9%         |
+| Relative colour syntax      | Chrome 131, FF 133, Safari 18   | 91.1%         |
+| `light-dark()`              | Chrome 123, FF 120, Safari 17.5 | **88.8%**     |
+| Container **style** queries | FF 151 full; others partial     | **1.7% full** |
+| `contrast-color()`          | Chrome 147, FF 146, Safari 26   | 79.7%         |
 
 ## The three decisions that matter
 
@@ -57,8 +57,8 @@ selector, and nested islands only work if declared on the element.
 Composition: **the attribute is the control surface; `light-dark()` does the
 work.**
 
-⚠️ `light-dark()` became newly available May 2024, which is *newer than
-Angular v22's own supported browser floor* (Baseline widely available as of
+⚠️ `light-dark()` became newly available May 2024, which is _newer than
+Angular v22's own supported browser floor_ (Baseline widely available as of
 2026-05-07, 30-month window). A fallback is required, not optional: emit the
 light value as a plain declaration immediately before the `light-dark()` one,
 plus one `@media (prefers-color-scheme: dark)` block behind
@@ -69,9 +69,9 @@ duplication in the theme and can be dropped on a documented schedule.
 
 This is the mechanism behind Material's ~7.4 KB M3 theme vs ~108 KB M2 theme.
 
-- **Old model:** per-theme *selector rules* for every component. Size scales as
+- **Old model:** per-theme _selector rules_ for every component. Size scales as
   components × declarations × themes × palettes × density — a **product**.
-- **Token model:** per-theme *custom-property declarations* on one `:root`
+- **Token model:** per-theme _custom-property declarations_ on one `:root`
   rule; component rules emitted **once**, theme-independent, shipped with the
   component. Size becomes O(tokens) + O(components) — a **sum**.
 
@@ -111,7 +111,7 @@ never a runtime dependency.
   chroma can straddle 4.5:1.
 - `contrast-color()` is at 79.7% and far below Angular v22's floor — a future
   enhancement, not a guarantee mechanism.
-- Relative colour syntax is unsuitable as the *shipping* mechanism: gamut
+- Relative colour syntax is unsuitable as the _shipping_ mechanism: gamut
   clipping makes ramps deviate unpredictably per hue, and CSS cannot assert a
   contrast ratio.
 
@@ -125,8 +125,7 @@ point; the assertion is the guarantee. Derived hover/pressed states via
 so a non-conforming brand colour is caught at their build.
 
 TEKAD conforms to **WCAG 2.2 AA**. WCAG 3.0 is a Working Draft (03 March 2026)
-with no defined contrast algorithm; APCA was removed from the WCAG 3 draft in
-2023. APCA may be reported as supplementary diagnostics; it never gates CI and
+with no defined contrast algorithm; APCA was removed from the WCAG 3 draft in 2023. APCA may be reported as supplementary diagnostics; it never gates CI and
 never appears in a conformance claim.
 
 ## Forced colors — a release gate, not a polish pass
