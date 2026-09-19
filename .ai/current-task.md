@@ -69,6 +69,14 @@ They are worth reading before writing another component, because each is a rule:
 
 ## What landed on 2026-09-19 (packaging proof)
 
+CI is **green** on the pull request (run 35431149451, 2026-09-19): Verify 11m14s
+across all 24 steps — including the three behavioural gates on a real Chromium,
+which had never had a browser installed in CI — and Supply chain 36s. The first
+CI run found three defects of one kind, each a gate reporting success while
+evaluating nothing: the boundary rule skipping without a cached project graph,
+`smol-toml@1.6.1` exact-pinned past a patched advisory by nx, and the missing
+Playwright browser. All three are fixed and recorded in `.ai/decisions.md`.
+
 - `tools/lib/tarball.mjs` — a zero-dependency `npm pack` wrapper and a narrow
   ustar reader. The reader asserts its file list against npm's own report,
   because a reader that silently skips an entry makes every check above it
