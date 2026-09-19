@@ -142,6 +142,26 @@ jobs:
       - name: Package format
         run: pnpm run verify:packages
 
+      # Gate 9, second instalment — the PACKED tarball rather than dist/. ADR-012
+      # names this as the only layer that sees what a consumer actually
+      # receives: `.npmignore` decides the file set, and the exports map decides
+      # what is importable. Nothing above would have noticed that
+      # `@tekad/theme/styles/tekad.css` — the file that package exists to ship —
+      # was in the tarball and refused by every resolver that honours `exports`.
+      # This packs, extracts into a scratch consumer, resolves every public
+      # specifier, refuses every internal one, and type-checks the declarations
+      # it just unpacked.
+      - name: Consumer boundary (packed tarballs)
+        run: pnpm run verify:consumer
+
+      # Gate 14, second instalment — per-entry-point byte budgets. The theme
+      # sheet has had one since Phase 4 because ADR-007 stated it; everything
+      # else waited for something to measure, which Phase 9 is. Growth past the
+      # committed number fails here rather than being discovered on a
+      # performance page three releases later.
+      - name: Size budgets
+        run: pnpm run verify:size
+
       # Gate 11 — ADR-004: tree-shaking is verified by a probe app, never
       # assumed. Every scenario asserts a presence as well as an absence, so a
       # probe that has stopped measuring anything fails rather than passes.

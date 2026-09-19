@@ -123,6 +123,32 @@ const cases = [
     expectMatch: /without a "types" condition/,
   },
   {
+    // The exemption added for @tekad/theme's stylesheet. A .css file has no
+    // declaration file to point at, so requiring one would be requiring an
+    // impossibility — and the gate would then be switched off by whoever hit it.
+    name: 'an exports subpath naming a .css asset with no "types" → PASS',
+    pkg: {
+      ...GOOD,
+      exports: { ...GOOD.exports, './styles/x.css': { default: './styles/x.css' } },
+    },
+    expectExit: 0,
+  },
+  {
+    // The control for the line above: the exemption is by ASSET EXTENSION, so
+    // the same shape naming JavaScript still fails. Without this case, a
+    // future edit that skipped the `types` check entirely would look green.
+    name: 'a .js subpath with no "types" → still FAIL (the exemption is narrow)',
+    pkg: { ...GOOD, exports: { ...GOOD.exports, './x.js': { default: './x.js' } } },
+    expectExit: 1,
+    expectMatch: /without a "types" condition/,
+  },
+  {
+    name: 'a .d.ts subpath with no "types" → still FAIL',
+    pkg: { ...GOOD, exports: { ...GOOD.exports, './y': { default: './types/y.d.ts' } } },
+    expectExit: 1,
+    expectMatch: /without a "types" condition/,
+  },
+  {
     name: 'type is not "module" → FAIL',
     pkg: { ...GOOD, type: 'commonjs' },
     expectExit: 1,
