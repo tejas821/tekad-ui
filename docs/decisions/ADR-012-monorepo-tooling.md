@@ -4,6 +4,7 @@
 **Evidence:** `docs/research/04-package-and-entrypoint-strategy.md`
 
 ## Decision
+
 **Nx 23.1 + pnpm 11**, with Nx Release for mechanics and Changesets as the
 contributor ritual.
 
@@ -15,6 +16,7 @@ npm hoists; Yarn Classic is frozen at 1.22.22 (2024); Yarn Berry PnP is
 unverified against Angular 22 tooling; Bun hoists by default.
 
 ## Alternatives
+
 Angular CLI + pnpm + Changesets scored identically (55 vs 55) but fails
 differently: at 15–30 packages it means hand-building a task graph, affected
 detection and release orchestration — reinventing a worse Nx. Turborepo (52)
@@ -26,6 +28,7 @@ Published output is byte-identical across all options — ng-packagr rewrites th
 `package.json` — so lock-in is repo-side and mechanically reversible.
 
 ## Standing conditions
+
 1. **Accept a 4–8 week lag on every Angular major.** `@nx/angular@22.7.8` hard-
    caps at Angular `<22.0.0`; v22 support landed only in Nx 23.1 (2026-07-15).
    If TEKAD ever positions on day-one support for each Angular release, that
@@ -34,14 +37,26 @@ Published output is byte-identical across all options — ng-packagr rewrites th
    `@nx/azure-cache` and `@nx/shared-fs-cache` are deprecated and commercially
    licensed, withdrawn over **CVE-2025-36852 (CREEP)** — a PR modifies the CI
    workflow, and because the workflow is not in the cache key the cache is
-   poisoned for later legitimate builds. An OSS repo taking fork PRs *is* that
+   poisoned for later legitimate builds. An OSS repo taking fork PRs _is_ that
    threat model. Local cache + `nx affected` only; remote-cache writes from
    `main` alone.
 
 ## Boundary enforcement — four layers, not one
+
 pnpm strict resolution (cannot be disabled) → `@nx/enforce-module-boundaries`
 (an ESLint rule, so gate as error and review every `allow`) → ng-packagr's
 `allowedNonPeerDependencies` throw → the packed-tarball import probe.
+
+**2026-09-19 — the fourth layer is built.** `tools/verify-consumer-boundary.mjs`
+(gate 9b) packs every package, extracts the tarballs into a scratch consumer
+with no path mappings, and requires every shipped file to be reachable through
+an `exports` subpath while every internal specifier is refused. It found the
+case the first three layers could not: `@tekad/theme` shipped
+`styles/tekad.css` — the file that package exists to provide — and its own
+`exports` map refused it. Fixed by declaring the two asset subpaths in the
+source `package.json`, which ng-packagr merges into the built manifest. The
+probe's self-test drives the real gate against synthetic packages and proves
+each refusal fires.
 
 ## 2026-08-28 — Spike B closes the open item, and adds three constraints
 
@@ -61,7 +76,7 @@ succeeded**. OBSERVED.
 Nx still ships opt-in webpack paths (`browser-esbuild`, the `webpack-*`
 builders, `--bundler=webpack`). TEKAD does not take them.
 
-**Hygiene, not correctness:** the Nx Angular template *declares*
+**Hygiene, not correctness:** the Nx Angular template _declares_
 `@angular-devkit/build-angular` in `dependencies` and npm prints its deprecation
 warning; it also arrives as an optional peer of `@nx/angular` and of
 `@analogjs/vite-plugin-angular`. Phase 1 must not declare it, and CI should
@@ -90,8 +105,8 @@ mandates.**
 
 ### A fifth boundary-enforcement layer
 
-The four layers above all police *inter*-package boundaries. Spike B found an
-*intra*-package one: a **relative import that crosses an entry-point boundary**
+The four layers above all police _inter_-package boundaries. Spike B found an
+_intra_-package one: a **relative import that crosses an entry-point boundary**
 fails the ng-packagr build with an internal crash —
 `Cannot destructure property 'pos' of 'file.referencedFiles[index]'` — not a
 readable diagnostic. Add a lint rule that forbids relative imports crossing an

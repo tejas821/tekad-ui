@@ -2,10 +2,10 @@
   "project": "TEKAD",
   "brandVersion": "0.0.0-pre",
   "masterPromptVersion": "1.0",
-  "updated": "2026-09-02",
+  "updated": "2026-09-19",
   "phase": {
     "current": "9 - first vertical slice COMPLETE (button, checkbox, input, form field, dialog, forms/compat)",
-    "next": "Phase 9 remainder then Phase 10. Owed: select (needs positioning - Floating UI is now a real decision, not a speculative one), the table foundation, size-limit per-entry budgets, axe on every example, forced-colors snapshots, an SSR/hydration test per package.",
+    "next": "Phase 9 remainder then Phase 10. Owed: select (needs positioning - Floating UI is now a real decision, not a speculative one), the table foundation, axe on every example, forced-colors snapshots, an SSR/hydration test per package. Per-entry size budgets and the packed-tarball probe LANDED 2026-09-19.",
     "codeWritten": true
   },
   "repository": {
@@ -14,7 +14,7 @@
     "hasPackageJson": true,
     "hasWorkspace": true,
     "hasCI": true,
-    "sourceCode": "9 packages, 5 probe apps, 22 CI gates, 102 unit tests, 28 mutants"
+    "sourceCode": "9 packages, 5 probe apps, 22 numbered CI gates plus two second instalments (packed-tarball consumer boundary, per-entry size budgets), 102 unit tests, 28 mutants"
   },
   "platformBaseline": {
     "verifiedOn": "2026-08-26",
@@ -62,8 +62,6 @@
   "blockers": [
     "PUBLISH GATE: npm scope availability, placeholder registration, professional trademark clearance - see ADR-016. LICENSE is not committed and every package carries private:true until this passes.",
     "Cross-engine and AT validation for P0 overlay and P1 grid - tracked, not blocking implementation",
-    "A TEKAD secondary-entry-point generator is still owed; the stock one emits the wrong shape.",
-    "The packed-tarball import probe (ADR-012's fourth boundary layer) is not built yet - it is the only check that sees what a consumer actually receives.",
     "Tree-shaking is proved for the CURRENT graph only (9 scenarios incl. two for @tekad/forms/compat with a positive control). Add a scenario whenever a DI token, a module-level side effect or a providedIn:'root' service is introduced."
   ],
   "invariants": [
@@ -362,22 +360,13 @@
     "doc": "docs/architecture/08-package-architecture.md",
     "packages": {
       "@tekad/core": {
-        "tags": [
-          "layer:foundation"
-        ],
-        "entryPoints": [
-          ".",
-          "./primitives/identity"
-        ],
+        "tags": ["layer:foundation"],
+        "entryPoints": [".", "./primitives/identity"],
         "note": "two-level category-prefixed secondary entry point, the ADR-004 topology"
       },
       "@tekad/button": {
-        "tags": [
-          "layer:component"
-        ],
-        "entryPoints": [
-          "."
-        ],
+        "tags": ["layer:component"],
+        "entryPoints": ["."],
         "note": "standalone component; imports @tekad/core/primitives/identity, exercising the layer graph and a real cross-package deep import"
       }
     },
@@ -602,9 +591,7 @@
         "getAnimations",
         "matchMedia"
       ],
-      "present": [
-        "TransitionEvent"
-      ],
+      "present": ["TransitionEvent"],
       "consequence": "12-overlay-foundation.md promised the 33-assertion lifecycle proof would move here 'unchanged'. It cannot. jsdom carries the EVENT that ends a deferred close and none of the STATE a deferred close exists to manage; a spec written against a real element here would be a double wearing a real element's name - worse than an honest double, because it would read as browser-backed.",
       "gate": "packages/overlay/src/lib/unit-test-dom.spec.ts asserts each absence, so a jsdom upgrade that lands showPopover FAILS and says the double may be retirable. Same arrangement as ADR-005's assumptions gate.",
       "divisionPhase9Inherits": "logic, ordering, lifecycle and DOM structure in jsdom; top layer, focus, inert, animation, media queries and computed style in a real browser via the Playwright gates"
@@ -666,10 +653,7 @@
     ]
   },
   "phase9": {
-    "docs": [
-      "docs/architecture/15-ssr-encapsulation.md",
-      "docs/architecture/16-first-slice.md"
-    ],
+    "docs": ["docs/architecture/15-ssr-encapsulation.md", "docs/architecture/16-first-slice.md"],
     "roadmapInstruction": "prove the architecture, not fill a catalogue - if any of those hurts here, fix the foundation before adding components",
     "headline": "Four things hurt. All four were foundation problems, all four were found by a gate rather than by review, and none of them could have been found by a unit suite.",
     "precondition": {
@@ -767,5 +751,20 @@
       "parse cost - too noisy to conclude anything",
       "the position:fixed overlay fallback"
     ]
+  },
+  "packagingProof2026_09_19": {
+    "what": "Phase 9's two packaging debts closed, plus the entry-point generator owed since Spike B.",
+    "gates": [
+      "tools/verify-consumer-boundary.mjs + tools/verify-consumer-boundary.test.mjs - CI gate 9b. Packs every dist package with the real npm pack, extracts the tarballs into a scratch consumer with no path mappings, and requires: every shipped file reachable through an exports subpath, every public specifier to resolve AND import, every internal specifier refused (src/index.ts, raw fesm2022/*.mjs, a subpath that does not exist), the shipped .d.ts to type-check, no lifecycle script, type:module, sideEffects:false, and every bare import to be a declared dependency or peer.",
+      "tools/verify-size-budget.mjs + tools/lib/size-budget.mjs (+ .test.mjs) + tools/size-budget.json - CI gate 14, second instalment. Packed tarball bytes and per-entry raw/gzip 9/brotli 11, 2% tolerance, fails on an unbudgeted entry point, on a package that stopped being measured, and notes a shrink so the committed number can be lowered.",
+      "tools/generate-entry-point.mjs + tools/generate-entry-point.test.mjs - writes ng-package.json and src/index.ts, splices the tsconfig.base.json path mapping and the package's test include glob, reproduces all five committed entry points byte-identically, and refuses to overwrite."
+    ],
+    "instrument": "tools/lib/tarball.mjs - a zero-dependency npm pack wrapper plus a narrow ustar reader (GNU long name, pax local and global, checksum verified, unknown entry types throw). The archive's file list is asserted equal to npm's own report: a reader that silently skipped an entry would make every check above it vacuous.",
+    "foundAndFixed": [
+      "@tekad/theme shipped styles/tekad.css and tokens.json inside the tarball and its own exports map refused every import of them - the file the package exists to provide was unreachable. Fixed by declaring the two asset subpaths in the source package.json, which ng-packagr merges into the built manifest. verify-package-format's types rule now applies to script artefacts only, with self-test cases both ways.",
+      "packages/core/project.json's test include globs did not cover ../forms/**, so specs for the forms/* entry points would have been discovered-but-unrun. The generator's self-test caught it; the glob convention is now one per top-level directory under the package."
+    ],
+    "determinism": "@tekad/theme packs to 4831 bytes on repeated runs. Compression levels are pinned (gzip 9, brotli 11), because a budget measured at one level and checked at another is not the same budget.",
+    "refused": "Not size-limit: ADR-011's instrument is corrected in a dated note. size-limit measures a synthetic esbuild bundle - a different artefact, through a dependency, whose number moves when esbuild changes. TEKAD measures the packed tarball with no dependency at all. The hard per-entry budget the ADR was protecting is unchanged."
   }
 }

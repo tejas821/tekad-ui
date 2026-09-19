@@ -137,6 +137,22 @@ importers:
         specifier: workspace:*
         version: link:../core
 
+  packages/checkbox:
+    dependencies:
+      '@angular/core':
+        specifier: ^22.1.0
+        version: 22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)
+      '@angular/forms':
+        specifier: ^22.1.0
+        version: 22.1.4(@angular/common@22.1.4(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2))(@angular/platform-browser@22.1.4(@angular/common@22.1.4(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)))(rxjs@7.8.2)
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@tekad/core':
+        specifier: workspace:*
+        version: link:../core
+
   packages/core:
     dependencies:
       '@angular/common':
@@ -148,6 +164,67 @@ importers:
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
+
+  packages/dialog:
+    dependencies:
+      '@angular/core':
+        specifier: ^22.1.0
+        version: 22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@tekad/core':
+        specifier: workspace:*
+        version: link:../core
+      '@tekad/overlay':
+        specifier: workspace:*
+        version: link:../overlay
+
+  packages/form-field:
+    dependencies:
+      '@angular/core':
+        specifier: ^22.1.0
+        version: 22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@tekad/core':
+        specifier: workspace:*
+        version: link:../core
+
+  packages/forms:
+    dependencies:
+      '@angular/core':
+        specifier: ^22.1.0
+        version: 22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)
+      '@angular/forms':
+        specifier: ^22.1.0
+        version: 22.1.4(@angular/common@22.1.4(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2))(@angular/platform-browser@22.1.4(@angular/common@22.1.4(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)))(rxjs@7.8.2)
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@tekad/core':
+        specifier: workspace:*
+        version: link:../core
+
+  packages/input:
+    dependencies:
+      '@angular/core':
+        specifier: ^22.1.0
+        version: 22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)
+      '@angular/forms':
+        specifier: ^22.1.0
+        version: 22.1.4(@angular/common@22.1.4(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2))(@angular/platform-browser@22.1.4(@angular/common@22.1.4(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.1.4(@angular/compiler@22.1.4)(rxjs@7.8.2)))(rxjs@7.8.2)
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@tekad/core':
+        specifier: workspace:*
+        version: link:../core
 
   packages/overlay:
     dependencies:

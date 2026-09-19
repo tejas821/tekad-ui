@@ -4,24 +4,74 @@
 
 ## Required gates
 
-| # | Gate | Blocking |
-|---|---|---|
-| 1 | Install from committed lockfile | yes |
-| 2 | Format check | yes |
-| 3 | Lint | yes |
-| 4 | Typecheck | yes |
-| 5 | Unit + component tests | yes |
-| 6 | Accessibility tests | yes |
-| 7 | SSR / hydration tests | yes |
-| 8 | Package builds (every entry point) | yes |
-| 9 | Package validation — exports, types, ESM, `sideEffects`, no internal leakage | yes |
-| 10 | Dependency-boundary check — no cycles, no upward deps, charts not reachable from core | yes |
-| 11 | Tree-shaking probe — single-import app contains no unrelated TEKAD code | yes |
-| 12 | Dependency vulnerability audit | yes |
-| 13 | License audit of the dependency tree | yes |
-| 14 | Bundle-size budgets | yes, once baselines exist |
-| 15 | Performance benchmarks | report first; blocking once baselines exist |
-| 16 | Documentation build | yes |
+| #   | Gate                                                                                                                                                                             | Blocking                                    |
+| --- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| 1   | Install from committed lockfile                                                                                                                                                  | yes                                         |
+| 2   | Format check                                                                                                                                                                     | yes                                         |
+| 3   | Lint                                                                                                                                                                             | yes                                         |
+| 4   | Typecheck                                                                                                                                                                        | yes                                         |
+| 5   | Unit + component tests                                                                                                                                                           | yes                                         |
+| 6   | Accessibility tests                                                                                                                                                              | yes                                         |
+| 7   | SSR / hydration tests                                                                                                                                                            | yes                                         |
+| 8   | Package builds (every entry point)                                                                                                                                               | yes                                         |
+| 9   | Package validation — exports, types, ESM, `sideEffects`, no internal leakage                                                                                                     | yes                                         |
+| 9b  | **Packed-tarball consumer boundary** — every shipped file reachable, every public specifier resolves, every internal one refused, declarations type-check, no phantom dependency | yes                                         |
+| 10  | Dependency-boundary check — no cycles, no upward deps, charts not reachable from core                                                                                            | yes                                         |
+| 11  | Tree-shaking probe — single-import app contains no unrelated TEKAD code                                                                                                          | yes                                         |
+| 12  | Dependency vulnerability audit                                                                                                                                                   | yes                                         |
+| 13  | License audit of the dependency tree                                                                                                                                             | yes                                         |
+| 14  | Bundle-size budgets — per entry point, measured on the packed tarball                                                                                                            | yes; baselines committed 2026-09-19         |
+| 15  | Performance benchmarks                                                                                                                                                           | report first; blocking once baselines exist |
+| 16  | Documentation build                                                                                                                                                              | yes                                         |
+
+## Why 9 and 14 have a second instalment
+
+Every gate above that inspects build output inspects `dist/`, and `dist/`
+is not what a consumer receives. Between the two sit `.npmignore`, the `files`
+field, and the `exports` map — which is the only thing that decides whether a
+shipped file can be imported at all. On 2026-09-19 the difference was measured:
+`@tekad/theme` shipped `styles/tekad.css`, the file that package exists to
+provide, and its own `exports` map refused every import of it. Nothing that
+looked at `dist/` could have found that, because nothing that looked at `dist/`
+looked at the tarball from the outside.
+
+Gate 9b therefore packs each built package with the real `npm pack`, extracts
+the tarballs into a scratch consumer's `node_modules`, and asserts from there:
+
+- every file in the tarball is named by an `exports` subpath (or is a
+  sourcemap, or `package.json` itself) — the check that caught the theme;
+- every public specifier **resolves and imports** from the scratch consumer,
+  with no path mappings and no workspace links to `@tekad/*`;
+- every internal specifier is **refused**: `…/src/index.ts`, a raw
+  `fesm2022/*.mjs`, and a subpath that does not exist;
+- the shipped `.d.ts` files type-check against a consumer that imports them;
+- every bare import in the shipped code is declared as a dependency or peer,
+  and every declared runtime dependency is either imported or is `tslib`
+  (which ng-packagr injects from `@angular/compiler` and no package imports);
+- no lifecycle script, `type: module`, `sideEffects: false`, and `private`
+  reported rather than asserted — see ADR-016 for why the last one is a note.
+
+Gate 14 reads its numbers from the same packed tarballs: the tarball's own
+bytes, plus raw/gzip/brotli for each entry point's shipped file, compared
+against `tools/size-budget.json` at a 2% tolerance. A package or entry point
+with no committed budget fails, and so does a budget with no measurement — a
+budget that stops being measured is a number nobody is holding.
+
+## Proof of failure
+
+Every gate in `tools/` ships a self-test (`*.test.mjs`) that proves it fails
+when it should, and `pnpm run verify:gates` runs all of them before the gates
+themselves. Three of the first five gates were wrong or vacuous on their first
+implementation and only the self-test revealed it, so this is not ceremony: it
+is the difference between a gate and a green light.
+
+The self-tests are not the same thing as mutants. A mutant
+(`tools/mutants.json`, run by `tools/verify-mutation.mjs`) proves that a
+**library behaviour** is genuinely covered by a unit test — it edits source,
+runs the project's suite, and requires the _named_ test to fail. A gate is not
+covered by a unit test; it is covered by its own self-test, which drives the
+real gate against a synthetic input and asserts which check fires. Both exist,
+and neither substitutes for the other.
 
 ## Supply-chain baseline
 

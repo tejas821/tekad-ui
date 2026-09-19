@@ -219,8 +219,11 @@ a gate pass is how the gate stops meaning anything, and this was the opposite.
 
 ## Still owed
 
-- **`size-limit` per-entry budgets** (ADR-011). Now measurable — there are real
-  components — and not yet built.
+- ~~**`size-limit` per-entry budgets** (ADR-011).~~ **Landed 2026-09-19**, with
+  the instrument changed and recorded: budgets are measured on the **packed
+  tarball** and each entry point's shipped bytes, not on a synthetic esbuild
+  bundle. See `tools/verify-size-budget.mjs`, `tools/size-budget.json` and the
+  dated correction in ADR-011.
 - **`axe` on every example**, and forced-colors visual snapshots. The
   forced-colors _behaviour_ is asserted for both components; the snapshots are
   not.

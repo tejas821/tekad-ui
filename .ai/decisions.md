@@ -1,6 +1,6 @@
 # Decision log
 
-Chronological. ADRs hold the reasoning; this file holds *when* and *why now*.
+Chronological. ADRs hold the reasoning; this file holds _when_ and _why now_.
 
 ## 2026-08-26 — Phase 0 executed
 
@@ -21,6 +21,7 @@ Chronological. ADRs hold the reasoning; this file holds *when* and *why now*.
 - Wrote no code. Phase 0 is documentation and decision scaffolding only.
 
 ### Material finding
+
 `@angular/aria` reached production in Angular v22: headless, behaviour-only,
 13 WAI-ARIA pattern directives with test harnesses. This overlaps a large part
 of TEKAD's intended Pattern layer and may substantially reduce what TEKAD has
@@ -28,6 +29,7 @@ to build and maintain. Captured as ADR-005; needs license, bundle, SSR and
 coverage verification before acceptance.
 
 ### Deliberately deferred
+
 `LICENSE` was **not** created. Apache-2.0 is the stated intent but remains
 subject to the legal research pass (`02-LEGAL-IP-RESEARCH-PROMPT.md`).
 Committing a license file is a legal act, not a scaffolding step.
@@ -113,7 +115,7 @@ artifacts rather than a conversation.
     available; Phase 1 builds from an empty workspace.
 16. **Correction to a Phase 0.5 finding.** "Stock ng-packagr does not produce
     Material's shared-chunk splitting" was misleading. It emits no shared
-    *chunk files*, but it does not duplicate either: each secondary FESM keeps
+    _chunk files_, but it does not duplicate either: each secondary FESM keeps
     a bare unresolved package-name import, and deduplication is deferred to the
     consumer's bundler. Measured, with a passing positive control, so the
     outcome that matters holds.
@@ -127,3 +129,32 @@ containing DI tokens, module-level side effects and `providedIn: 'root'`
 services — which are the things that actually defeat tree-shaking.
 
 Phase 1 begins. Code starts now, for the first time.
+
+## 2026-09-19 — packaging proof
+
+17. **Gate 9b: what a consumer receives, not what the build directory holds.**
+    The tarball is the only artefact `.npmignore`, the `files` field and the
+    `exports` map all apply to. Measured on its first run: `@tekad/theme` shipped
+    `styles/tekad.css` — the file that package exists to provide — and its own
+    `exports` map refused every import of it. `dist/` looked perfect.
+18. **Per-entry size budgets are measured on the packed tarball, not with
+    `size-limit`** (ADR-011, dated correction). `size-limit` reports a synthetic
+    esbuild bundle: a different artefact, through a dependency, whose number
+    moves when esbuild changes. TEKAD measures the download itself, raw/gzip 9/
+    brotli 11, with no dependency added. The hard budget the ADR required is
+    unchanged; only the instrument is.
+19. **A tarball reader that skips what it does not understand is not a reader.**
+    `tools/lib/tarball.mjs` throws on an unknown header type, a checksum that
+    does not match, or a symlink — and asserts its own file list against npm's
+    report — because a skipped entry is a shipped file no gate ever sees. This
+    is the same rule as the gate self-tests, applied to a parser.
+20. **Test `include` globs are one per top-level directory under the package**
+    (`../forms/**/*.spec.ts`), not one per entry point. Both work; this one means
+    a second entry point under the same category needs no `project.json` edit,
+    which is one fewer place to forget. The two-level depth limit and the
+    package scope are asserted by the generator's own tests.
+21. **`format:check` was red at HEAD and that is fixed forward, not ignored.**
+    Fifty-one files — mostly documentation written before the formatter was
+    wired — had never been formatted, so CI gate 2 could not pass. Widening
+    `.prettierignore` would have been the same move as deleting a mutant: the
+    gate would have gone quiet without becoming true.

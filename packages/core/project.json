@@ -25,7 +25,12 @@
         "buildTarget": "core:build",
         "tsConfig": "packages/core/tsconfig.spec.json",
         "runner": "vitest",
-        "include": ["**/*.spec.ts", "../a11y/**/*.spec.ts", "../primitives/**/*.spec.ts"]
+        "include": [
+          "**/*.spec.ts",
+          "../a11y/**/*.spec.ts",
+          "../forms/**/*.spec.ts",
+          "../primitives/**/*.spec.ts"
+        ]
       }
     }
   }
