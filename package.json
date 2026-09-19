@@ -13,7 +13,8 @@
   "scripts": {
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint": "eslint . && nx run-many -t lint",
+    "lint": "node tools/ensure-project-graph.mjs && eslint . && nx run-many -t lint",
+    "ensure:graph": "node tools/ensure-project-graph.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit && nx run-many -t typecheck",
     "build": "nx run-many -t build",
     "test": "nx run-many -t test",
