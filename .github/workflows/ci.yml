@@ -185,6 +185,15 @@ jobs:
       - name: SSR encapsulation cost
         run: pnpm run verify:ssr
 
+      # Every gate below drives a real Chromium. pnpm blocks install scripts by
+      # default (see `allowBuilds` in pnpm-workspace.yaml), and Playwright's
+      # browser download is one of them — so the browser is fetched here,
+      # explicitly, rather than being assumed to exist. `tools/lib/probe-page.mjs`
+      # uses $TEKAD_CHROMIUM when set and otherwise lets Playwright resolve its
+      # own install, which is exactly what this step provides.
+      - name: Install the browser the behavioural gates drive
+        run: pnpm exec playwright install --with-deps chromium
+
       # Accessibility verified BEHAVIOURALLY in a real browser, not by counting
       # attributes (CLAUDE.md Definition of Done). A live region that is
       # display:none is removed from the accessibility tree and announces

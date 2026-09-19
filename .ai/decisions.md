@@ -158,3 +158,24 @@ Phase 1 begins. Code starts now, for the first time.
     wired — had never been formatted, so CI gate 2 could not pass. Widening
     `.prettierignore` would have been the same move as deleting a mutant: the
     gate would have gone quiet without becoming true.
+
+22. **The boundary rule is skipped, not failed, without a cached project graph.**
+    Found by CI on the first pull request: `@nx/enforce-module-boundaries`
+    prints "No cached ProjectGraph is available. The rule will be skipped." and
+    exits 0. On a clean checkout that is every checkout — the self-tests run
+    before any nx command. `tools/ensure-project-graph.mjs` warms it for
+    `pnpm run lint`, and `tools/verify-boundaries.test.mjs` now treats a skipped
+    rule as a named failure rather than as a clean result. A rule that reports
+    success while evaluating nothing is the exact failure the self-tests exist
+    to catch, so the self-test was right and the environment was the defect.
+23. **`smol-toml` is pinned to 1.7.1 by override, not excepted.** nx 23.1.1
+    declares `smol-toml: 1.6.1` — an EXACT version, so no lockfile refresh can
+    move it — and 1.6.1 carries a high-severity DoS advisory patched in 1.7.1.
+    The override fixes the tree; an exception would only explain it. The code
+    path is not reachable in a TEKAD build (nx reads TOML only for its own
+    project files, and this workspace has none).
+24. **Playwright's browser has to be installed, because pnpm blocks install
+    scripts.** The behavioural gates had never had a browser to drive in CI.
+    The workflow now installs Chromium explicitly before them; adding
+    `playwright` to `allowBuilds` was rejected because it would hide a ~150 MB
+    download inside `pnpm install` on every machine.

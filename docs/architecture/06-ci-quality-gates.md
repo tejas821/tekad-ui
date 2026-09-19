@@ -73,6 +73,24 @@ covered by a unit test; it is covered by its own self-test, which drives the
 real gate against a synthetic input and asserts which check fires. Both exist,
 and neither substitutes for the other.
 
+## The two things a fresh checkout gets wrong
+
+Both were found by the first run of CI on the first pull request (`#1`), and
+both had the same shape: a gate that reports success while evaluating nothing.
+
+1. **`@nx/enforce-module-boundaries` skips when no project graph is cached.**
+   It prints `No cached ProjectGraph is available. The rule will be skipped.`,
+   exits 0, and every boundary assertion passes because none was evaluated. On
+   a clean checkout — CI's first step, or a developer's first `pnpm run lint` —
+   there is no graph. `tools/ensure-project-graph.mjs` now runs first in
+   `pnpm run lint`, and the boundary self-test warms the graph itself and fails
+   with a named message if the rule is ever skipped again.
+2. **Playwright's browser is never downloaded.** pnpm blocks install scripts by
+   default, and the browser download is one of them, so the behavioural gates
+   had nothing to drive. The workflow now installs Chromium explicitly before
+   the browser gates, which is also the honest place to pay that cost — it is a
+   CI step, not a hidden postinstall.
+
 ## Supply-chain baseline
 
 Proportionate to a founder-led project, not enterprise theatre:

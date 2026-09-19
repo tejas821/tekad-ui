@@ -47,6 +47,16 @@ pnpm strict resolution (cannot be disabled) → `@nx/enforce-module-boundaries`
 (an ESLint rule, so gate as error and review every `allow`) → ng-packagr's
 `allowedNonPeerDependencies` throw → the packed-tarball import probe.
 
+**2026-09-19 — layer two is silent without a cached project graph.** Measured on
+the first CI run: `@nx/enforce-module-boundaries` reports
+`No cached ProjectGraph is available. The rule will be skipped.` and exits 0, so
+on a clean checkout every boundary rule is skipped while the build stays green.
+An ESLint rule cannot compute the graph itself, and CI's first lint-adjacent
+steps are plain `eslint` invocations. `tools/ensure-project-graph.mjs` runs
+first in `pnpm run lint` and the boundary self-test warms the graph itself and
+fails loudly if the rule is skipped, so the layer is enforced rather than
+assumed.
+
 **2026-09-19 — the fourth layer is built.** `tools/verify-consumer-boundary.mjs`
 (gate 9b) packs every package, extracts the tarballs into a scratch consumer
 with no path mappings, and requires every shipped file to be reachable through

@@ -302,6 +302,14 @@ phase is Chromium.
       every import of it; and `packages/core/project.json`'s test `include`
       globs did not cover `../forms/**`, so the `forms/*` entry points' specs
       would have been discovered-but-unrun.
+- [x] **CI run 1 found three defects that only a clean checkout exposes.**
+      `@nx/enforce-module-boundaries` skips entirely without a cached project
+      graph (silent, exit 0) — `tools/ensure-project-graph.mjs` now warms it and
+      the boundary self-test fails by name if it is ever skipped again;
+      `smol-toml@1.6.1` (high, exact-pinned by nx) is now overridden to 1.7.1;
+      and Playwright's browser was never installed, because pnpm blocks the
+      install script that downloads it — the workflow installs Chromium
+      explicitly before the behavioural gates.
 - [x] **`pnpm run format:check` was red at HEAD.** 51 files, mostly documentation,
       had never been through prettier, so gate 2 could not have passed. Formatted
       repository-wide in its own commit rather than by widening `.prettierignore`.
