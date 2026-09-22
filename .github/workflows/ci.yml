@@ -4,6 +4,13 @@ on:
   push:
     branches: [main]
   pull_request:
+  # Manual runs exist so the PUSH path can be exercised on a branch. It is not
+  # the same code path as a pull_request: only a push reaches the GitHub API to
+  # find the last successful run, which is what needed `actions: read` and what
+  # failed on main on 2026-09-22 (run 35731103829). Without this trigger, a fix
+  # to that path could only ever be tested by merging it, and a red main is not
+  # a test environment.
+  workflow_dispatch:
 
 # Least-privilege by default (docs/architecture/06-ci-quality-gates.md).
 permissions:
@@ -18,6 +25,27 @@ jobs:
     name: Verify
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    permissions:
+      contents: read
+      # `nrwl/nx-set-shas` resolves the affected base two different ways. On a
+      # pull_request it runs `git merge-base` and needs nothing. On a push — the
+      # event this workflow listens for on `main` — it asks the GitHub API for
+      # the last SUCCESSFUL run of this workflow on the default branch: first
+      # `GET /actions/runs/{id}` for the workflow id, then the run list. Both
+      # need the `actions` scope.
+      #
+      # The workflow-level `permissions: contents: read` does not leave the
+      # other scopes at their defaults; by GitHub's rule it sets every scope it
+      # does not name to `none`. So the API call came back "Resource not
+      # accessible by integration", the action called `setFailed`, and the job
+      # died in under a second at that step — before a single gate ran. That is
+      # what happened the first time `main` ever got as far as it (run
+      # 35731103829): the previous run on main had failed at `Install`, so no
+      # CI step past install had ever executed on main at all.
+      #
+      # Granted on this job only, read-only, and only because the push path
+      # needs it. `contents: read` stays the baseline for everything else.
+      actions: read
 
     steps:
       - uses: actions/checkout@v5
@@ -95,6 +123,21 @@ jobs:
 
       - name: Set nx base/head
         uses: nrwl/nx-set-shas@v4
+        with:
+          # When no successful run exists yet on `main` — which is the state the
+          # repository is in until this step can complete once — the action
+          # falls back to `origin/main~1`. For a push carrying several commits
+          # that base tests only the LAST of them, and it says so quietly in a
+          # warning. The pre-push tip is the correct base for a push event, so
+          # it is supplied explicitly.
+          #
+          # The all-zero guard is for a push that creates its branch, where
+          # `before` is forty zeros: a bogus base would make `nx affected`
+          # compare against a commit that does not exist. It falls through to
+          # the action's own fallback instead. This workflow only listens on
+          # `main` (see `on: push: branches`), so the guard is belt and braces
+          # rather than a case that occurs today.
+          fallback-sha: ${{ github.event.before != '0000000000000000000000000000000000000000' && github.event.before || '' }}
 
       # Gates 3, 4, 5, 8 — scoped to affected projects.
       # Nx REMOTE CACHING IS DELIBERATELY NOT USED. ADR-012: the self-hosted
