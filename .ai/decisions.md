@@ -179,3 +179,18 @@ Phase 1 begins. Code starts now, for the first time.
     The workflow now installs Chromium explicitly before them; adding
     `playwright` to `allowBuilds` was rejected because it would hide a ~150 MB
     download inside `pnpm install` on every machine.
+
+25. **`actions: read` was missing, and only the push path needed it.** The first
+    time `main` ever got past `Install`, `nrwl/nx-set-shas` failed in under a
+    second. On a pull_request it runs `git merge-base` and needs no scope; on a
+    push it asks the API for the last successful workflow run on the default
+    branch, and `permissions: contents: read` sets every unnamed scope — the
+    `actions` scope among them — to `none`. Granted read-only on the `verify`
+    job, and the step now gets `fallback-sha: github.event.before` so the
+    no-previous-success case does not silently fall back to `origin/main~1`,
+    which for a multi-commit push tests only the last commit.
+26. **A branch that has never been green has never run most of its own CI.**
+    The push path above had never executed, because the single previous run on
+    `main` died at `Install`. This is the argument for `workflow_dispatch` on the
+    workflow: a fix to a push-only code path has to be testable on a branch,
+    because a red `main` is not a test environment.

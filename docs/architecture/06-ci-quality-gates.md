@@ -85,7 +85,28 @@ both had the same shape: a gate that reports success while evaluating nothing.
    there is no graph. `tools/ensure-project-graph.mjs` now runs first in
    `pnpm run lint`, and the boundary self-test warms the graph itself and fails
    with a named message if the rule is ever skipped again.
-2. **Playwright's browser is never downloaded.** pnpm blocks install scripts by
+2. **`nrwl/nx-set-shas` needs `actions: read`, which `permissions: contents: read`
+   takes away.** GitHub's rule is that naming any scope in a `permissions:` block
+   sets every unnamed scope to `none`. The action resolves its base two ways: on
+   a `pull_request` it runs `git merge-base` and needs nothing, but on a **push**
+   — the event this workflow listens for on `main` — it asks the API for the
+   last successful run of the workflow on the default branch. Without the scope
+   that request is refused, the action calls `setFailed`, and the job dies in
+   under a second, before a gate runs. Verified against the action's source and
+   the step's own timing (started and completed in the same second).
+   `actions: read` is now granted on the `verify` job, read-only, and the step
+   is given `fallback-sha: github.event.before` so the no-previous-success case
+   uses the pre-push tip instead of `origin/main~1` — which, for a push carrying
+   several commits, tests only the last of them and says so in a warning nobody
+   reads.
+
+   The reason this was not caught earlier is worth stating: **no CI step past
+   `Install` had ever executed on `main`.** The one previous run on `main` had
+   failed at `Install (frozen lockfile)`, so the push path of that action had
+   never run. A branch that has never been green has never run most of its own
+   CI.
+
+3. **Playwright's browser is never downloaded.** pnpm blocks install scripts by
    default, and the browser download is one of them, so the behavioural gates
    had nothing to drive. The workflow now installs Chromium explicitly before
    the browser gates, which is also the honest place to pay that cost — it is a
