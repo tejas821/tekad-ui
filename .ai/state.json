@@ -2,7 +2,7 @@
   "project": "TEKAD",
   "brandVersion": "0.0.0-pre",
   "masterPromptVersion": "1.0",
-  "updated": "2026-09-19",
+  "updated": "2026-09-22",
   "phase": {
     "current": "9 - first vertical slice COMPLETE (button, checkbox, input, form field, dialog, forms/compat); packaging proof landed the same day and CI is green",
     "next": "Phase 9 remainder then Phase 10. Owed: select (needs positioning - Floating UI is now a real decision, not a speculative one), the table foundation, axe on every example, forced-colors snapshots, an SSR/hydration test per package. Per-entry size budgets and the packed-tarball probe LANDED 2026-09-19.",
@@ -773,6 +773,13 @@
         "smol-toml@1.6.1 carries a high-severity DoS advisory and nx 23.1.1 pins it EXACTLY, so only an override can move it. Pinned to 1.7.1 in pnpm-workspace.yaml: an override fixes the tree, an exception only explains it.",
         "Playwright's browser had never been installed in CI - pnpm blocks install scripts by default and the browser download is one of them, so every behavioural gate had nothing to drive. The workflow now installs Chromium explicitly; playwright stays OUT of allowBuilds so a ~150 MB download is not hidden inside every pnpm install."
       ]
+    },
+    "pushedToMain2026_09_22": {
+      "merged": "PR #1 merged to main as 4e28c03 on 2026-09-22.",
+      "mainRun1": "The first run on main (35731103829) failed at `Set nx base/head` - nrwl/nx-set-shas in under a second. NOT a gate failure: no gate had run yet.",
+      "cause": "The action resolves a push event's base via the GitHub API (last successful run of the workflow on the default branch). `permissions: contents: read` sets every unnamed scope to `none`, so `actions` was absent and the request was refused.",
+      "whyNeverSeen": "No CI step past `Install` had ever executed on main: the one previous run on main (33673517743, f702d0f) failed at `Install (frozen lockfile)`.",
+      "fix": "`actions: read` on the verify job (read-only, that job only) plus `fallback-sha: github.event.before`, so the no-previous-success case uses the pre-push tip rather than `origin/main~1`, which silently tests only the last commit of a multi-commit push. `workflow_dispatch` added so a push-only path can be exercised on a branch."
     }
   }
 }
