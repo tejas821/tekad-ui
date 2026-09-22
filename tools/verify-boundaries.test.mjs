@@ -29,23 +29,62 @@ import { spawnSync } from 'node:child_process';
 import { copyFileSync, rmSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { ensureProjectGraph, graphIsCached } from './lib/project-graph.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, '..');
 const FIX = join(HERE, 'boundary-fixtures');
 
+/*
+ * The rule reads a CACHED project graph, and a fresh checkout has none. Without
+ * this, every case below fails with "No cached ProjectGraph is available. The
+ * rule will be skipped." — which is how CI found it on 2026-09-19, on the first
+ * run of the first pull request. The self-test was right; the environment was
+ * the thing that had to be prepared.
+ */
+try {
+  const graph = ensureProjectGraph();
+  if (graph.warmed) console.log(`  (${graph.detail} before linting — the rule needs it)`);
+  /*
+   * Warm-up that does not leave a cache behind would be worse than none: the
+   * cases below would then all pass vacuously. Assert the property rather than
+   * the command's exit code.
+   */
+  if (!graphIsCached()) {
+    console.error(
+      'verify-boundaries: the project graph was computed but no cache is visible, so the\n' +
+        'boundary rule would be SKIPPED and every case below would pass without evaluating\n' +
+        'anything. Fix tools/lib/project-graph.mjs before trusting this run.',
+    );
+    process.exit(1);
+  }
+} catch (e) {
+  console.error(`verify-boundaries: ${String(e instanceof Error ? e.message : e)}`);
+  process.exit(1);
+}
+
 /**
  * Run eslint on one file.
+ *
+ * `skipped` is reported separately from a clean result on purpose. A skipped
+ * rule and a satisfied rule produce the same exit code and the same empty
+ * output, and every assertion below would pass in the skipped case — which is
+ * the failure this whole file exists to prevent.
+ *
  * @param {string} relPath
- * @returns {{status: number | null, out: string}}
+ * @returns {{status: number | null, out: string, skipped: boolean}}
  */
 function lint(relPath) {
   const res = spawnSync(
     process.execPath,
     [join(ROOT, 'node_modules/eslint/bin/eslint.js'), relPath],
-    { cwd: ROOT, encoding: 'utf8' },
+    {
+      cwd: ROOT,
+      encoding: 'utf8',
+    },
   );
-  return { status: res.status, out: (res.stdout ?? '') + (res.stderr ?? '') };
+  const out = (res.stdout ?? '') + (res.stderr ?? '');
+  return { status: res.status, out, skipped: /No cached ProjectGraph is available/i.test(out) };
 }
 
 const cases = [
@@ -98,13 +137,20 @@ for (const c of cases) {
   const abs = join(ROOT, c.file);
   if (c.fixture) copyFileSync(c.fixture, abs);
   try {
-    const { out } = lint(c.file);
+    const { out, skipped } = lint(c.file);
     const sawViolation = /@nx\/enforce-module-boundaries/.test(out);
     let ok = sawViolation === c.expectViolation;
     if (ok && c.expectMessage) ok = c.expectMessage.test(out);
 
-    console.log(`${ok ? '✓' : '✗'} ${c.name}`);
-    if (!ok) {
+    console.log(`${ok ? '✓' : '✗'} ${c.name}${skipped ? '  — RULE SKIPPED' : ''}`);
+    if (skipped) {
+      failed++;
+      console.error(
+        '    the rule reported "No cached ProjectGraph is available" and was SKIPPED.\n' +
+          '    A skipped rule is not a satisfied rule: nothing was evaluated.\n' +
+          '    Run `pnpm run ensure:graph` (or any nx command) so the graph exists.',
+      );
+    } else if (!ok) {
       failed++;
       console.error(
         `    expected ${c.expectViolation ? 'a boundary violation' : 'no boundary violation'}` +

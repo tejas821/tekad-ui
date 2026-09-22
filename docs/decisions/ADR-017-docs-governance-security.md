@@ -5,6 +5,7 @@
 `docs/research/18-community-governance-strategy.md`
 
 ## Docs
+
 **Analog** (SSG) as the docs application — the choice of both comparable
 solo-maintained Angular libraries, and no off-the-shelf SSG renders live
 Angular demos. **Examples live in a compiled workspace library**, referenced by
@@ -22,6 +23,7 @@ even with no migrations — retrofitting leaves v1→v2 users stranded. Publish 
 compatibility matrix on the landing page.
 
 ## Governance
+
 **Ship:** README, LICENSE, TRADEMARK.md, CONTRIBUTING (reproduction
 requirement + commit convention), CODE_OF_CONDUCT (**Contributor Covenant
 3.0**, with a real reporting contact **and one named outside person** for
@@ -40,6 +42,7 @@ plus the intent to track Angular majors. Commit only to semver and a migration
 schematic for every breaking change.
 
 ## Security baseline
+
 - **npm trusted publishing (OIDC) from GitHub Actions. No `NPM_TOKEN`
   anywhere.** `id-token: write` scoped to the publish job only; package set to
   "require 2FA and disallow tokens"; passkey on the account. npm permanently

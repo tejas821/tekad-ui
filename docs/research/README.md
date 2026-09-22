@@ -2,7 +2,7 @@
 
 Reserved for **research phase outputs**, not implementation docs.
 
-The research *prompts* live at the repository root:
+The research _prompts_ live at the repository root:
 
 - `00-TEKAD-DEEP-RESEARCH-MASTER.md`
 - `01-COMPETITIVE-ARCHITECTURE-RESEARCH.md`

@@ -13,7 +13,7 @@ Research date 2026-08-26. Sources: angular.dev Aria guides, published
 - **9 runtime entry points**: root, `accordion`, `combobox`, `grid`, `listbox`,
   `menu`, `tabs`, `toolbar`, `tree` — plus `./private` and 8 `*/testing`.
 - **12 documented patterns**: the 8 above plus Autocomplete, Select,
-  Multiselect and Menubar, which are documented *compositions* over the same
+  Multiselect and Menubar, which are documented _compositions_ over the same
   primitives, not separate modules.
 - Directives set `aria-expanded`, `aria-selected`, `aria-disabled`,
   `aria-pressed`, `aria-checked`, `aria-current`, `aria-activedescendant` and
@@ -62,7 +62,7 @@ Notably, `@angular/material@22.1.4` imports from `@angular/aria` **zero
 times** — three generations coexist in one repo.
 
 **Division of responsibility:** CDK = infrastructure + low-level a11y
-utilities; Aria = signal-era headless WAI-ARIA *patterns* built on those
+utilities; Aria = signal-era headless WAI-ARIA _patterns_ built on those
 utilities. Overlap is narrow (list/menu/tree/accordion), where CDK's older
 decorator versions are retained for compatibility. New work belongs on Aria.
 

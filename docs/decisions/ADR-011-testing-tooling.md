@@ -4,6 +4,7 @@
 **Evidence:** `docs/architecture/04-testing-strategy.md`, research corpus
 
 ## Decision
+
 - **Vitest** via `@angular/build:unit-test` — Angular v22's default runner for
   new projects. Vitest browser mode with Playwright for component and example
   smoke tests.
@@ -27,9 +28,11 @@
   much variance for reliable regression gates.
 
 ## Consequences
+
 Baselines are established at Phase 8, not invented now. Every bug fix ships a
 regression test that fails before the fix. No test is ever disabled to make CI
 green.
+
 ## 2026-08-29 — correction: the executor is `@nx/angular:unit-test`, and the runner has no DOM to speak of
 
 **The decision above is unchanged.** Vitest is the runner. Two of the
@@ -132,8 +135,47 @@ counts: concrete current use, measured benefit.
 
 ### Still outstanding from this ADR
 
-`size-limit` 13.x per-entry budgets, forced-colors snapshots, the SSR/hydration
-test per package, and `axe` on every example are **not** built. They need
-components to measure, and Phase 9 is the first phase that has any. The theme
-CSS budget and the tree-shaking probe — the two budgets that could exist without
-components — are gates already.
+Forced-colors snapshots, the SSR/hydration test per package, and `axe` on every
+example are **not** built. They need components to measure, and Phase 9 is the
+first phase that has any. The theme CSS budget and the tree-shaking probe — the
+two budgets that could exist without components — are gates already; per-entry
+size budgets were built on 2026-09-19, in the shape the correction below
+describes.
+
+## 2026-09-19 — correction: per-entry budgets are measured on the packed tarball, without `size-limit`
+
+**The decision to have a hard, committed, per-entry byte budget is unchanged.**
+What changed is the instrument, and this is recorded rather than quietly
+substituted because the ADR above names a specific dependency.
+
+`size-limit` 13.x with `@size-limit/esbuild` measures a **bundle**: it runs the
+entry point through esbuild with a synthetic import and reports what that
+produces. That is a proxy with two properties this project does not want. It
+adds a dependency whose numbers describe a bundler's behaviour, and the bundler
+is not the thing under test — the consumer's bundler is, and no two consumers
+share one. It also measures a _re-bundle_, so the number moves when esbuild
+changes rather than when TEKAD does.
+
+What CI measures instead, in `tools/verify-size-budget.mjs`:
+
+- the **packed tarball's** own bytes — the download, end to end, including
+  whatever the packer decided to ship;
+- **raw, gzip 9 and brotli 11** of each entry point's shipped `.mjs`, straight
+  out of that tarball, with the compression levels pinned so a budget measured
+  at one level is never checked at another;
+- a **2% tolerance**, a failure when a package or entry point has no committed
+  budget, a failure when a budget stops being measured, and a note when a size
+  _shrinks_ so the committed number can be lowered.
+
+The instrument is `tools/lib/tarball.mjs`, shared with gate 9b, so the file
+list, the manifest and the measured bytes are the same bytes the consumer
+boundary is verified against. It has no dependencies: a package that reads
+tarballs in order to prove what TEKAD depends on should not add a dependency to
+do it. Its reader refuses anything npm does not write (a symlink, an unknown
+header type, a checksum that does not match) rather than skipping it, because a
+skipped entry is a shipped file the gates never see.
+
+What is lost: `size-limit`'s synthetic bundle figure and its PR comment. The
+first is a different measurement of a different artefact, and the second is
+output, not proof. What is kept is the thing the ADR was protecting — a number
+that fails the build when it grows.

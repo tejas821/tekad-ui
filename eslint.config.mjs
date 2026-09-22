@@ -21,8 +21,25 @@ import prettierConfig from 'eslint-config-prettier';
 export default tseslint.config(
   // `out-tsc` is ngc's emit directory for the SSR probe. It is generated
   // Angular output full of `ngDevMode` guards, gitignored, and never authored.
+  //
+  // `docs/research/prototypes` is EVIDENCE, not code. Those three directories
+  // are the closed gates P0, P1 and Spike A; each ADR cites what they measured,
+  // they are outside tsconfig's include and outside the library graph, and
+  // `.prettierignore` already excludes them for the same reason. Linting them
+  // would mean editing a record of what was run — and the rules they trip
+  // (`no-undef` on `fetch`/`window` inside `page.evaluate` bodies serialised
+  // into a browser, `no-explicit-any` in a throwaway spike) describe that
+  // context, not a defect in it.
   {
-    ignores: ['**/dist', '**/node_modules', '**/.nx', '**/coverage', '**/tmp', '**/out-tsc'],
+    ignores: [
+      '**/dist',
+      '**/node_modules',
+      '**/.nx',
+      '**/coverage',
+      '**/tmp',
+      '**/out-tsc',
+      'docs/research/prototypes',
+    ],
   },
 
   /* ----------------------------------------------------------------------- *

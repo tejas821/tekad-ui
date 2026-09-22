@@ -6,7 +6,7 @@ Research date 2026-08-26. Sources: angular.dev Signal Forms guides
 ## Platform facts
 
 - **Signal Forms are stable in v22**, with documentation and explicit
-  Angular Material *and* Angular Aria integration.
+  Angular Material _and_ Angular Aria integration.
 - `form(model, schemaFn)` derives the whole form tree from a signal model —
   controls are never constructed by hand. `form.field` is the `FormField`;
   `form.field()` is the callable `FieldState` (`.valid()`, `.touched()`, …).

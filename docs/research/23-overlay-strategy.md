@@ -5,18 +5,19 @@ Bundle sizes measured with esbuild + gzip -9 from published tarballs.
 
 ## Platform substrate — verified support
 
-| Feature | Chrome/Edge | Firefox | Safari | Global |
-|---|---|---|---|---|
-| `popover` attribute | 114+ | 125+ | 17.0+ | **91.5%** |
-| `popover="hint"` | 151+ | 153+ | **none** | 71.7% |
-| CSS anchor positioning | 125+ | 147+ | 26.0+ | **84.1%** |
-| `<dialog>` | 37+ | 98+ | 15.4+ | **96.1%** |
-| `inert` | 102+ | 112+ | 15.5+ | **94.7%** |
-| `@starting-style` | 117+ | 129+ | 17.5+ | 90.7% |
-| `transition-behavior` | 117+ | 129+ | 17.4+ | 90.7% |
-| **CSS `overlay` property** | 117+ | **none** | **none** | **73.5%** |
+| Feature                    | Chrome/Edge | Firefox  | Safari   | Global    |
+| -------------------------- | ----------- | -------- | -------- | --------- |
+| `popover` attribute        | 114+        | 125+     | 17.0+    | **91.5%** |
+| `popover="hint"`           | 151+        | 153+     | **none** | 71.7%     |
+| CSS anchor positioning     | 125+        | 147+     | 26.0+    | **84.1%** |
+| `<dialog>`                 | 37+         | 98+      | 15.4+    | **96.1%** |
+| `inert`                    | 102+        | 112+     | 15.5+    | **94.7%** |
+| `@starting-style`          | 117+        | 129+     | 17.5+    | 90.7%     |
+| `transition-behavior`      | 117+        | 129+     | 17.4+    | 90.7%     |
+| **CSS `overlay` property** | 117+        | **none** | **none** | **73.5%** |
 
 ### What the platform gives free
+
 `popover` grants top layer (escaping ancestor `overflow`, `transform`,
 `filter`, `contain` and all `z-index`), `::backdrop`, `:popover-open`, light
 dismiss for `auto`/`hint`, two independent stacks with correct nested-close
@@ -27,6 +28,7 @@ tab-order insertion and focus restore on Escape.
 implicit `aria-modal="true"`, focus placement, and Escape-closes-topmost.
 
 ### What it does not give
+
 Positioning; focus trapping (outside `<dialog>`); ARIA roles;
 **focus-on-open for popovers** — `showPopover()` only changes tab order.
 
@@ -67,12 +69,12 @@ It **already uses the Popover API by default**: `createOverlayRef` reads
 `@layer cdk-overlay`. It does **not** use CSS anchor positioning — positioning
 is still `getBoundingClientRect()` maths.
 
-| Import | gzip |
-|---|---|
+| Import                      | gzip        |
+| --------------------------- | ----------- |
 | Full `@angular/cdk/overlay` | **24.3 KB** |
-| Only the six factories | 23.8 KB |
-| `@angular/cdk/a11y` | 12.7 KB |
-| `@angular/cdk/portal` | 2.2 KB |
+| Only the six factories      | 23.8 KB     |
+| `@angular/cdk/a11y`         | 12.7 KB     |
+| `@angular/cdk/portal`       | 2.2 KB      |
 
 **It does not meaningfully tree-shake** — the minimal factory import is 98% of
 the full barrel, because `createOverlayRef` transitively pulls
@@ -86,15 +88,15 @@ an AT virtual cursor outside the trap.
 
 ## Recommendation — hybrid, TEKAD-owned
 
-| Criterion | CDK overlay | Platform-only | Floating UI only | **Hybrid** |
-|---|---|---|---|---|
-| Bundle cost | 3 | 10 | 8 | 8 |
-| SSR safety | 9 | 8 | 6 | 8 |
-| A11y correctness | 7 | 6 | 5 | **8** |
-| Browser reach | 10 | 6 | 10 | 10 |
-| Maintenance burden | 9 | 5 | 6 | 6 |
-| Control | 4 | 10 | 9 | 9 |
-| **Total** | 42 | 45 | 44 | **49** |
+| Criterion          | CDK overlay | Platform-only | Floating UI only | **Hybrid** |
+| ------------------ | ----------- | ------------- | ---------------- | ---------- |
+| Bundle cost        | 3           | 10            | 8                | 8          |
+| SSR safety         | 9           | 8             | 6                | 8          |
+| A11y correctness   | 7           | 6             | 5                | **8**      |
+| Browser reach      | 10          | 6             | 10               | 10         |
+| Maintenance burden | 9           | 5             | 6                | 6          |
+| Control            | 4           | 10            | 9                | 9          |
+| **Total**          | 42          | 45            | 44               | **49**     |
 
 - **Top layer:** `popover` for non-modal surfaces; `<dialog>.showModal()` for
   modal dialog and modal drawer — it hands over `inert`, `aria-modal`, Escape

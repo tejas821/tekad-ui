@@ -1,0 +1,145 @@
+{
+  "$comment": [
+    "Measured baselines, not targets. Every number here came from a run of",
+    "tools/verify-size-budget.mjs against the PACKED tarballs of the Phase 9",
+    "slice. docs/architecture/05-performance-budgets.md forbids inventing a",
+    "budget before there is something to weigh, and Phase 9 is the first phase",
+    "with components in it.",
+    "",
+    "  packed          the .tgz a consumer downloads (npm pack)",
+    "  raw/gzip/brotli one entry point inside that tarball, gzip at level 9 and",
+    "                  brotli at quality 11 — what a CDN would serve",
+    "",
+    "A package or entry point with no entry here FAILS the gate rather than",
+    "escaping it: a budget file that covers only what somebody remembered to add",
+    "reports coverage it does not have. Growth past tolerancePercent fails; a",
+    "shrink passes and prints a reminder to lower the committed number.",
+    "",
+    "tolerancePercent absorbs the one part of this that is not bit-stable — tar",
+    "headers carry file mtimes, so the packed figure can move by a byte or two on",
+    "another machine. The axes measured out of the archive are deterministic.",
+    "",
+    "Re-baseline deliberately, in the commit that moves the number:",
+    "  pnpm run verify:size -- --report"
+  ],
+  "measuredAt": "2026-09-19",
+  "angular": "22.1.4",
+  "tolerancePercent": 2,
+  "packages": {
+    "@tekad/button": {
+      "packed": 5329,
+      "entryPoints": {
+        ".": {
+          "raw": 10641,
+          "gzip": 3002,
+          "brotli": 2457
+        }
+      }
+    },
+    "@tekad/checkbox": {
+      "packed": 7589,
+      "entryPoints": {
+        ".": {
+          "raw": 18594,
+          "gzip": 4676,
+          "brotli": 3851
+        }
+      }
+    },
+    "@tekad/core": {
+      "packed": 12868,
+      "entryPoints": {
+        ".": {
+          "raw": 871,
+          "gzip": 523,
+          "brotli": 377
+        },
+        "./a11y/live-announcer": {
+          "raw": 6866,
+          "gzip": 2538,
+          "brotli": 2045
+        },
+        "./forms/field-context": {
+          "raw": 1005,
+          "gzip": 559,
+          "brotli": 432
+        },
+        "./forms/model-control": {
+          "raw": 1675,
+          "gzip": 861,
+          "brotli": 676
+        },
+        "./primitives/identity": {
+          "raw": 1767,
+          "gzip": 934,
+          "brotli": 717
+        }
+      }
+    },
+    "@tekad/dialog": {
+      "packed": 7339,
+      "entryPoints": {
+        ".": {
+          "raw": 16142,
+          "gzip": 4573,
+          "brotli": 3807
+        }
+      }
+    },
+    "@tekad/form-field": {
+      "packed": 7655,
+      "entryPoints": {
+        ".": {
+          "raw": 17529,
+          "gzip": 4487,
+          "brotli": 3706
+        }
+      }
+    },
+    "@tekad/forms": {
+      "packed": 6652,
+      "entryPoints": {
+        ".": {
+          "raw": 943,
+          "gzip": 562,
+          "brotli": 421
+        },
+        "./compat": {
+          "raw": 9703,
+          "gzip": 3638,
+          "brotli": 2994
+        }
+      }
+    },
+    "@tekad/input": {
+      "packed": 6536,
+      "entryPoints": {
+        ".": {
+          "raw": 13891,
+          "gzip": 3696,
+          "brotli": 3113
+        }
+      }
+    },
+    "@tekad/overlay": {
+      "packed": 10374,
+      "entryPoints": {
+        ".": {
+          "raw": 14205,
+          "gzip": 4784,
+          "brotli": 3982
+        }
+      }
+    },
+    "@tekad/theme": {
+      "packed": 4831,
+      "entryPoints": {
+        ".": {
+          "raw": 1051,
+          "gzip": 602,
+          "brotli": 461
+        }
+      }
+    }
+  }
+}

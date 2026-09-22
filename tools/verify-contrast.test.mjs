@@ -19,16 +19,29 @@
  *   an `on-*` token with its `contrastWith` REMOVED — the easiest possible way
  *   to make the gate pass while verifying less. If deleting a line silences an
  *   accessibility check, the check is decorative.
+ *
+ * ── Why this builds its own report ────────────────────────────────────────
+ *
+ * The last case runs the gate against TEKAD's REAL palette, which lives in a
+ * generated report rather than in the repository. That case used to read
+ * `.nx/token-report.json` directly, and on a clean checkout it does not exist:
+ * the file is gitignored and only `pnpm run tokens` writes it. The job's step
+ * order happened to produce it before the contrast gate, and this self-test ran
+ * BEFORE that step — so the guard against a vacuous accessibility gate was
+ * itself failing on `main`, for a reason that had nothing to do with contrast.
+ *
+ * So it now builds the report it needs, into its own temp directory, through
+ * the real builder. A self-test that depends on the state of a shared working
+ * tree is testing the working tree.
  */
 import { spawnSync } from 'node:child_process';
-import { writeFileSync, mkdtempSync } from 'node:fs';
+import { writeFileSync, mkdtempSync, existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const SCRIPT = join(HERE, 'verify-contrast.mjs');
-const ROOT = join(HERE, '..');
 const TMP = mkdtempSync(join(tmpdir(), 'tekad-contrast-'));
 
 /**
@@ -39,6 +52,26 @@ const TMP = mkdtempSync(join(tmpdir(), 'tekad-contrast-'));
 function report(name, semantic) {
   const p = join(TMP, name);
   writeFileSync(p, JSON.stringify({ semantic }, null, 2));
+  return p;
+}
+
+/**
+ * Build TEKAD's real token report, fresh, in this test's own temp directory.
+ *
+ * @returns {string}
+ */
+function realReport() {
+  const p = join(TMP, 'token-report.json');
+  const r = spawnSync(
+    process.execPath,
+    [join(HERE, 'build-tokens.mjs'), '--check', '--report', p],
+    { encoding: 'utf8' },
+  );
+  if (r.status !== 0 || !existsSync(p)) {
+    console.error('could not build the token report this self-test runs against:');
+    console.error((r.stdout ?? '') + (r.stderr ?? ''));
+    process.exit(1);
+  }
   return p;
 }
 
@@ -132,7 +165,7 @@ const cases = [
   },
   {
     name: "TEKAD's real palette → PASS",
-    path: join(ROOT, '.nx/token-report.json'),
+    path: realReport(),
     expectExit: 0,
   },
 ];

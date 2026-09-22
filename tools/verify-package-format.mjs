@@ -40,6 +40,15 @@ const failures = [];
 const notes = [];
 
 /**
+ * Extensions that are shipped as public API without a `types` condition.
+ *
+ * These are the artefacts a consumer imports from CSS, from a bundler or from
+ * tooling — never from TypeScript — so a `types` condition is not merely
+ * absent, it is impossible. Everything else still requires one.
+ */
+const ASSET_EXTENSIONS = ['.css', '.json', '.svg', '.woff2', '.woff', '.ttf'];
+
+/**
  * @param {string} pkgDir
  * @param {string} name
  * @param {string} msg
@@ -141,7 +150,22 @@ for (const dir of pkgDirs) {
       }
       if (subpath !== './package.json' && typeof target === 'object' && target !== null) {
         const conditions = /** @type {Record<string, unknown>} */ (target);
-        if (!conditions['types']) {
+        /*
+         * A subpath that names a non-JavaScript asset cannot have a `types`
+         * condition — there is no declaration file to point at, and consumers
+         * import it from CSS or from a bundler, never from TypeScript. The
+         * exemption is by EXTENSION and is deliberately narrow: a `.mjs` or
+         * `.js` subpath without types still fails, because that one is a real
+         * mistake and this is the check that catches it.
+         *
+         * Whether such a file is *reachable at all* is a different question,
+         * and it is answered on the packed tarball by
+         * `tools/verify-consumer-boundary.mjs` — the gate that found
+         * `@tekad/theme/styles/tekad.css` shipping and unexported.
+         */
+        const asset = /** @type {string} */ (conditions['default'] ?? '');
+        const isAsset = ASSET_EXTENSIONS.some((ext) => asset.endsWith(ext));
+        if (!conditions['types'] && !isAsset) {
           fail(dir, name, `exports "${subpath}" without a "types" condition.`);
         }
       }

@@ -43,7 +43,7 @@ browser auto-correction changes the DOM out from under hydration.
    positioned frame must be visually safe** — render measured surfaces
    `visibility: hidden` (or opacity 0) until the first read→write cycle
    completes, to avoid a flash at (0,0).
-5. Never server-render an *open* overlay whose position depends on
+5. Never server-render an _open_ overlay whose position depends on
    measurement. Render closed on the server; open after hydration.
 6. Prefer keeping overlay nodes in their DOM position (native top layer) over
    moving them to a detached container — a DOM move is something Angular

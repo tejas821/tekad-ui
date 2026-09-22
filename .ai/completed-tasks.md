@@ -227,7 +227,7 @@ into it.
       makes a repeated live-region announcement audible left 9 of the
       announcer's 11 tests passing. Only 2 caught it.
 - [x] `verify-mutation.mjs` — pairs each plausible defect with the test that
-      must catch it and requires *that named test* to fail. Seven mutants, all
+      must catch it and requires _that named test_ to fail. Seven mutants, all
       caught. Rejects three ways a red run can be meaningless: a surviving
       mutant, a mutant that broke the build, and a named test that no longer
       exists.
@@ -274,7 +274,42 @@ projected content cannot be styled from the component it is projected into; a
 foundation package's spec reached for a component; and `@layer` was unverified.
 All four were caught by a gate on its first run.
 
-Not done, intentionally: `size-limit` budgets, `axe`, forced-colors snapshots
-and per-package SSR tests — all now measurable and none built. Select and the
-table foundation remain. **No screen reader has been run**, and every browser
-number in this phase is Chromium.
+Not done, intentionally: `axe`, forced-colors snapshots and per-package SSR
+tests — all now measurable and none built. Select and the table foundation
+remain. **No screen reader has been run**, and every browser number in this
+phase is Chromium.
+
+## 2026-09-19 — packaging proof (gates 9b and 14, and the generator)
+
+- [x] **`tools/lib/tarball.mjs`** — a zero-dependency `npm pack` wrapper and a
+      narrow ustar reader (GNU long name, pax local/global, checksum verified,
+      unknown entry types throw). It asserts its own file list against npm's
+      report: a reader that silently skips an entry would make every check above
+      it vacuous.
+- [x] **Gate 9b — the packed-tarball consumer boundary.** Packs every package,
+      extracts the tarballs into a scratch consumer with no path mappings, and
+      requires every shipped file to be reachable through an `exports` subpath,
+      every public specifier to resolve and import, every internal one refused,
+      the shipped `.d.ts` to type-check, and every bare import to be a declared
+      dependency or peer.
+- [x] **Gate 14 — per-entry size budgets**, on the packed tarball rather than
+      through `size-limit` (ADR-011, dated correction). 2% tolerance; fails on
+      an unbudgeted entry point or a budget nobody measures.
+- [x] **`tools/generate-entry-point.mjs`** — the generator owed since Spike B.
+      Reproduces all five committed entry points byte-identically.
+- [x] **Two defects the new gates found and closed.** `@tekad/theme` shipped
+      `styles/tekad.css` inside the tarball with its own `exports` map refusing
+      every import of it; and `packages/core/project.json`'s test `include`
+      globs did not cover `../forms/**`, so the `forms/*` entry points' specs
+      would have been discovered-but-unrun.
+- [x] **CI run 1 found three defects that only a clean checkout exposes.**
+      `@nx/enforce-module-boundaries` skips entirely without a cached project
+      graph (silent, exit 0) — `tools/ensure-project-graph.mjs` now warms it and
+      the boundary self-test fails by name if it is ever skipped again;
+      `smol-toml@1.6.1` (high, exact-pinned by nx) is now overridden to 1.7.1;
+      and Playwright's browser was never installed, because pnpm blocks the
+      install script that downloads it — the workflow installs Chromium
+      explicitly before the behavioural gates.
+- [x] **`pnpm run format:check` was red at HEAD.** 51 files, mostly documentation,
+      had never been through prettier, so gate 2 could not have passed. Formatted
+      repository-wide in its own commit rather than by widening `.prettierignore`.

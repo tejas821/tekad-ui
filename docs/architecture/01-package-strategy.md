@@ -5,10 +5,10 @@ Final topology requires the research phase or an explicit founder decision.
 
 ## 1. Rejected extremes
 
-| Model | Why rejected |
-|---|---|
-| One `@tekad-ui/ui` package | Consumers pay for the whole ecosystem; tree-shaking becomes the only defence and it is not reliable enough to bet the architecture on. |
-| One package per file/utility | Version churn, install friction, dependency-graph noise, no ergonomic win. |
+| Model                        | Why rejected                                                                                                                           |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| One `@tekad-ui/ui` package   | Consumers pay for the whole ecosystem; tree-shaking becomes the only defence and it is not reliable enough to bet the architecture on. |
+| One package per file/utility | Version churn, install friction, dependency-graph noise, no ergonomic win.                                                             |
 
 ## 2. Chosen shape: hybrid — capability packages with secondary entry points
 
@@ -59,6 +59,26 @@ or entry points of `@tekad-ui/primitives`. Decide with evidence, not taste.
 Tree-shaking is verified, never assumed. CI builds a probe app that imports
 exactly one component and asserts that no unrelated TEKAD component appears in
 the emitted JS or CSS. See `06-ci-quality-gates.md`.
+
+Four things are verified about a package boundary rather than asserted:
+
+1. **The declarations and the exports map** — `tools/verify-package-format.mjs`
+   (gate 9), against built output.
+2. **What a consumer actually receives** — `tools/verify-consumer-boundary.mjs`
+   (gate 9b) packs every package with the real `npm pack`, extracts the tarballs
+   into a scratch consumer, and requires every shipped file to be reachable
+   through an `exports` subpath, every public specifier to resolve and import,
+   every internal one (`…/src/…`, a raw `fesm2022/*.mjs`) to be refused, the
+   shipped `.d.ts` files to type-check, and every bare import to be a declared
+   dependency or peer. `dist/` is not what a consumer gets; this gate is the one
+   that reads what they do.
+3. **Size** — `tools/verify-size-budget.mjs` (gate 14) budgets the packed
+   tarball and every entry point's bytes against `tools/size-budget.json`.
+4. **New entry points** — `tools/generate-entry-point.mjs` writes the
+   `ng-package.json`, the `src/index.ts`, the `tsconfig.base.json` path mapping
+   and the package's test-`include` glob, so a second-level entry point cannot
+   be added in a shape the stock generator emits (a flat one containing an
+   NgModule) or with specs that silently never run.
 
 ## 5. Namespace
 

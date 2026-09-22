@@ -17,7 +17,7 @@ to own.
 
 1. **Philosophy:** KEEP → IMPROVE → COMPOSE → DEFER → NEVER BUILD.
 2. **One source of truth, two consumption models.** Signals are the canonical
-   internal reactive model. RxJS/Observable surfaces are *adapters* derived
+   internal reactive model. RxJS/Observable surfaces are _adapters_ derived
    from that model — never a second store. See ADR-002, ADR-003.
 3. **Angular 22-first.** No legacy-compatibility contamination. The
    "Legendary" series for Angular ≤21 is a separate future codebase. See
@@ -41,18 +41,18 @@ Maintainability → DX → Visual richness → Implementation convenience.
 
 ## 4. Where the authority lives
 
-| Question | Read |
-|---|---|
-| Architecture overview | `docs/architecture/00-overview.md` |
-| Packages / entry points | `docs/architecture/01-package-strategy.md` |
-| Public vs internal API | `docs/architecture/02-public-api-rules.md` |
-| Adding a dependency | `docs/architecture/03-dependency-policy.md` |
-| Testing expectations | `docs/architecture/04-testing-strategy.md` |
-| Performance budgets | `docs/architecture/05-performance-budgets.md` |
-| CI gates | `docs/architecture/06-ci-quality-gates.md` |
-| Any settled decision | `docs/decisions/ADR-*.md` |
-| Current work | `.ai/state.json`, `.ai/current-task.md` |
-| Plan | `ROADMAP.md` |
+| Question                | Read                                          |
+| ----------------------- | --------------------------------------------- |
+| Architecture overview   | `docs/architecture/00-overview.md`            |
+| Packages / entry points | `docs/architecture/01-package-strategy.md`    |
+| Public vs internal API  | `docs/architecture/02-public-api-rules.md`    |
+| Adding a dependency     | `docs/architecture/03-dependency-policy.md`   |
+| Testing expectations    | `docs/architecture/04-testing-strategy.md`    |
+| Performance budgets     | `docs/architecture/05-performance-budgets.md` |
+| CI gates                | `docs/architecture/06-ci-quality-gates.md`    |
+| Any settled decision    | `docs/decisions/ADR-*.md`                     |
+| Current work            | `.ai/state.json`, `.ai/current-task.md`       |
+| Plan                    | `ROADMAP.md`                                  |
 
 If an ADR answers the question, follow it. Changing an ADR requires a new ADR
 that supersedes it — not an inline edit.
@@ -102,12 +102,12 @@ instead of the research corpus. **All 18 ADRs are Accepted; none is provisional.
 
 ### The four evidence gates are closed
 
-| Gate | Result | Artifact |
-|---|---|---|
-| **P0** overlay exit lifecycle | CONDITIONAL GO | `docs/research/prototypes/p0-overlay/` |
-| **P1** `ngGridCell` under `@for` | GO | `docs/research/prototypes/p1-aria-grid/` |
-| **Spike A** auto-import vs secondary entry points | Q1 resolved, Q2 unverified | `docs/research/prototypes/spike-a-autoimport/` |
-| **Spike B** Nx/Angular build routing | GO | `docs/research/prototypes/spike-b-nx-angular-build/` |
+| Gate                                              | Result                     | Artifact                                             |
+| ------------------------------------------------- | -------------------------- | ---------------------------------------------------- |
+| **P0** overlay exit lifecycle                     | CONDITIONAL GO             | `docs/research/prototypes/p0-overlay/`               |
+| **P1** `ngGridCell` under `@for`                  | GO                         | `docs/research/prototypes/p1-aria-grid/`             |
+| **Spike A** auto-import vs secondary entry points | Q1 resolved, Q2 unverified | `docs/research/prototypes/spike-a-autoimport/`       |
+| **Spike B** Nx/Angular build routing              | GO                         | `docs/research/prototypes/spike-b-nx-angular-build/` |
 
 Cite the artifact, not this file, when an ADR needs evidence.
 
@@ -120,7 +120,7 @@ pinned to 22.1.4, and five CI gates. See
 **Three of those five gates were wrong or vacuous on their first
 implementation**, and only a self-test revealed it. `@nx/enforce-module-boundaries`
 cannot see an import of a package that is not installed; the licence check
-flagged a package whose LICENSE merely *mentions* the GPL; the webpack-builder
+flagged a package whose LICENSE merely _mentions_ the GPL; the webpack-builder
 check went red on a clean lockfile.
 
 So: **a guard ships with a test that proves it fails when it should.** This is
@@ -131,11 +131,12 @@ a comment. `pnpm run verify:gates` runs them.
 
 Realise ADR-004 with two trivial packages before any real component exists:
 `exports` maps, `sideEffects`, package validation, and the tree-shaking probe
-app. Spike B measured that entry-point tree-shaking *can* work; that is not the
+app. Spike B measured that entry-point tree-shaking _can_ work; that is not the
 same as it holding for TEKAD's real package graph, where DI tokens, module-level
 side effects and `providedIn: 'root'` services are what actually defeat it.
 
 Three items Spike B added to Phase 2:
+
 - a TEKAD secondary-entry-point generator — the stock one emits a flat,
   one-level entry point containing an **NgModule**;
 - a lint rule forbidding relative imports across an entry-point boundary —

@@ -7,5 +7,24 @@
   "private": true,
   "dependencies": {
     "tslib": "^2.8.1"
+  },
+  "//exports": [
+    "The stylesheet is this package's reason to exist, and an exports map is",
+    "what makes a path importable: with one present, Node, Vite, webpack 5,",
+    "esbuild and Angular's own builder all refuse a subpath it does not name.",
+    "ng-packagr generates entry-point subpaths only, so `styles/tekad.css` sat",
+    "in the tarball reachable by nobody until tools/verify-consumer-boundary.mjs",
+    "resolved a specifier against a packed tarball and said so.",
+    "These entries are preserved rather than overwritten: ng-packagr's",
+    "generatePackageExports starts from the package.json it was given and only",
+    "inserts the `.`, `./package.json` and `./<entry-point>` mappings."
+  ],
+  "exports": {
+    "./styles/tekad.css": {
+      "default": "./styles/tekad.css"
+    },
+    "./tokens.json": {
+      "default": "./tokens.json"
+    }
   }
 }

@@ -14,19 +14,19 @@ A dependency may be added only when every line is answered in writing in the PR:
 5. License — exact package and version, not a blog post. Copyleft? NOTICE?
 6. Bundle cost, measured.
 7. Runtime cost, measured where it matters.
-8. Should it be a `peerDependency` or an *optional* peer instead?
+8. Should it be a `peerDependency` or an _optional_ peer instead?
 9. Does it create architectural coupling or a cycle?
 10. What is the exit plan if it is abandoned?
 
 ## Classification
 
-| Class | Meaning | Examples |
-|---|---|---|
-| Core runtime | Shipped to every consumer of the package | keep as close to zero as possible |
-| Peer | Provided by the app | `@angular/core`, `@angular/common`, `rxjs` |
-| Optional peer | Only for a specific integration | charting libraries |
-| Dev | Build/test only | never reaches consumers |
-| **Forbidden** | Never | anything that would make a chart engine, rich-text engine or icon corpus a core dependency |
+| Class         | Meaning                                  | Examples                                                                                   |
+| ------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------ |
+| Core runtime  | Shipped to every consumer of the package | keep as close to zero as possible                                                          |
+| Peer          | Provided by the app                      | `@angular/core`, `@angular/common`, `rxjs`                                                 |
+| Optional peer | Only for a specific integration          | charting libraries                                                                         |
+| Dev           | Build/test only                          | never reaches consumers                                                                    |
+| **Forbidden** | Never                                    | anything that would make a chart engine, rich-text engine or icon corpus a core dependency |
 
 ## Standing rules
 

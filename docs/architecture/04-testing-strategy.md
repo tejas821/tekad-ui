@@ -5,16 +5,16 @@ that asserts implementation details is a liability.
 
 ## Layers
 
-| Layer | Validates | Applies to |
-|---|---|---|
-| Unit | pure logic, reactive derivations, state transitions | all |
-| Component | rendered behaviour via public API only | all components |
-| Accessibility | keyboard, focus order, focus restoration, ARIA state transitions, announcements | all interactive components |
-| SSR / hydration | renders on the server; hydrates without mismatch | all packages |
-| Package build | package builds, exports resolve, types resolve, no internal leakage | all packages |
-| Tree-shaking | one import pulls only what it needs | CI, ecosystem-wide |
-| Performance | render/update cost against a budget | flagship components |
-| Visual regression | where visual correctness is load-bearing | theme, flagship components |
+| Layer             | Validates                                                                       | Applies to                 |
+| ----------------- | ------------------------------------------------------------------------------- | -------------------------- |
+| Unit              | pure logic, reactive derivations, state transitions                             | all                        |
+| Component         | rendered behaviour via public API only                                          | all components             |
+| Accessibility     | keyboard, focus order, focus restoration, ARIA state transitions, announcements | all interactive components |
+| SSR / hydration   | renders on the server; hydrates without mismatch                                | all packages               |
+| Package build     | package builds, exports resolve, types resolve, no internal leakage             | all packages               |
+| Tree-shaking      | one import pulls only what it needs                                             | CI, ecosystem-wide         |
+| Performance       | render/update cost against a budget                                             | flagship components        |
+| Visual regression | where visual correctness is load-bearing                                        | theme, flagship components |
 
 ## Accessibility testing rules
 

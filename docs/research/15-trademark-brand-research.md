@@ -41,6 +41,7 @@ not released. Note the correlation risk: the same person may hold both
 ## Existing use of the name
 
 **FACT — verified entities:**
+
 - **TEKAD (Transformasi Ekonomi Kampung Terpadu)** — a major Indonesian
   Ministry of Villages programme, IFAD co-financed, running public web
   software at `tekad.kemendesa.go.id`, a recruitment portal, and a Play Store
@@ -63,14 +64,14 @@ component library was found anywhere.**
 
 ## Trademark registers — honest access report
 
-| Register | Attempted | Outcome |
-|---|---|---|
-| **IP India** (tmrsearch.ipindia.gov.in) | Yes | **BLOCKED** — CAPTCHA-gated, JS-required. No query submitted, no results. |
-| **USPTO** (tmsearch.uspto.gov + API) | Yes | **BLOCKED** — HTTP 000 via proxy; documented API path 404. No authoritative query. |
-| **EUIPO / TMview** | Yes | **BLOCKED** — HTTP 000; UI robots-disallowed. |
-| **WIPO Global Brand DB** | Yes | **BLOCKED** — JS-only application. |
-| Justia (unofficial US mirror) | Yes | **Succeeded.** 6 results, **all prefix/near matches, no exact TEKAD**: TEKADENCE, TEKADVISE, TEKADEMICS, TEKADEMY, TEKADVISERS, TEK-AD. |
-| Trademarkia (unofficial mirror) | Yes | **Succeeded.** "0 Trademark Results found for 'tekad'." |
+| Register                                | Attempted | Outcome                                                                                                                                 |
+| --------------------------------------- | --------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| **IP India** (tmrsearch.ipindia.gov.in) | Yes       | **BLOCKED** — CAPTCHA-gated, JS-required. No query submitted, no results.                                                               |
+| **USPTO** (tmsearch.uspto.gov + API)    | Yes       | **BLOCKED** — HTTP 000 via proxy; documented API path 404. No authoritative query.                                                      |
+| **EUIPO / TMview**                      | Yes       | **BLOCKED** — HTTP 000; UI robots-disallowed.                                                                                           |
+| **WIPO Global Brand DB**                | Yes       | **BLOCKED** — JS-only application.                                                                                                      |
+| Justia (unofficial US mirror)           | Yes       | **Succeeded.** 6 results, **all prefix/near matches, no exact TEKAD**: TEKADENCE, TEKADVISE, TEKADEMICS, TEKADEMY, TEKADVISERS, TEK-AD. |
+| Trademarkia (unofficial mirror)         | Yes       | **Succeeded.** "0 Trademark Results found for 'tekad'."                                                                                 |
 
 **INTERPRETATION:** Two independent unofficial US mirrors returned no exact
 mark. That is a **weak positive signal for the United States only**. It is not
@@ -86,13 +87,13 @@ registries is materially non-trivial, most likely in unrelated Nice classes.
 **FACT (A-record resolution 2026-08-27; RDAP was proxy-blocked, so no
 registration status is authoritative):**
 
-| Domain | A record |
-|---|---|
-| `tekad.dev`, `tekad.io`, `tekad.net`, `tekadui.dev` | **none** |
-| `tekad.com` | 199.168.103.236 |
-| `tekad.org` | 104.21.93.37 (Cloudflare) |
-| `tekad.id` | 172.67.137.15 (Cloudflare) |
-| `tekad.co.id` | 103.253.215.19 |
+| Domain                                              | A record                   |
+| --------------------------------------------------- | -------------------------- |
+| `tekad.dev`, `tekad.io`, `tekad.net`, `tekadui.dev` | **none**                   |
+| `tekad.com`                                         | 199.168.103.236            |
+| `tekad.org`                                         | 104.21.93.37 (Cloudflare)  |
+| `tekad.id`                                          | 172.67.137.15 (Cloudflare) |
+| `tekad.co.id`                                       | 103.253.215.19             |
 
 **INTERPRETATION:** "No A record" is consistent with unregistered but does not
 prove it. The pattern suggests Indonesian/Malaysian entities hold the
@@ -104,13 +105,13 @@ HSTS preloading. The `.com` is the meaningful loss.
 
 **`@tekad/*`, contingent on one verification step.**
 
-It matches the ecosystem convention where the scope is the *project* and the
-package is the *module* (`@angular/core`, `@taiga-ui/core`,
+It matches the ecosystem convention where the scope is the _project_ and the
+package is the _module_ (`@angular/core`, `@taiga-ui/core`,
 `@spartan-ng/brain`). `@tekad-ui/core` reads "TEKAD UI core" — stuttering the
 category — and forecloses non-UI expansion (a CLI, an ESLint plugin, a
 schematics collection) that `@tekad/*` accommodates naturally.
 
-**Contingency:** the scope may be *reserved* by the existing npm user, exactly
+**Contingency:** the scope may be _reserved_ by the existing npm user, exactly
 as `github.com/tekad` already is. Run `npm org ls tekad` authenticated, or
 attempt a throwaway publish, before committing. If unavailable, prefer
 `@tekad-ui/*` — verified free, and `github.com/tekad-ui` and `tekadui.dev` are
@@ -119,17 +120,18 @@ or `@usetekad`.
 
 ## Risk classification
 
-| Surface | Classification |
-|---|---|
-| **npm** | **LOWER APPARENT CONFLICT** — zero published packages; scope *reservation* not publicly detectable. |
-| **GitHub** | **POTENTIAL CONFLICT** — `github.com/tekad` occupied by a dormant user; repo-wide search could not be performed. |
+| Surface                   | Classification                                                                                                                                                                 |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **npm**                   | **LOWER APPARENT CONFLICT** — zero published packages; scope _reservation_ not publicly detectable.                                                                            |
+| **GitHub**                | **POTENTIAL CONFLICT** — `github.com/tekad` occupied by a dormant user; repo-wide search could not be performed.                                                               |
 | **Existing software use** | **POTENTIAL CONFLICT** — no developer-tool use found, but an active government programme runs public web software under the name and TEKADA is one letter away in IT services. |
-| **Trademark** | **REQUIRES PROFESSIONAL SEARCH** — every official register was inaccessible; India and Indonesia/Malaysia not searched at all. |
-| **Domains** | **POTENTIAL CONFLICT** — `.dev`/`.io`/`.net` appear free; `.com`/`.org`/`.id`/`.co.id` resolve to live hosts. RDAP blocked. |
+| **Trademark**             | **REQUIRES PROFESSIONAL SEARCH** — every official register was inaccessible; India and Indonesia/Malaysia not searched at all.                                                 |
+| **Domains**               | **POTENTIAL CONFLICT** — `.dev`/`.io`/`.net` appear free; `.com`/`.org`/`.id`/`.co.id` resolve to live hosts. RDAP blocked.                                                    |
 
 ## Attorney question list
 
 **Trademark**
+
 1. Full clearance for TEKAD in **India (IP India)**, classes 9 and 42, and in
    **Indonesia (DJKI)** and **Malaysia (MyIPO)**, including phonetic and
    visually similar marks.
@@ -145,26 +147,18 @@ or `@usetekad`.
    official-emblem protection restricting a private class 9/42 registration?
 6. Minimum viable filing strategy for a globally distributed free developer
    tool — India first, then Madrid Protocol? Which jurisdictions matter?
-7. Risk of *using* TEKAD unregistered while filing is pending; what does
+7. Risk of _using_ TEKAD unregistered while filing is pending; what does
    prior-use evidence require in India?
 
-**Licensing / IP**
-8. Review a draft `TRADEMARK.md` — does an Apache-2.0 §6-based name policy
-   strengthen the position, or does it depend entirely on registration?
-9. Is a public non-relicensing commitment enforceable under Indian law?
-10. Is DCO sign-off adequate contributor provenance under Indian law, or would
-    an acquirer/investor expect a CLA?
-11. Indian employment / IP-assignment issues if the founder is employed
-    elsewhere while building TEKAD.
-12. Should TEKAD be held personally or through an entity — does that change
-    the trademark applicant?
+**Licensing / IP** 8. Review a draft `TRADEMARK.md` — does an Apache-2.0 §6-based name policy
+strengthen the position, or does it depend entirely on registration? 9. Is a public non-relicensing commitment enforceable under Indian law? 10. Is DCO sign-off adequate contributor provenance under Indian law, or would
+an acquirer/investor expect a CLA? 11. Indian employment / IP-assignment issues if the founder is employed
+elsewhere while building TEKAD. 12. Should TEKAD be held personally or through an entity — does that change
+the trademark applicant?
 
-**Verification still owed (not attorney work)**
-13. `npm org ls tekad` authenticated, to settle scope availability.
-14. Authoritative WHOIS/RDAP on `tekad.dev`, `tekad.io`, `tekadui.dev` from an
-    unproxied connection.
-15. Re-run all four official registers from a browser session capable of
-    CAPTCHA and JavaScript.
+**Verification still owed (not attorney work)** 13. `npm org ls tekad` authenticated, to settle scope availability. 14. Authoritative WHOIS/RDAP on `tekad.dev`, `tekad.io`, `tekadui.dev` from an
+unproxied connection. 15. Re-run all four official registers from a browser session capable of
+CAPTCHA and JavaScript.
 
 ---
 

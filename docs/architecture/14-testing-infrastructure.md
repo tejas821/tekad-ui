@@ -170,10 +170,12 @@ ADR-011 also lists `size-limit` per-entry budgets, forced-colors visual
 snapshots, an SSR/hydration test per package, and `axe` on every example. None
 are built.
 
-All four need components to measure, and there are none yet: `TekadButton` is a
-packaging fixture and `@tekad/theme` is a stylesheet. Establishing a budget
-against a fixture would set a baseline for something that is about to be
-deleted. The two budgets that _could_ exist without components — the theme CSS
+The per-entry budgets in that list were built on 2026-09-19, on the packed
+tarball rather than through `size-limit` (ADR-011, dated correction). The other
+three still need components to measure, and at Phase 8 there were none:
+`TekadButton` was a packaging fixture and `@tekad/theme` a stylesheet.
+Establishing a budget against a fixture would set a baseline for something that
+was about to be deleted. The two budgets that _could_ exist without components — the theme CSS
 budget and the tree-shaking probe — are gates already, from Phases 4 and 2.
 
 Phase 9 is the first phase with anything to measure, and it inherits these.

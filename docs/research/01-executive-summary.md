@@ -101,7 +101,7 @@ inventing numbers now would be speculation.
 
 ## 11. Legal / IP
 
-**Apache-2.0 + DCO, no CLA** (ADR-015). Apache-2.0's §6 withholds the *name*
+**Apache-2.0 + DCO, no CLA** (ADR-015). Apache-2.0's §6 withholds the _name_
 at licence level — a fork gets the code but not the right to call itself
 TEKAD — and §3's patent grant is something MIT has no equivalent for. Adoption
 cost is near zero: `rxjs`, a mandatory Angular peer, is already Apache-2.0.

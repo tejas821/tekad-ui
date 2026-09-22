@@ -26,7 +26,7 @@ Component   ready-to-use, styled, typed, form-integrated
 ```
 
 A standard button, input, dialog or table must be usable at the Component tier
-with no knowledge of the tiers below. Assembling primitives is the *advanced*
+with no knowledge of the tiers below. Assembling primitives is the _advanced_
 path, never the default.
 
 ## Mechanisms

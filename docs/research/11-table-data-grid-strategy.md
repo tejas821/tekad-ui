@@ -5,16 +5,16 @@ Research date 2026-08-27. Bundle figures measured (clean install, esbuild
 
 ## Measured landscape
 
-| Library | min | **gzip** | Notes |
-|---|---|---|---|
-| `@angular/cdk/table` | 87.0 KB | **18.8 KB** | Skeleton + sticky only |
-| `@angular/cdk/scrolling` | 38.8 KB | 9.3 KB | **Fixed-size strategy only** |
-| `@angular/aria/grid` | 37.0 KB | **8.4 KB** | Keyboard/focus/selection model |
-| `@tanstack/table-core` (core only) | 23.6 KB | **7.3 KB** | v9, stable 2026-08-04 |
-| `@tanstack/table-core` (all features) | 76.2 KB | 20.3 KB | Tree-shaking is real |
-| `@tanstack/virtual-core` | 22.3 KB | **6.7 KB** | Dynamic measurement, both axes |
-| AG Grid community (minimal) | 871 KB | **247.6 KB** | ~13× cdk/table |
-| AG Grid `AllCommunityModule` | 1085 KB | 303.6 KB | Enterprise from $999/dev |
+| Library                               | min     | **gzip**     | Notes                          |
+| ------------------------------------- | ------- | ------------ | ------------------------------ |
+| `@angular/cdk/table`                  | 87.0 KB | **18.8 KB**  | Skeleton + sticky only         |
+| `@angular/cdk/scrolling`              | 38.8 KB | 9.3 KB       | **Fixed-size strategy only**   |
+| `@angular/aria/grid`                  | 37.0 KB | **8.4 KB**   | Keyboard/focus/selection model |
+| `@tanstack/table-core` (core only)    | 23.6 KB | **7.3 KB**   | v9, stable 2026-08-04          |
+| `@tanstack/table-core` (all features) | 76.2 KB | 20.3 KB      | Tree-shaking is real           |
+| `@tanstack/virtual-core`              | 22.3 KB | **6.7 KB**   | Dynamic measurement, both axes |
+| AG Grid community (minimal)           | 871 KB  | **247.6 KB** | ~13× cdk/table                 |
+| AG Grid `AllCommunityModule`          | 1085 KB | 303.6 KB     | Enterprise from $999/dev       |
 
 ## What `@angular/cdk/table` actually is
 
@@ -155,7 +155,7 @@ returns fresh objects.
 pagination; column visibility, order, sizing, pinning; the full
 `@angular/aria` keyboard model **plus the three gaps — PageUp/PageDown, F2,
 `aria-rowcount`/`aria-colcount`**; row selection with indeterminate state
-driven off *filtered* counts; `aria-sort` + live region; fixed-row-height
+driven off _filtered_ counts; `aria-sort` + live region; fixed-row-height
 vertical virtualization; sticky header/footer/columns; loading/empty/error
 slots.
 
