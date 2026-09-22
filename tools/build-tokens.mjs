@@ -25,8 +25,13 @@
  *   floor, so an `@supports not (...)` block re-declares the tokens per scheme.
  *   It costs bytes, which is why it is emitted last and measured separately.
  *
- * Usage: node tools/build-tokens.mjs [--check]
- *   --check  do not write; exit 1 if the committed output is out of date.
+ * Usage: node tools/build-tokens.mjs [--check] [--report <path>]
+ *   --check         do not write; exit 1 if the committed output is out of date.
+ *   --report <path> write the resolved-value report somewhere else. The default
+ *                   is .nx/token-report.json, which is derived and not
+ *                   committed — so anything that needs the report should ask
+ *                   for it explicitly rather than depend on a previous step in
+ *                   the job having left it behind.
  */
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
@@ -36,6 +41,11 @@ import { fitToSrgbGamut } from './lib/color.mjs';
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const THEME = join(ROOT, 'packages/theme');
 const CHECK = process.argv.includes('--check');
+const REPORT_INDEX = process.argv.indexOf('--report');
+const REPORT_AT =
+  REPORT_INDEX >= 0 && process.argv[REPORT_INDEX + 1]
+    ? resolve(/** @type {string} */ (process.argv[REPORT_INDEX + 1]))
+    : null;
 
 /** @type {any} */
 const palette = JSON.parse(readFileSync(join(THEME, 'tokens/palette.json'), 'utf8'));
@@ -255,7 +265,7 @@ const report = {
 
 const cssPath = join(THEME, 'styles/tekad.css');
 const dtcgPath = join(THEME, 'tokens.json');
-const reportPath = join(ROOT, '.nx/token-report.json');
+const reportPath = REPORT_AT ?? join(ROOT, '.nx/token-report.json');
 const dtcgText = JSON.stringify(dtcg, null, 2) + '\n';
 
 if (CHECK) {

@@ -27,8 +27,16 @@ allowBuilds:
 #   brace-expansion@5: GHSA — DoS via unbounded intermediate arrays, bypassing
 #   the CVE-2026-14257 mitigation. Patched in 5.0.9. Reached through nx.
 #   The 1.x line in the tree is a separate range and is not affected.
+#   smol-toml@1: GHSA — DoS via malformed TOML documents. Patched in 1.7.1.
+#   nx 23.1.1 declares `smol-toml: 1.6.1` — an EXACT version, not a range — so
+#   no lockfile refresh can move it and an override is the only instrument that
+#   works. nx reads TOML only for its own project files (Cargo.toml,
+#   pyproject.toml and friends), and this workspace has none, so the code path
+#   is not reachable in a TEKAD build; it is pinned rather than excepted because
+#   an override fixes the tree, whereas an exception only explains it.
 overrides:
   brace-expansion@5: 5.0.9
+  smol-toml@1: 1.7.1
 
 # @angular-devkit/build-angular is Angular's DEPRECATED webpack builder. Spike B
 # proved no TEKAD build path touches it, but it arrives as an OPTIONAL PEER of
