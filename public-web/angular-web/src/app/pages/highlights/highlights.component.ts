@@ -24,7 +24,7 @@ import { CodeViewer } from '../../shared/code-viewer/code-viewer.component';
           <span class="stats-bar__label">Packages</span>
         </div>
         <div class="stats-bar__item">
-          <span class="stats-bar__value">102</span>
+          <span class="stats-bar__value">116</span>
           <span class="stats-bar__label">Unit Tests</span>
         </div>
         <div class="stats-bar__item">
@@ -32,8 +32,8 @@ import { CodeViewer } from '../../shared/code-viewer/code-viewer.component';
           <span class="stats-bar__label">Mutants Caught</span>
         </div>
         <div class="stats-bar__item">
-          <span class="stats-bar__value">22</span>
-          <span class="stats-bar__label">CI Gates</span>
+          <span class="stats-bar__value">31</span>
+          <span class="stats-bar__label">CI Steps</span>
         </div>
         <div class="stats-bar__item">
           <span class="stats-bar__value">4</span>

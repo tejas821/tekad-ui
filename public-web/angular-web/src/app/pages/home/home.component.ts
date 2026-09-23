@@ -68,7 +68,7 @@ import { Header } from '../../layout/header/header.component';
           </div>
           <div class="stat-card">
             <div class="stat-card__value">{{ animatedGates() }}</div>
-            <div class="stat-card__label">CI Gates</div>
+            <div class="stat-card__label">CI Steps</div>
           </div>
         </div>
       </div>
@@ -1074,9 +1074,9 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     // Animate counters
     this.animateCounter(this.animatedPackages, 19, 1500);
-    this.animateCounter(this.animatedTests, 102, 2000);
+    this.animateCounter(this.animatedTests, 116, 2000);
     this.animateCounter(this.animatedMutants, 28, 1800);
-    this.animateCounter(this.animatedGates, 22, 1600);
+    this.animateCounter(this.animatedGates, 31, 1600);
   }
 
   private animateCounter(sig: ReturnType<typeof signal<number>>, target: number, duration: number) {
