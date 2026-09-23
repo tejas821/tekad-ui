@@ -27,7 +27,9 @@
     border-block-end: 2px solid transparent;
     margin-block-end: -1px;
     white-space: nowrap;
-    transition: color 120ms, border-color 120ms;
+    transition:
+      color 120ms,
+      border-color 120ms;
     min-block-size: 44px;
   }
 
@@ -35,7 +37,7 @@
     color: var(--tekad-sys-color-on-surface);
   }
 
-  .tk-tabs__tab[aria-selected="true"] {
+  .tk-tabs__tab[aria-selected='true'] {
     color: var(--tekad-tabs-active-color);
     border-block-end-color: var(--tekad-tabs-active-color);
     font-weight: 600;
@@ -56,7 +58,7 @@
   }
 
   @media (forced-colors: active) {
-    .tk-tabs__tab[aria-selected="true"] {
+    .tk-tabs__tab[aria-selected='true'] {
       border-block-end-color: Highlight;
       color: Highlight;
     }

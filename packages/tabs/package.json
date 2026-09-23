@@ -1,14 +1,37 @@
 {
   "name": "@tekad/tabs",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "TEKAD tabs — a tabbed interface with keyboard navigation.",
+  "keywords": [
+    "angular",
+    "angular22",
+    "ui",
+    "components",
+    "design-system",
+    "signals",
+    "accessibility",
+    "tekad",
+    "tabs"
+  ],
+  "homepage": "https://tejas821.github.io/tekad-ui/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tejas821/tekad-ui.git",
+    "directory": "packages/tabs"
+  },
+  "bugs": {
+    "url": "https://github.com/tejas821/tekad-ui/issues"
+  },
+  "author": "Tejas Kadam",
   "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "sideEffects": false,
-  "private": true,
   "peerDependencies": {
     "@angular/core": "^22.1.0",
-    "@angular/common": "^22.1.0",
-    "@tekad/core": "0.0.0"
+    "@angular/common": "^22.1.0"
   },
   "dependencies": {
     "tslib": "^2.8.1"

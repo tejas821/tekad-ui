@@ -14,4 +14,4 @@
  * packaging is exercised by the same gates as every other entry point — an
  * entry point that exports nothing is not proved to work by anything.
  */
-export const TEKAD_FORMS_VERSION = '0.0.0';
+export const TEKAD_FORMS_VERSION = '0.1.0';

@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, input, TemplateRef, viewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  type TemplateRef,
+  viewChild,
+} from '@angular/core';
 
 /**
  * A single tab panel definition.

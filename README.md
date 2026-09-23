@@ -7,11 +7,34 @@ behaviourally, in a real browser.
 
 **Guide site:** https://tejas821.github.io/tekad-ui/
 
-> **Not published, and not publishable yet.** Every package carries
-> `private: true` and there is no `LICENSE` file, deliberately. ADR-016 gates
-> publication on npm scope availability, placeholder registration _before the
-> name is announced publicly_, and professional trademark clearance for India,
-> Indonesia and Malaysia. None of those has passed.
+## Install
+
+Published on npm under the `@tekad` scope. Install the components you use, the
+foundation, and the theme:
+
+```bash
+npm install @tekad/button @tekad/input @tekad/core @tekad/theme
+```
+
+```css
+/* styles.css */
+@import '@tekad/theme/styles/tekad.css';
+```
+
+```ts
+import { TekadButton } from '@tekad/button';
+
+@Component({
+  imports: [TekadButton],
+  template: `<button tkButton appearance="filled">Save</button>`,
+})
+export class Example {}
+```
+
+Every package has its own README with usage. Packages: `core`, `theme`,
+`overlay`, `forms`, `button`, `checkbox`, `input`, `form-field`, `dialog`,
+`select`, `switch`, `tabs`, `tooltip`, `table`, `card`, `badge`, `divider`,
+`icon`, `progress`.
 
 ---
 
@@ -194,6 +217,18 @@ where it would be tempting to imply otherwise.
 
 ## Status
 
-Phases 0–9 of 15. The roadmap is in `ROADMAP.md`.
+Phases 0–9 of 15; v0.1.0 is the first public release. The roadmap is in
+`ROADMAP.md`.
 
-Nothing here is released, and the publish gate above is why.
+## Releasing
+
+```bash
+node tools/set-version.mjs 0.2.0   # one version for every package
+git commit -am "release: v0.2.0" && git tag v0.2.0 && git push origin main --tags
+```
+
+The `Release to npm` workflow builds, verifies and publishes with provenance.
+
+## License
+
+Apache-2.0 © Tejas Kadam

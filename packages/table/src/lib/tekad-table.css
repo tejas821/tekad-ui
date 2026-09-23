@@ -12,7 +12,8 @@
     color: var(--tekad-sys-color-on-surface);
   }
 
-  ::ng-deep th, ::ng-deep td {
+  ::ng-deep th,
+  ::ng-deep td {
     padding: var(--tekad-table-cell-padding);
     text-align: start;
     border-block-end: 1px solid var(--tekad-table-border-color);
@@ -39,7 +40,12 @@
   }
 
   @media (forced-colors: active) {
-    :host { --tekad-table-border-color: ButtonText; }
-    ::ng-deep th { background: Canvas; border-block-end: 2px solid ButtonText; }
+    :host {
+      --tekad-table-border-color: ButtonText;
+    }
+    ::ng-deep th {
+      background: Canvas;
+      border-block-end: 2px solid ButtonText;
+    }
   }
 }

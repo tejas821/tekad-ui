@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  contentChildren,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, contentChildren, signal } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { TekadTab } from './tekad-tab';
 
@@ -63,14 +58,23 @@ export class TekadTabGroup {
   protected onKeydown(event: KeyboardEvent, index: number): void {
     const tabs = this.tabs();
     const len = tabs.length;
-    let next = index;
+    let next: number;
 
     switch (event.key) {
-      case 'ArrowRight': next = (index + 1) % len; break;
-      case 'ArrowLeft': next = (index - 1 + len) % len; break;
-      case 'Home': next = 0; break;
-      case 'End': next = len - 1; break;
-      default: return;
+      case 'ArrowRight':
+        next = (index + 1) % len;
+        break;
+      case 'ArrowLeft':
+        next = (index - 1 + len) % len;
+        break;
+      case 'Home':
+        next = 0;
+        break;
+      case 'End':
+        next = len - 1;
+        break;
+      default:
+        return;
     }
 
     event.preventDefault();

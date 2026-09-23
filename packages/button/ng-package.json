@@ -1,6 +1,9 @@
 {
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/packages/button",
-  "lib": { "entryFile": "src/index.ts" },
-  "allowedNonPeerDependencies": ["tslib"]
+  "lib": {
+    "entryFile": "src/index.ts"
+  },
+  "allowedNonPeerDependencies": ["tslib"],
+  "assets": ["./README.md", "./LICENSE"]
 }

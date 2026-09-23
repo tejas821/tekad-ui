@@ -47,7 +47,7 @@
     block-size: var(--tekad-switch-thumb-size);
     background: var(--tekad-switch-thumb-bg);
     border-radius: 50%;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     transition: translate 150ms ease-out;
   }
 
@@ -72,7 +72,10 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .tk-switch__track, .tk-switch__thumb { transition: none; }
+    .tk-switch__track,
+    .tk-switch__thumb {
+      transition: none;
+    }
   }
 
   @media (forced-colors: active) {
@@ -80,7 +83,10 @@
       border: 1px solid ButtonText;
       background: Canvas;
     }
-    .tk-switch__thumb { background: ButtonText; box-shadow: none; }
+    .tk-switch__thumb {
+      background: ButtonText;
+      box-shadow: none;
+    }
     .tk-switch__input:checked + .tk-switch__track {
       background: Highlight;
       border-color: Highlight;

@@ -26,7 +26,7 @@ export class TekadBadge {
   readonly tone = input<TekadBadgeTone>('neutral');
   readonly dot = input<boolean>(false);
 
-  protected readonly classes = computed(() =>
-    `tk-badge tk-badge--${this.tone()}${this.dot() ? ' tk-badge--dot' : ''}`
+  protected readonly classes = computed(
+    () => `tk-badge tk-badge--${this.tone()}${this.dot() ? ' tk-badge--dot' : ''}`,
   );
 }

@@ -20,14 +20,26 @@
     "another machine. The axes measured out of the archive are deterministic.",
     "",
     "Re-baseline deliberately, in the commit that moves the number:",
-    "  pnpm run verify:size -- --report"
+    "  pnpm run verify:size -- --report",
+    "",
+    "2026-09-24: re-baselined for the v0.1.0 release — ten new component packages, and every tarball now ships README.md and LICENSE (packed bytes grew; entry-point bytes did not)."
   ],
-  "measuredAt": "2026-09-19",
+  "measuredAt": "2026-09-24",
   "angular": "22.1.4",
   "tolerancePercent": 2,
   "packages": {
+    "@tekad/badge": {
+      "packed": 7127,
+      "entryPoints": {
+        ".": {
+          "raw": 5102,
+          "gzip": 1382,
+          "brotli": 1142
+        }
+      }
+    },
     "@tekad/button": {
-      "packed": 5329,
+      "packed": 9682,
       "entryPoints": {
         ".": {
           "raw": 10641,
@@ -36,8 +48,18 @@
         }
       }
     },
+    "@tekad/card": {
+      "packed": 6421,
+      "entryPoints": {
+        ".": {
+          "raw": 3374,
+          "gzip": 940,
+          "brotli": 779
+        }
+      }
+    },
     "@tekad/checkbox": {
-      "packed": 7589,
+      "packed": 12004,
       "entryPoints": {
         ".": {
           "raw": 18594,
@@ -47,12 +69,12 @@
       }
     },
     "@tekad/core": {
-      "packed": 12868,
+      "packed": 17281,
       "entryPoints": {
         ".": {
           "raw": 871,
-          "gzip": 523,
-          "brotli": 377
+          "gzip": 524,
+          "brotli": 374
         },
         "./a11y/live-announcer": {
           "raw": 6866,
@@ -77,7 +99,7 @@
       }
     },
     "@tekad/dialog": {
-      "packed": 7339,
+      "packed": 11735,
       "entryPoints": {
         ".": {
           "raw": 16142,
@@ -86,8 +108,18 @@
         }
       }
     },
+    "@tekad/divider": {
+      "packed": 6698,
+      "entryPoints": {
+        ".": {
+          "raw": 3483,
+          "gzip": 1166,
+          "brotli": 984
+        }
+      }
+    },
     "@tekad/form-field": {
-      "packed": 7655,
+      "packed": 12034,
       "entryPoints": {
         ".": {
           "raw": 17529,
@@ -97,12 +129,12 @@
       }
     },
     "@tekad/forms": {
-      "packed": 6652,
+      "packed": 10921,
       "entryPoints": {
         ".": {
           "raw": 943,
           "gzip": 562,
-          "brotli": 421
+          "brotli": 422
         },
         "./compat": {
           "raw": 9703,
@@ -111,8 +143,18 @@
         }
       }
     },
+    "@tekad/icon": {
+      "packed": 7195,
+      "entryPoints": {
+        ".": {
+          "raw": 4087,
+          "gzip": 1414,
+          "brotli": 1165
+        }
+      }
+    },
     "@tekad/input": {
-      "packed": 6536,
+      "packed": 10971,
       "entryPoints": {
         ".": {
           "raw": 13891,
@@ -122,7 +164,7 @@
       }
     },
     "@tekad/overlay": {
-      "packed": 10374,
+      "packed": 14621,
       "entryPoints": {
         ".": {
           "raw": 14205,
@@ -131,13 +173,73 @@
         }
       }
     },
+    "@tekad/progress": {
+      "packed": 7307,
+      "entryPoints": {
+        ".": {
+          "raw": 6535,
+          "gzip": 1505,
+          "brotli": 1279
+        }
+      }
+    },
+    "@tekad/select": {
+      "packed": 9218,
+      "entryPoints": {
+        ".": {
+          "raw": 11088,
+          "gzip": 2314,
+          "brotli": 1922
+        }
+      }
+    },
+    "@tekad/switch": {
+      "packed": 8319,
+      "entryPoints": {
+        ".": {
+          "raw": 8902,
+          "gzip": 2047,
+          "brotli": 1698
+        }
+      }
+    },
+    "@tekad/table": {
+      "packed": 7179,
+      "entryPoints": {
+        ".": {
+          "raw": 5359,
+          "gzip": 1461,
+          "brotli": 1219
+        }
+      }
+    },
+    "@tekad/tabs": {
+      "packed": 9391,
+      "entryPoints": {
+        ".": {
+          "raw": 9596,
+          "gzip": 2414,
+          "brotli": 2028
+        }
+      }
+    },
     "@tekad/theme": {
-      "packed": 4831,
+      "packed": 9124,
       "entryPoints": {
         ".": {
           "raw": 1051,
           "gzip": 602,
           "brotli": 461
+        }
+      }
+    },
+    "@tekad/tooltip": {
+      "packed": 7280,
+      "entryPoints": {
+        ".": {
+          "raw": 4480,
+          "gzip": 1445,
+          "brotli": 1200
         }
       }
     }

@@ -6,4 +6,4 @@
  * probe a symbol in the PRIMARY entry point that a secondary entry point does
  * not use, which is what makes that measurement meaningful.
  */
-export const TEKAD_VERSION = '0.0.0';
+export const TEKAD_VERSION = '0.1.0';

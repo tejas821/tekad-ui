@@ -88,7 +88,9 @@ const KEEP = process.argv.includes('--keep');
 const INJECTED_DEPENDENCIES = ['tslib'];
 
 /** A map or the manifest itself is not something a specifier can name. */
-const NOT_A_PUBLIC_PATH = ['.map', 'package.json'];
+// README.md and LICENSE are package metadata that npm always includes and
+// the registry renders; nobody imports them, so they need no exports entry.
+const NOT_A_PUBLIC_PATH = ['.map', 'package.json', 'README.md', 'LICENSE'];
 
 /** @type {string[]} */
 const failures = [];

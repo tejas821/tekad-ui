@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, input, model, output, signal, type ModelSignal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  model,
+  output,
+  type ModelSignal,
+} from '@angular/core';
 import { uniqueId } from '@tekad/core/primitives/identity';
 
 /**

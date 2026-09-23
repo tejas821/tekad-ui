@@ -52,8 +52,12 @@
   }
 
   @keyframes tk-progress-indeterminate {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -63,8 +67,14 @@
   }
 
   @media (forced-colors: active) {
-    .tk-progress__bar { border: 1px solid ButtonText; }
-    .tk-progress__bar::-webkit-progress-value { background: Highlight; }
-    .tk-progress__bar::-moz-progress-bar { background: Highlight; }
+    .tk-progress__bar {
+      border: 1px solid ButtonText;
+    }
+    .tk-progress__bar::-webkit-progress-value {
+      background: Highlight;
+    }
+    .tk-progress__bar::-moz-progress-bar {
+      background: Highlight;
+    }
   }
 }

@@ -1,15 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DestroyRef,
-  ElementRef,
-  computed,
-  effect,
-  inject,
-  input,
-  signal,
-  viewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { uniqueId } from '@tekad/core/primitives/identity';
 
 /**
@@ -28,13 +17,7 @@ import { uniqueId } from '@tekad/core/primitives/identity';
   selector: 'tk-tooltip',
   standalone: true,
   template: `
-    <div
-      #popover
-      class="tk-tooltip__bubble"
-      role="tooltip"
-      [id]="resolvedId()"
-      popover="manual"
-    >
+    <div #popover class="tk-tooltip__bubble" role="tooltip" [id]="resolvedId()" popover="manual">
       <ng-content />
     </div>
   `,

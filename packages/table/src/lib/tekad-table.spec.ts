@@ -6,7 +6,11 @@ import { TekadTable } from './tekad-table';
 @Component({
   standalone: true,
   imports: [TekadTable],
-  template: `<table tkTable><tr><td>cell</td></tr></table>`,
+  template: `<table tkTable>
+    <tr>
+      <td>cell</td>
+    </tr>
+  </table>`,
 })
 class Host {}
 
