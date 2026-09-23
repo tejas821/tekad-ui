@@ -39,6 +39,9 @@ export default tseslint.config(
       '**/tmp',
       '**/out-tsc',
       'docs/research/prototypes',
+      // The guide site is a separate Angular app with its own npm install and
+      // toolchain; it is built and deployed by .github/workflows/deploy-docs.yml.
+      'public-web',
     ],
   },
 

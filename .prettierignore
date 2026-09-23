@@ -12,3 +12,6 @@ docs/research/prototypes
 # emits, so a prettier pass would make the build permanently "out of date".
 packages/theme/styles/tekad.css
 packages/theme/tokens.json
+
+# The guide site has its own toolchain and formatting config.
+public-web

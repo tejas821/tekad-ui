@@ -1,10 +1,18 @@
-name: Deploy to GitHub Pages
+name: Deploy guide site to GitHub Pages
+
+# Builds public-web/angular-web (the TEKAD UI library guide) and publishes it
+# to https://<owner>.github.io/<repo>/.
+#
+# One-time setup: repository Settings → Pages → Build and deployment →
+# Source: "GitHub Actions".
 
 on:
-  # Trigger on push to main branch (after PR merge)
   push:
     branches: [main]
-  # Allow manual trigger
+    paths:
+      - 'public-web/**'
+      - 'packages/**'
+      - '.github/workflows/deploy-docs.yml'
   workflow_dispatch:
 
 permissions:
@@ -12,29 +20,39 @@ permissions:
   pages: write
   id-token: write
 
+# One deployment at a time; never cancel one that is already publishing.
 concurrency:
-  group: "pages"
+  group: pages
   cancel-in-progress: false
+
+defaults:
+  run:
+    working-directory: public-web/angular-web
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '22'
+          cache: npm
+          cache-dependency-path: public-web/angular-web/package-lock.json
 
       - name: Install dependencies
-        working-directory: public-web/angular-web
-        run: npm ci
+        run: npm ci --no-audit --no-fund
 
-      - name: Build for GitHub Pages
-        working-directory: public-web/angular-web
-        run: npx ng build --base-href /tekad-ui/
+      - name: Build
+        # Base href follows the repository name so a rename or fork still works.
+        run: npx ng build --configuration production --base-href "/${{ github.event.repository.name }}/"
+
+      - name: Prepare Pages output
+        run: touch dist/angular-web/browser/.nojekyll
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -45,11 +63,11 @@ jobs:
           path: public-web/angular-web/dist/angular-web/browser
 
   deploy:
+    needs: build
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
     steps:
       - name: Deploy to GitHub Pages
         id: deployment

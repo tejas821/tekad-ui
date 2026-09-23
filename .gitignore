@@ -46,3 +46,14 @@ _to_delete/
 public-web/angular-web/node_modules/
 public-web/angular-web/dist/
 public-web/angular-web/.angular/
+
+# Private research, study material and AI-agent working files live in the
+# separate private repository tekad-ui-internal. Symlink them here locally if an
+# agent needs them; they must never be committed to this public repository.
+/docs/
+/.ai/
+/CLAUDE.md
+/IMPLEMENTATION_HANDOFF.md
+/00-TEKAD-DEEP-RESEARCH-MASTER.md
+/01-COMPETITIVE-ARCHITECTURE-RESEARCH.md
+/02-LEGAL-IP-RESEARCH-PROMPT.md

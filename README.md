@@ -5,6 +5,8 @@ A long-term, production-grade Angular UI ecosystem.
 Angular 22 · standalone-only · signals-canonical · accessibility verified
 behaviourally, in a real browser.
 
+**Guide site:** https://tejas821.github.io/tekad-ui/
+
 > **Not published, and not publishable yet.** Every package carries
 > `private: true` and there is no `LICENSE` file, deliberately. ADR-016 gates
 > publication on npm scope availability, placeholder registration _before the
@@ -68,8 +70,8 @@ renamed test leaves the run red for a reason nobody chose.
 
 ## Things that were measured, and were not what was expected
 
-Each of these overturned or closed an architectural decision. They are written
-up in `docs/architecture/` and appended to the ADR they correct.
+Each of these overturned or closed an architectural decision, and was appended
+to the ADR it corrects.
 
 **Angular does not forbid implementing both forms contracts.** ADR-013 said it
 did. Measured in `@angular/forms` 22.1.4: Angular accepts the component, raises
@@ -131,12 +133,8 @@ packages/          the libraries
 apps/              probe apps — nothing is a demo; every element is asserted about
 tools/             the gates, each with a *.test.mjs self-test
   mutants.json     plausible defects, each paired with the test that must catch it
-docs/
-  architecture/    what happened in each phase, and why
-  decisions/       ADRs, with dated corrections appended rather than rewritten
-  research/        prototypes P0/P1 and spikes A/B
-.ai/               state for the next session
-CLAUDE.md          the constitution — nine rules, and a Definition of Done
+public-web/
+  angular-web/     the library guide site, deployed to GitHub Pages
 ```
 
 ---
@@ -163,7 +161,7 @@ Node `^22.22.3 || ^24.15.0 || ^26.0.0`, pnpm 11.24.0, Nx 23.1.1.
 
 Listed because "not built" and "not thought about" look identical from outside.
 
-- **A chart engine.** Never (`CLAUDE.md` rule 7). Charts are optional
+- **A chart engine.** Never — a standing project rule. Charts are optional
   integrations or recipes.
 - **A focus trap.** Measured unnecessary for the modal path. The
   `position: fixed` fallback is a separate, still-open question.
@@ -196,7 +194,6 @@ where it would be tempting to imply otherwise.
 
 ## Status
 
-Phases 0–9 of 15. The roadmap is in `ROADMAP.md`; what the next session should
-pick up is in `.ai/current-task.md`.
+Phases 0–9 of 15. The roadmap is in `ROADMAP.md`.
 
 Nothing here is released, and the publish gate above is why.
