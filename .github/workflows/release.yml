@@ -7,9 +7,14 @@ name: Release to npm
 #   2. commit, then: git tag v0.2.0 && git push origin main --tags
 #   The tag must match the package versions or the job stops.
 #
-# Auth: npm trusted publishing (OIDC). Each package on npmjs.com is linked to
-# this repository and this workflow file (release.yml), so no token is stored
-# in GitHub. Versions that already exist on npm are skipped, so a re-run is safe.
+# Auth, in order of preference:
+#   1. npm trusted publishing (OIDC): each package on npmjs.com is linked to
+#      this repository + release.yml; no secret needed.
+#   2. The NPM_TOKEN repository secret (a granular npm token with publish
+#      rights on @tekad). npm cannot publish a package's FIRST version via
+#      OIDC, so the token covers the first release; once every package is
+#      linked to trusted publishing, delete the secret and revoke the token.
+# Versions that already exist on npm are skipped, so a re-run is safe.
 
 on:
   push:
@@ -68,6 +73,8 @@ jobs:
         run: node tools/verify-package-format.mjs && node tools/verify-consumer-boundary.mjs
 
       - name: Publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           # Foundation first so dependants never point at a missing peer.
           order="core theme overlay forms"
