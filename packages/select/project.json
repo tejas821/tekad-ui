@@ -1,0 +1,32 @@
+{
+  "name": "select",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/select/src",
+  "prefix": "tk",
+  "projectType": "library",
+  "tags": ["layer:component"],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/packages/select"],
+      "options": {
+        "project": "packages/select/ng-package.json",
+        "tsConfig": "packages/select/tsconfig.lib.json"
+      },
+      "configurations": {
+        "production": {},
+        "development": {}
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nx/angular:unit-test",
+      "options": {
+        "buildTarget": "select:build",
+        "tsConfig": "packages/select/tsconfig.spec.json",
+        "runner": "vitest",
+        "include": ["**/*.spec.ts"]
+      }
+    }
+  }
+}

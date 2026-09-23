@@ -43,3 +43,6 @@ _to_delete/
 
 # Transfer tarballs from the cloud session. Never part of the tree.
 *.tgz
+public-web/angular-web/node_modules/
+public-web/angular-web/dist/
+public-web/angular-web/.angular/

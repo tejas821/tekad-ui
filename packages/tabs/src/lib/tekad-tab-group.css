@@ -1,0 +1,67 @@
+@layer tekad.components {
+  :host {
+    --tekad-tabs-border-color: var(--tekad-sys-color-outline-variant);
+    --tekad-tabs-active-color: var(--tekad-sys-color-primary);
+    --tekad-tabs-text: var(--tekad-sys-color-on-surface-variant);
+
+    display: block;
+  }
+
+  .tk-tabs__list {
+    display: flex;
+    border-block-end: 1px solid var(--tekad-tabs-border-color);
+    gap: 0;
+    overflow-x: auto;
+  }
+
+  .tk-tabs__tab {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border: none;
+    background: transparent;
+    color: var(--tekad-tabs-text);
+    font: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    border-block-end: 2px solid transparent;
+    margin-block-end: -1px;
+    white-space: nowrap;
+    transition: color 120ms, border-color 120ms;
+    min-block-size: 44px;
+  }
+
+  .tk-tabs__tab:hover:not(:disabled) {
+    color: var(--tekad-sys-color-on-surface);
+  }
+
+  .tk-tabs__tab[aria-selected="true"] {
+    color: var(--tekad-tabs-active-color);
+    border-block-end-color: var(--tekad-tabs-active-color);
+    font-weight: 600;
+  }
+
+  .tk-tabs__tab:focus-visible {
+    outline: 2px solid var(--tekad-sys-color-focus-ring);
+    outline-offset: -2px;
+  }
+
+  .tk-tabs__tab:disabled {
+    opacity: 0.38;
+    cursor: not-allowed;
+  }
+
+  .tk-tabs__panel {
+    padding-block-start: 1rem;
+  }
+
+  @media (forced-colors: active) {
+    .tk-tabs__tab[aria-selected="true"] {
+      border-block-end-color: Highlight;
+      color: Highlight;
+    }
+    .tk-tabs__tab:focus-visible {
+      outline-color: Highlight;
+    }
+  }
+}

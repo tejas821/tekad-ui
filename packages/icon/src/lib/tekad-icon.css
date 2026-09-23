@@ -1,0 +1,22 @@
+@layer tekad.components {
+  :host {
+    --tekad-icon-size: 1em;
+    --tekad-icon-color: currentColor;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: var(--tekad-icon-size);
+    block-size: var(--tekad-icon-size);
+    color: var(--tekad-icon-color);
+    flex-shrink: 0;
+    line-height: 0;
+  }
+
+  /* Make projected SVGs fill the icon box */
+  ::ng-deep svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+}

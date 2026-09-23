@@ -1,0 +1,32 @@
+{
+  "name": "progress",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/progress/src",
+  "prefix": "tk",
+  "projectType": "library",
+  "tags": ["layer:component"],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/packages/progress"],
+      "options": {
+        "project": "packages/progress/ng-package.json",
+        "tsConfig": "packages/progress/tsconfig.lib.json"
+      },
+      "configurations": {
+        "production": {},
+        "development": {}
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nx/angular:unit-test",
+      "options": {
+        "buildTarget": "progress:build",
+        "tsConfig": "packages/progress/tsconfig.spec.json",
+        "runner": "vitest",
+        "include": ["**/*.spec.ts"]
+      }
+    }
+  }
+}

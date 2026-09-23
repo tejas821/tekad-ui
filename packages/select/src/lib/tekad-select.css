@@ -1,0 +1,66 @@
+@layer tekad.components {
+  :host {
+    --tekad-select-background: var(--tekad-sys-color-surface);
+    --tekad-select-foreground: var(--tekad-sys-color-on-surface);
+    --tekad-select-border-color: var(--tekad-sys-color-outline);
+    --tekad-select-radius: var(--tekad-sys-radius-md);
+    --tekad-select-padding-inline: 0.75rem;
+    --tekad-select-min-size: calc(2.75rem * var(--tekad-sys-density-scale, 1));
+
+    position: relative;
+    display: block;
+    inline-size: 100%;
+  }
+
+  .tk-select__native {
+    display: block;
+    inline-size: 100%;
+    min-block-size: var(--tekad-select-min-size);
+    padding-inline: var(--tekad-select-padding-inline);
+    padding-inline-end: 2rem;
+    padding-block: 0.5rem;
+    border: 1px solid var(--tekad-select-border-color);
+    border-radius: var(--tekad-select-radius);
+    background: var(--tekad-select-background);
+    color: var(--tekad-select-foreground);
+    font: inherit;
+    appearance: none;
+    cursor: pointer;
+  }
+
+  .tk-select__arrow {
+    position: absolute;
+    inset-inline-end: 0.75rem;
+    inset-block-start: 50%;
+    translate: 0 -50%;
+    inline-size: 0;
+    block-size: 0;
+    border-inline-start: 4px solid transparent;
+    border-inline-end: 4px solid transparent;
+    border-block-start: 5px solid var(--tekad-select-foreground);
+    pointer-events: none;
+  }
+
+  .tk-select__native:focus-visible {
+    outline: 2px solid var(--tekad-sys-color-focus-ring);
+    outline-offset: 2px;
+  }
+
+  .tk-select__native:disabled {
+    opacity: 0.38;
+    cursor: not-allowed;
+  }
+
+  .tk-select__native[aria-invalid="true"] {
+    border-color: var(--tekad-sys-color-danger);
+    border-width: 2px;
+  }
+
+  @media (forced-colors: active) {
+    .tk-select__native { border-color: ButtonText; }
+    .tk-select__native:focus-visible { outline-color: Highlight; }
+    .tk-select__native[aria-invalid="true"] { border-style: dashed; }
+    .tk-select__native:disabled { opacity: 1; color: GrayText; border-color: GrayText; }
+    .tk-select__arrow { border-block-start-color: ButtonText; }
+  }
+}
