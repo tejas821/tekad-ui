@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "../../out-tsc/icon",
+    "declaration": true,
+    "declarationMap": true,
+    "types": []
+  },
+  "angularCompilerOptions": {
+    "compilationMode": "partial"
+  },
+  "include": ["**/src/**/*.ts"],
+  "exclude": ["**/*.spec.ts", "**/*.test.ts"]
+}

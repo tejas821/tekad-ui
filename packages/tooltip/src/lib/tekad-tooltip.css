@@ -1,0 +1,43 @@
+@layer tekad.components {
+  :host {
+    display: contents;
+  }
+
+  .tk-tooltip__bubble {
+    --tekad-tooltip-bg: var(--tekad-sys-color-on-surface);
+    --tekad-tooltip-fg: var(--tekad-sys-color-surface);
+    --tekad-tooltip-radius: var(--tekad-sys-radius-sm);
+    --tekad-tooltip-padding: 0.375rem 0.625rem;
+
+    padding: var(--tekad-tooltip-padding);
+    background: var(--tekad-tooltip-bg);
+    color: var(--tekad-tooltip-fg);
+    border: none;
+    border-radius: var(--tekad-tooltip-radius);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.4;
+    max-inline-size: 200px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    opacity: 0;
+    transition: opacity 150ms ease-out;
+    inset: unset;
+    margin: 0;
+  }
+
+  .tk-tooltip__bubble:popover-open {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tk-tooltip__bubble { transition: none; }
+  }
+
+  @media (forced-colors: active) {
+    .tk-tooltip__bubble {
+      border: 1px solid CanvasText;
+      background: Canvas;
+      color: CanvasText;
+    }
+  }
+}

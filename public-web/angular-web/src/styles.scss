@@ -1,0 +1,224 @@
+/* TEKAD UI Documentation - Global Styles */
+
+// Design Tokens
+:root {
+  // Colors
+  --tk-surface: #ffffff;
+  --tk-on-surface: #0f1117;
+  --tk-surface-variant: #f5f6f8;
+  --tk-on-surface-variant: #4a4e5a;
+  --tk-primary: #2b5cee;
+  --tk-on-primary: #ffffff;
+  --tk-primary-container: #e8edfd;
+  --tk-on-primary-container: #0a1f5c;
+  --tk-secondary: #7c3aed;
+  --tk-accent: #06b6d4;
+  --tk-success: #059669;
+  --tk-danger: #dc2626;
+  --tk-warning: #d97706;
+  --tk-outline: #d1d5db;
+  --tk-outline-variant: #e5e7eb;
+  --tk-focus-ring: #2b5cee;
+
+  // Code block
+  --tk-code-bg: #1e1e2e;
+  --tk-code-text: #cdd6f4;
+  --tk-code-comment: #6c7086;
+  --tk-code-keyword: #cba6f7;
+  --tk-code-string: #a6e3a1;
+  --tk-code-number: #fab387;
+  --tk-code-type: #89b4fa;
+  --tk-code-tag: #f38ba8;
+  --tk-code-attr: #f9e2af;
+
+  // Spacing
+  --tk-space-1: 0.25rem;
+  --tk-space-2: 0.5rem;
+  --tk-space-3: 0.75rem;
+  --tk-space-4: 1rem;
+  --tk-space-5: 1.5rem;
+  --tk-space-6: 2rem;
+  --tk-space-7: 3rem;
+  --tk-space-8: 4rem;
+  --tk-space-9: 6rem;
+
+  // Radius
+  --tk-radius-sm: 0.375rem;
+  --tk-radius-md: 0.5rem;
+  --tk-radius-lg: 0.75rem;
+  --tk-radius-xl: 1rem;
+  --tk-radius-2xl: 1.5rem;
+
+  // Shadows
+  --tk-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --tk-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --tk-shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.08);
+  --tk-shadow-xl: 0 24px 64px rgba(0, 0, 0, 0.12);
+
+  // Typography
+  --tk-font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --tk-font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  // Layout
+  --tk-sidebar-width: 280px;
+  --tk-header-height: 64px;
+  --tk-content-max-width: 900px;
+}
+
+// Dark mode
+[data-theme="dark"] {
+  --tk-surface: #0f1117;
+  --tk-on-surface: #e4e6ed;
+  --tk-surface-variant: #1a1d27;
+  --tk-on-surface-variant: #9ca0ab;
+  --tk-primary: #6b8eff;
+  --tk-on-primary: #0a1f5c;
+  --tk-primary-container: #1a2a5c;
+  --tk-on-primary-container: #c7d4fd;
+  --tk-outline: #2d3140;
+  --tk-outline-variant: #232636;
+  --tk-focus-ring: #6b8eff;
+  --tk-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --tk-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --tk-shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.4);
+  --tk-shadow-xl: 0 24px 64px rgba(0, 0, 0, 0.5);
+}
+
+// Reset
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--tk-font-sans);
+  color: var(--tk-on-surface);
+  background: var(--tk-surface);
+  line-height: 1.6;
+  min-height: 100vh;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+a {
+  color: var(--tk-primary);
+  text-decoration: none;
+  transition: color 0.15s ease;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+code {
+  font-family: var(--tk-font-mono);
+  font-size: 0.875em;
+  background: var(--tk-surface-variant);
+  padding: 0.15em 0.4em;
+  border-radius: var(--tk-radius-sm);
+  color: var(--tk-primary);
+  font-weight: 500;
+}
+
+pre {
+  font-family: var(--tk-font-mono);
+  font-size: 0.875rem;
+  line-height: 1.7;
+  overflow-x: auto;
+
+  code {
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    color: inherit;
+    font-weight: 400;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 1.875rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+
+img { max-width: 100%; }
+
+// Utility classes
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--tk-space-5);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+// Scrollbar styling
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--tk-outline);
+  border-radius: 3px;
+
+  &:hover {
+    background: var(--tk-on-surface-variant);
+  }
+}
+
+// Selection
+::selection {
+  background: var(--tk-primary);
+  color: var(--tk-on-primary);
+}
+
+// Focus visible
+:focus-visible {
+  outline: 2px solid var(--tk-focus-ring);
+  outline-offset: 2px;
+}
+
+// Animation helpers
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out;
+}

@@ -1,0 +1,52 @@
+@layer tekad.components {
+  :host {
+    --tekad-badge-background: var(--tekad-sys-color-surface-variant);
+    --tekad-badge-foreground: var(--tekad-sys-color-on-surface-variant);
+    --tekad-badge-radius: var(--tekad-sys-radius-full);
+    --tekad-badge-font-size: 0.75em;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding-inline: 0.5em;
+    padding-block: 0.125em;
+    min-inline-size: 1.5em;
+    border-radius: var(--tekad-badge-radius);
+    background: var(--tekad-badge-background);
+    color: var(--tekad-badge-foreground);
+    font-size: var(--tekad-badge-font-size);
+    font-weight: 600;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+
+  :host(.tk-badge--primary) {
+    --tekad-badge-background: var(--tekad-sys-color-primary);
+    --tekad-badge-foreground: var(--tekad-sys-color-on-primary);
+  }
+  :host(.tk-badge--success) {
+    --tekad-badge-background: var(--tekad-sys-color-success);
+    --tekad-badge-foreground: var(--tekad-sys-color-on-success);
+  }
+  :host(.tk-badge--warning) {
+    --tekad-badge-background: var(--tekad-sys-color-warning);
+    --tekad-badge-foreground: var(--tekad-sys-color-on-warning);
+  }
+  :host(.tk-badge--danger) {
+    --tekad-badge-background: var(--tekad-sys-color-danger);
+    --tekad-badge-foreground: var(--tekad-sys-color-on-danger);
+  }
+
+  :host(.tk-badge--dot) {
+    padding: 0;
+    min-inline-size: 0.5em;
+    block-size: 0.5em;
+    font-size: 0;
+  }
+
+  @media (forced-colors: active) {
+    :host {
+      border: 1px solid ButtonText;
+    }
+  }
+}

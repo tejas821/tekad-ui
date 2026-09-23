@@ -1,0 +1,32 @@
+{
+  "name": "tooltip",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/tooltip/src",
+  "prefix": "tk",
+  "projectType": "library",
+  "tags": ["layer:component"],
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/packages/tooltip"],
+      "options": {
+        "project": "packages/tooltip/ng-package.json",
+        "tsConfig": "packages/tooltip/tsconfig.lib.json"
+      },
+      "configurations": {
+        "production": {},
+        "development": {}
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nx/angular:unit-test",
+      "options": {
+        "buildTarget": "tooltip:build",
+        "tsConfig": "packages/tooltip/tsconfig.spec.json",
+        "runner": "vitest",
+        "include": ["**/*.spec.ts"]
+      }
+    }
+  }
+}
