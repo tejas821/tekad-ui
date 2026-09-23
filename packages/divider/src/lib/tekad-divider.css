@@ -1,0 +1,31 @@
+@layer tekad.components {
+  :host {
+    --tekad-divider-color: var(--tekad-sys-color-outline-variant);
+    --tekad-divider-width: 1px;
+    --tekad-divider-spacing: var(--tk-space-4, 1rem);
+  }
+
+  :host(.tk-divider--horizontal) {
+    display: block;
+    border: none;
+    border-block-start: var(--tekad-divider-width) solid var(--tekad-divider-color);
+    margin-block: var(--tekad-divider-spacing);
+    inline-size: 100%;
+  }
+
+  :host(.tk-divider--vertical) {
+    display: inline-block;
+    border: none;
+    border-inline-start: var(--tekad-divider-width) solid var(--tekad-divider-color);
+    margin-inline: var(--tekad-divider-spacing);
+    block-size: 100%;
+    min-block-size: 1em;
+    vertical-align: middle;
+  }
+
+  @media (forced-colors: active) {
+    :host {
+      --tekad-divider-color: ButtonText;
+    }
+  }
+}

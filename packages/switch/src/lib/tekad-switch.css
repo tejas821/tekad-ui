@@ -1,0 +1,99 @@
+@layer tekad.components {
+  :host {
+    --tekad-switch-track-width: 2.75rem;
+    --tekad-switch-track-height: 1.5rem;
+    --tekad-switch-thumb-size: 1.25rem;
+    --tekad-switch-track-bg: var(--tekad-sys-color-outline);
+    --tekad-switch-track-active: var(--tekad-sys-color-primary);
+    --tekad-switch-thumb-bg: var(--tekad-sys-color-surface);
+
+    display: inline-block;
+    color: var(--tekad-sys-color-on-surface);
+  }
+
+  .tk-switch__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    cursor: pointer;
+    min-block-size: 2.75rem;
+    padding-block: 0.5rem;
+  }
+
+  .tk-switch__input {
+    position: absolute;
+    opacity: 0;
+    inline-size: 0;
+    block-size: 0;
+    pointer-events: none;
+  }
+
+  .tk-switch__track {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    inline-size: var(--tekad-switch-track-width);
+    block-size: var(--tekad-switch-track-height);
+    background: var(--tekad-switch-track-bg);
+    border-radius: var(--tekad-sys-radius-full);
+    padding-inline: 0.125rem;
+    transition: background-color 150ms ease-out;
+    flex-shrink: 0;
+  }
+
+  .tk-switch__thumb {
+    display: block;
+    inline-size: var(--tekad-switch-thumb-size);
+    block-size: var(--tekad-switch-thumb-size);
+    background: var(--tekad-switch-thumb-bg);
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    transition: translate 150ms ease-out;
+  }
+
+  .tk-switch__input:checked + .tk-switch__track {
+    background: var(--tekad-switch-track-active);
+  }
+  .tk-switch__input:checked + .tk-switch__track .tk-switch__thumb {
+    translate: calc(var(--tekad-switch-track-width) - var(--tekad-switch-thumb-size) - 0.25rem) 0;
+  }
+
+  .tk-switch__input:focus-visible + .tk-switch__track {
+    outline: 2px solid var(--tekad-sys-color-focus-ring);
+    outline-offset: 2px;
+  }
+
+  .tk-switch__input:disabled + .tk-switch__track {
+    opacity: 0.38;
+  }
+  .tk-switch__label:has(.tk-switch__input:disabled) {
+    opacity: 0.38;
+    cursor: not-allowed;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tk-switch__track, .tk-switch__thumb { transition: none; }
+  }
+
+  @media (forced-colors: active) {
+    .tk-switch__track {
+      border: 1px solid ButtonText;
+      background: Canvas;
+    }
+    .tk-switch__thumb { background: ButtonText; box-shadow: none; }
+    .tk-switch__input:checked + .tk-switch__track {
+      background: Highlight;
+      border-color: Highlight;
+    }
+    .tk-switch__input:checked + .tk-switch__track .tk-switch__thumb {
+      background: HighlightText;
+    }
+    .tk-switch__input:focus-visible + .tk-switch__track {
+      outline-color: Highlight;
+    }
+    .tk-switch__label:has(.tk-switch__input:disabled) {
+      opacity: 1;
+      color: GrayText;
+    }
+  }
+}

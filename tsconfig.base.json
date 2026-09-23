@@ -40,7 +40,17 @@
       "@tekad/core/forms/field-context": ["./packages/core/forms/field-context/src/index.ts"],
       "@tekad/input": ["./packages/input/src/index.ts"],
       "@tekad/form-field": ["./packages/form-field/src/index.ts"],
-      "@tekad/dialog": ["./packages/dialog/src/index.ts"]
+      "@tekad/dialog": ["./packages/dialog/src/index.ts"],
+      "@tekad/icon": ["./packages/icon/src/index.ts"],
+      "@tekad/switch": ["./packages/switch/src/index.ts"],
+      "@tekad/badge": ["./packages/badge/src/index.ts"],
+      "@tekad/card": ["./packages/card/src/index.ts"],
+      "@tekad/divider": ["./packages/divider/src/index.ts"],
+      "@tekad/progress": ["./packages/progress/src/index.ts"],
+      "@tekad/tabs": ["./packages/tabs/src/index.ts"],
+      "@tekad/tooltip": ["./packages/tooltip/src/index.ts"],
+      "@tekad/select": ["./packages/select/src/index.ts"],
+      "@tekad/table": ["./packages/table/src/index.ts"]
     }
   },
   "angularCompilerOptions": {

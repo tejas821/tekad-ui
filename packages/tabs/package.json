@@ -1,0 +1,19 @@
+{
+  "name": "@tekad/tabs",
+  "version": "0.0.0",
+  "description": "TEKAD tabs — a tabbed interface with keyboard navigation.",
+  "license": "Apache-2.0",
+  "sideEffects": false,
+  "private": true,
+  "peerDependencies": {
+    "@angular/core": "^22.1.0",
+    "@angular/common": "^22.1.0",
+    "@tekad/core": "0.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@tekad/core": "workspace:*"
+  }
+}

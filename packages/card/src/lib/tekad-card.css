@@ -1,0 +1,34 @@
+@layer tekad.components {
+  :host {
+    --tekad-card-background: var(--tekad-sys-color-surface);
+    --tekad-card-border-color: var(--tekad-sys-color-outline-variant);
+    --tekad-card-radius: var(--tekad-sys-radius-lg);
+    --tekad-card-padding: calc(1.5rem * var(--tekad-sys-density-scale, 1));
+    --tekad-card-shadow: var(--tk-shadow-sm, 0 1px 2px rgba(0,0,0,0.04));
+
+    display: flex;
+    flex-direction: column;
+    background: var(--tekad-card-background);
+    border: 1px solid var(--tekad-card-border-color);
+    border-radius: var(--tekad-card-radius);
+    box-shadow: var(--tekad-card-shadow);
+    overflow: hidden;
+  }
+
+  .tk-card__header {
+    padding: var(--tekad-card-padding);
+    padding-block-end: 0;
+  }
+  .tk-card__header:empty { display: none; }
+
+  .tk-card__body {
+    padding: var(--tekad-card-padding);
+    flex: 1;
+  }
+
+  .tk-card__footer {
+    padding: var(--tekad-card-padding);
+    padding-block-start: 0;
+  }
+  .tk-card__footer:empty { display: none; }
+}

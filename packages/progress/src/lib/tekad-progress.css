@@ -1,0 +1,70 @@
+@layer tekad.components {
+  :host {
+    --tekad-progress-track: var(--tekad-sys-color-surface-variant);
+    --tekad-progress-fill: var(--tekad-sys-color-primary);
+    --tekad-progress-height: 0.5rem;
+    --tekad-progress-radius: var(--tekad-sys-radius-full);
+
+    display: block;
+    inline-size: 100%;
+  }
+
+  .tk-progress__bar {
+    display: block;
+    inline-size: 100%;
+    block-size: var(--tekad-progress-height);
+    border: none;
+    border-radius: var(--tekad-progress-radius);
+    appearance: none;
+    background: var(--tekad-progress-track);
+  }
+
+  .tk-progress__bar::-webkit-progress-bar {
+    background: var(--tekad-progress-track);
+    border-radius: var(--tekad-progress-radius);
+  }
+  .tk-progress__bar::-webkit-progress-value {
+    background: var(--tekad-progress-fill);
+    border-radius: var(--tekad-progress-radius);
+    transition: inline-size 200ms ease-out;
+  }
+  .tk-progress__bar::-moz-progress-bar {
+    background: var(--tekad-progress-fill);
+    border-radius: var(--tekad-progress-radius);
+  }
+
+  /* Indeterminate: no value attribute → animate */
+  :host(.tk-progress--indeterminate) .tk-progress__bar {
+    background: linear-gradient(
+      90deg,
+      var(--tekad-progress-track) 0%,
+      var(--tekad-progress-fill) 50%,
+      var(--tekad-progress-track) 100%
+    );
+    background-size: 200% 100%;
+    animation: tk-progress-indeterminate 1.5s ease-in-out infinite;
+  }
+  :host(.tk-progress--indeterminate) .tk-progress__bar::-webkit-progress-bar {
+    background: transparent;
+  }
+  :host(.tk-progress--indeterminate) .tk-progress__bar::-webkit-progress-value {
+    background: transparent;
+  }
+
+  @keyframes tk-progress-indeterminate {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :host(.tk-progress--indeterminate) .tk-progress__bar {
+      animation: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .tk-progress__bar { border: 1px solid ButtonText; }
+    .tk-progress__bar::-webkit-progress-value { background: Highlight; }
+    .tk-progress__bar::-moz-progress-bar { background: Highlight; }
+  }
+}
