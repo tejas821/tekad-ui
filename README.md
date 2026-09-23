@@ -40,8 +40,7 @@ Every package has its own README with usage. Packages: `core`, `theme`,
 
 ## What is actually here
 
-Nine packages, ten if you count the two secondary entry points that carry the
-forms seams.
+Nineteen packages: four foundation packages and fifteen components.
 
 | Package             | What it is                                                                   |
 | ------------------- | ---------------------------------------------------------------------------- |
@@ -54,11 +53,22 @@ forms seams.
 | `@tekad/form-field` | Label, hint and error, wired to the control by ARIA IDREF.                   |
 | `@tekad/dialog`     | A native `<dialog>` + `showModal()`, driven by the overlay primitive.        |
 | `@tekad/forms`      | `/compat` — the Reactive Forms adapter.                                      |
+| `@tekad/select`     | A select control with native fallback, built on the overlay primitive.       |
+| `@tekad/switch`     | A toggle with a native checkbox inside.                                      |
+| `@tekad/tabs`       | Tab group with arrow-key, Home and End navigation.                           |
+| `@tekad/tooltip`    | A brief label shown on hover and focus.                                      |
+| `@tekad/table`      | A semantic `<table>` foundation — a cell is not a component.                 |
+| `@tekad/card`       | A content container with header and footer slots.                            |
+| `@tekad/badge`      | A small count or status indicator.                                           |
+| `@tekad/divider`    | A horizontal or vertical separator.                                          |
+| `@tekad/icon`       | Inline SVG with design-token sizing.                                         |
+| `@tekad/progress`   | Determinate or indeterminate progress bar.                                   |
 
 Plus five probe applications that exist only so gates have something real to
 measure, and 22 CI gates.
 
-**102 unit tests. 28 mutants, all caught. Four browser gates.**
+**116 unit tests. 28 mutants, all caught. Four browser gates.** The ten newest
+components have the thinnest suites so far; deepening them is the next job.
 
 ---
 
